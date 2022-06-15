@@ -10,10 +10,17 @@
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/styled": "^11.9.3",
+    "@types/react-redux": "^7.1.24",
+    "emotion-reset": "^3.0.1",
+    "firebase": "^9.8.3",
+    "immer": "^9.0.15",
     "next": "12.1.6",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "react-redux": "^8.0.2",
+    "redux": "^4.2.0",
+    "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.9.2",
@@ -23,16 +30,16 @@
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.17.0",
-    "eslint-config-airbnb": "^19.0.4",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "19.0.4",
     "eslint-config-next": "12.1.6",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.30.0",
-    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "^2.7.0",
     "typescript": "4.7.3"
   }
