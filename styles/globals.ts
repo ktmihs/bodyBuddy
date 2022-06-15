@@ -6,7 +6,8 @@ export const global = css`
 
   ${emotionReset}
 
-  * {
+  *,
+  body {
     font-family: 'NanumSquareRound';
   }
 `;
