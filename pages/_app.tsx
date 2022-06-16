@@ -1,14 +1,8 @@
 import type { AppProps } from 'next/app';
-import { Global } from '@emotion/react';
-import { global } from '../styles/globals';
+import Layout from '../components/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Global styles={global} />
-      <Component {...pageProps} />;
-    </>
-  );
+  return <Layout children={<Component {...pageProps} />} />;
 }
 
 export default MyApp;
