@@ -1,7 +1,7 @@
 import { Global } from '@emotion/react';
-import { global } from '../styles/globals';
+import { global } from '../../styles/globals';
 
-import SEO from '@components/SEO';
+import SEO from '@components/layout/SEO';
 
 export default function Layout({ children }: { children: JSX.Element }) {
   return (
