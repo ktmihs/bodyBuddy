@@ -6,11 +6,12 @@ import myPage from '@assets/mypage.svg';
 import addOption from '@assets/addoption.svg';
 
 import OptionList from '@components/Option';
+import TrainerList from '@components/TrainerList';
 
 const Home: NextPage = () => {
   const name = '손흥민';
   const options = ['서울시 강남구','서울시 강남구','서울시 강남구', '여성', '요가', 'PT', '경력 신입 ~ 5년 이상'];
-
+  
   const Index = styled.div`
     background: #ECECEC;
   `;
@@ -37,7 +38,7 @@ const Home: NextPage = () => {
   `;
 
   const Main = styled.main`
-    /* background-color: #ECECEC; */
+    background-color: #ECECEC;
   `;
 
   const Option = styled.article`
@@ -63,9 +64,13 @@ const Home: NextPage = () => {
   const DetailOption = styled.section`
     margin-top: 10px;
     span{
+      background-color: #fff;
       display: inline-block;
       padding-right: 4px;
       vertical-align:middle;
+    }
+    img{
+      background-color: #fff;
     }
   `;
 
@@ -94,7 +99,7 @@ const Home: NextPage = () => {
             </DetailOption>
           </OptionWrapper>
         </Option>
-        
+        <TrainerList trainerList={trainerList} />
       </Main>
     </Index>
   );
