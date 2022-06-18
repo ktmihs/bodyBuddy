@@ -9,6 +9,7 @@ export const global = css`
   *,
   body {
     font-family: 'NanumSquareRound';
+    background-color: #ececec;
   }
 
   .srOnly {
