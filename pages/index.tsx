@@ -11,7 +11,274 @@ import TrainerList from '@components/TrainerList';
 const Home: NextPage = () => {
   const name = '손흥민';
   const options = ['서울시 강남구','서울시 강남구','서울시 강남구', '여성', '요가', 'PT', '경력 신입 ~ 5년 이상'];
-  
+  const trainerList = [
+    {
+      "id": 456789123,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    },{
+      "id": 456789124,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    },{
+      "id": 456789125,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    },{
+      "id": 456789126,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    },{
+      "id": 456789127,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    },{
+      "id": 456789128,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    },{
+      "id": 456789129,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    },{
+      "id": 456789130,
+      "name": "최세민",
+      "phoneNumber": "01012345678",
+      "images": [
+        "/src/assets/trainers/tr1.webp",
+        "/src/assets/trainers/tr2.webp",
+        "/src/assets/trainers/tr3.webp"
+      ],
+      "fieldId": 456,
+      "purposeId": 789,
+      "address": "서울시 강남구 강남대로 364 미왕빌딩 11층",
+      "city": "서울시",
+      "district": "강남구",
+      "gymImage": "/src/assets/trainers/tr2.webp",
+      "careers": [
+        {
+          "id": 987,
+          "content": "이미 등록한 경력",
+          "image": "/src/assets/careers/c1.webp",
+          "isApproval": true
+        },
+        {
+          "id": 988,
+          "content": "새로운 경력",
+          "image": "/src/assets/careers/c2.webp",
+          "isApproval": false
+        }
+      ],
+      "price": 15000,
+      "totalCareer": 5,
+      "introduction": "다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요",
+      "isOnline": false
+    }
+  ]
+
   const Index = styled.div`
     background: #ECECEC;
   `;
