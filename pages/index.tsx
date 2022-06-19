@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
 import styled from "@emotion/styled";
 import Image from 'next/image';
-import logo from '@assets/logo.svg';
-import myPage from '@assets/mypage.svg';
-import addOption from '@assets/addoption.svg';
+import logo from 'public/assets/logo.svg';
+import myPage from 'public/assets/mypage.svg';
+import addOption from 'public/assets/addoption.svg';
 
 import OptionList from '@components/Option';
 import TrainerList from '@components/TrainerList';
@@ -313,6 +313,7 @@ const Home: NextPage = () => {
     top: 0px;
     background-color: #ECECEC;
     padding-top: 20px;
+    z-index: 100;
   `;
 
   const OptionWrapper = styled.div`
