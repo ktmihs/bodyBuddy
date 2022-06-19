@@ -4,8 +4,8 @@ import Image from 'next/image';
 import logo from 'public/assets/logo.svg';
 import myPage from 'public/assets/mypage.svg';
 
-import OptionList from '@components/Option';
-import TrainerItem from '@components/TrainerItem';
+import OptionList from '@components/layout/index/Option';
+import TrainerItem from '@components/layout/index/TrainerItem';
 
 const Home: NextPage = () => {
   const name = '손흥민';
