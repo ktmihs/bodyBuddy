@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 import Image from 'next/image';
 import logo from '@assets/logo.svg';
 import myPage from '@assets/mypage.svg';
@@ -9,10 +9,18 @@ import OptionList from '@components/Option';
 
 const Home: NextPage = () => {
   const name = '손흥민';
-  const options = ['서울시 강남구','서울시 강남구','서울시 강남구', '여성', '요가', 'PT', '경력 신입 ~ 5년 이상'];
+  const options = [
+    '서울시 강남구',
+    '서울시 강남구',
+    '서울시 강남구',
+    '여성',
+    '요가',
+    'PT',
+    '경력 신입 ~ 5년 이상',
+  ];
 
   const Index = styled.div`
-    background: #ECECEC;
+    background: #ececec;
   `;
 
   const Header = styled.header`
@@ -33,7 +41,7 @@ const Home: NextPage = () => {
   `;
 
   const UserName = styled.span`
-    color: #858FF1;
+    color: #858ff1;
   `;
 
   const Main = styled.main`
@@ -43,7 +51,7 @@ const Home: NextPage = () => {
   const Option = styled.article`
     position: sticky;
     top: 0px;
-    background-color: #ECECEC;
+    background-color: #ececec;
     padding-top: 20px;
   `;
 
@@ -56,16 +64,16 @@ const Home: NextPage = () => {
     font-weight: 400;
     font-size: 10px;
     line-height: 18px;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 30px 30px 0 0;
   `;
 
   const DetailOption = styled.section`
     margin-top: 10px;
-    span{
+    span {
       display: inline-block;
       padding-right: 4px;
-      vertical-align:middle;
+      vertical-align: middle;
     }
   `;
 
@@ -78,7 +86,9 @@ const Home: NextPage = () => {
           <Image src={myPage} title="마이페이지" alt="마이페이지" width={20} height={20} />
         </IconWrapper>
         <IntroMessage>
-          <p><UserName>{name}</UserName>님</p>
+          <p>
+            <UserName>{name}</UserName>님
+          </p>
           <p>반갑습니다.</p>
         </IntroMessage>
       </Header>
@@ -89,12 +99,11 @@ const Home: NextPage = () => {
             <DetailOption>
               <span>상세 옵션</span>
               <span>
-                <Image src={addOption} title="상세 옵션" alt="상세 옵션"/>
+                <Image src={addOption} title="상세 옵션" alt="상세 옵션" />
               </span>
             </DetailOption>
           </OptionWrapper>
         </Option>
-        
       </Main>
     </Index>
   );

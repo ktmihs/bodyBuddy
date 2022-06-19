@@ -23,7 +23,8 @@
     "paths": {
       "@pages/*":["pages/*"],
       "@components/*":["components/*"],
-      "@assets/*":["assets/*"]
+      "@assets/*":["public/assets/*"],
+      "@styles/*":["styles/*"]
     }
 
   },
@@ -31,7 +32,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/common/button.tsㅌ"  ],
   "exclude": [
     "node_modules"
   ],
