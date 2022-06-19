@@ -10,6 +10,7 @@ const Option = ({options}:any) => {
     width: 70vw;
     margin-top: 20px;
     height: fit-content;
+    background-color: #fff;
   `;
 
   const OptionItem = styled.li`
