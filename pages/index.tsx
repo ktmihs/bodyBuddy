@@ -3,10 +3,9 @@ import styled from "@emotion/styled";
 import Image from 'next/image';
 import logo from 'public/assets/logo.svg';
 import myPage from 'public/assets/mypage.svg';
-import addOption from 'public/assets/addoption.svg';
 
 import OptionList from '@components/Option';
-import TrainerList from '@components/TrainerList';
+import TrainerItem from '@components/TrainerItem';
 
 const Home: NextPage = () => {
   const name = '손흥민';
@@ -331,16 +330,30 @@ const Home: NextPage = () => {
 
   const DetailOption = styled.section`
     margin-top: 10px;
+    
     span{
       background-color: #fff;
       display: inline-block;
       padding-right: 4px;
-      vertical-align:middle;
     }
-    img{
-      background-color: #fff;
+
+    span::after{
+      content: url(/assets/addoption.svg);
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      margin-left: 4px;
+      vertical-align: middle;
     }
   `;
+
+  const TrainerList = styled.ul`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: space-between;
+    background: #FFFFFF;
+    padding: 10px 10px;
+  `;  
 
   return (
     <Index>
@@ -361,13 +374,12 @@ const Home: NextPage = () => {
             <OptionList options={options} />
             <DetailOption>
               <span>상세 옵션</span>
-              <span>
-                <Image src={addOption} title="상세 옵션" alt="상세 옵션"/>
-              </span>
             </DetailOption>
           </OptionWrapper>
         </Option>
-        <TrainerList trainerList={trainerList} />
+        <TrainerList>
+          {trainerList.map((trainer: any) => <TrainerItem trainer={trainer} />)}
+        </TrainerList>
       </Main>
     </Index>
   );
