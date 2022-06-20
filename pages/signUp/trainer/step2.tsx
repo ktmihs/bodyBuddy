@@ -1,12 +1,12 @@
 import StepHeader from '@components/layout/signUp/stepHeader';
 
-const Step1 = () => {
+const Step2 = () => {
   return (
     <>
       <StepHeader
         mainAgent={'trainer'}
-        titleStageNumber={1}
-        subTitleStageComment={'트레이너님에 대해 알려주세요!'}
+        titleStageNumber={2}
+        subTitleStageComment={'근무하시는 트레이닝장 위치를 적어주세요 !'}
       />
       <div>
         <label>종목 및 분야</label>
@@ -24,4 +24,4 @@ const Step1 = () => {
   );
 };
 
-export default Step1;
+export default Step2;
