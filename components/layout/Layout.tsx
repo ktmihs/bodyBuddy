@@ -9,7 +9,8 @@ const StyledLayout = styled.div`
   width: 390px;
   margin: 0 auto;
   background-color: white;
-  height: 100vh;
+  color: ${({ theme }) => theme.black};
+  min-height: 100vh;
   position: relative;
 `;
 
