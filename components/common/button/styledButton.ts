@@ -73,3 +73,25 @@ export const StyledNaverButton = styled.a`
   background-color: #4fa42b;
   color: white;
 `;
+
+export const StyledTopButton = styled.button`
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  bottom: calc(77px + 5%);
+  right: 5%;
+  border-radius: 50%;
+  border-style: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #858ff1 0%, #70b4e0 100%);
+  color: #ffffff;
+
+  #polygon {
+    display: inline-block;
+    width: 0px;
+    height: 0px;
+    border-bottom: 10px solid #ffffff;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+  }
+`;

@@ -4,6 +4,7 @@ import {
   DisabledFixedLinkButton,
   StyledFixedLinkButton,
   StyledSocialButton,
+  StyledTopButton,
 } from './styledButton';
 
 export const GradientButton = ({ link, buttonTitle }: LinkButtonProps) => {
@@ -40,5 +41,14 @@ export const SocialLinkButton = ({ KakaoLink, NaverLink, purpose }: SocialLinkBu
         <a>네이버로 {purpose === 'signIn' ? '로그인하기' : '시작하기'} </a>
       </Link>
     </div>
+  );
+};
+
+export const TopButton = () => {
+  return (
+    <StyledTopButton>
+      <div id="polygon"></div>
+      <div>TOP</div>
+    </StyledTopButton>
   );
 };
