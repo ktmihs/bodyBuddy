@@ -24,7 +24,8 @@
       "@pages/*":["pages/*"],
       "@components/*":["components/*"],
       "@assets/*":["public/assets/*"],
-      "@styles/*":["styles/*"]
+      "@styles/*":["styles/*"],
+      "@data/*":["data/*"]
     }
 
   },
