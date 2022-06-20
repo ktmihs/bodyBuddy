@@ -4,8 +4,10 @@ import Image from 'next/image';
 import logo from 'public/assets/logo.svg';
 import myPage from 'public/assets/mypage.svg';
 
+import DetailOptionModal from '@components/layout/index/DetailOption';
 import OptionList from '@components/layout/index/Option';
 import TrainerItem from '@components/layout/index/TrainerItem';
+import { useState } from 'react';
 
 const Home: NextPage = () => {
   const name = '손흥민';
@@ -278,6 +280,13 @@ const Home: NextPage = () => {
     }
   ]
 
+  const [isModalState, setIsModalState] = useState<boolean>(false);
+
+  const handleClick = () => {
+    setIsModalState(state => !state);
+    console.log(isModalState);
+  }
+
   const Index = styled.div`
     background: #ececec;
   `;
@@ -355,7 +364,10 @@ const Home: NextPage = () => {
     padding: 10px 10px;
   `;  
 
-  return (
+  return <>
+      {
+        isModalState && <DetailOptionModal isModalState={isModalState} onChangeSetState={handleClick} />
+      }
     <Index>
       <Header>
         <h1 className="srOnly">index page</h1>
@@ -374,7 +386,7 @@ const Home: NextPage = () => {
         <Option>
           <OptionWrapper>
             <OptionList options={options} />
-            <DetailOption>
+            <DetailOption onClick={handleClick}>
               <span>상세 옵션</span>
             </DetailOption>
           </OptionWrapper>
@@ -384,7 +396,7 @@ const Home: NextPage = () => {
         </TrainerList>
       </Main>
     </Index>
-  );
+    </>
 };
 
 export default Home;
