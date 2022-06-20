@@ -1,22 +1,27 @@
-import { Global } from '@emotion/react';
-import { global } from '../../styles/globals';
+import { Global, ThemeProvider } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import SEO from '@components/layout/SEO';
-import styled from '@emotion/styled';
+import { global } from '@styles/globals';
+import theme from '@styles/theme';
 
 const StyledLayout = styled.div`
   width: 390px;
   margin: 0 auto;
   background-color: white;
-  height: 100vh;
+  color: ${({ theme }) => theme.black};
+  min-height: 100vh;
+  position: relative;
 `;
 
 export default function Layout({ children }: { children: JSX.Element }) {
   return (
     <>
-      <Global styles={global} />
       <SEO />
-      <StyledLayout>{children}</StyledLayout>
+      <Global styles={global} />
+      <ThemeProvider theme={theme}>
+        <StyledLayout>{children}</StyledLayout>
+      </ThemeProvider>
     </>
   );
 }

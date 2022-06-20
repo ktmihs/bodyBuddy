@@ -32,6 +32,7 @@ const StyledRightLinkModal = styled.div`
 
     button {
       background-color: #f6f6f6;
+      color: ${(props) => props.theme.purple};
     }
   }
 `;
