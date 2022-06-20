@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import mypage from 'public/assets/mypage.svg';
+import mypage from 'public/assets/index/mypage.svg';
 
 const Trainer = ({trainer}:any) => {
     const TrainerItem = styled.li`
@@ -100,7 +100,7 @@ const Trainer = ({trainer}:any) => {
     }
     
     span:last-of-type::before{
-      content: url(/assets/careericon.svg);
+      content: url(/assets/index/careericon.svg);
       display: inline-block;
       width: 8px;
       line-height: 10px;
@@ -143,7 +143,7 @@ const Trainer = ({trainer}:any) => {
     }
     
     span:first-of-type::before{
-      content: url(/assets/locationpin.svg);
+      content: url(/assets/index/locationpin.svg);
       display: inline-block;
       height: 14px;
       width: 14px;

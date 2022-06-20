@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import logo from 'public/assets/logo.svg';
-import myPage from 'public/assets/mypage.svg';
+import logo from 'public/assets/index/logo.svg';
+import myPage from 'public/assets/index/mypage.svg';
 
 import DetailOptionModal from '@components/layout/index/DetailOption';
 import OptionList from '@components/layout/index/Option';
@@ -347,7 +347,7 @@ const Home: NextPage = () => {
     }
 
     span::after{
-      content: url(/assets/addoption.svg);
+      content: url(/assets/index/addoption.svg);
       display: inline-block;
       width: 13px;
       height: 13px;
