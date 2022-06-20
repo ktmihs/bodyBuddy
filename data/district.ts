@@ -1,8 +1,8 @@
-type cityAndDistrictType = {
+type districtType = {
   [index: string]: string[];
 };
 
-const cityAndDistrict: cityAndDistrictType = {
+const district: districtType = {
   강원도: [
     '강릉시',
     '동해시',
@@ -154,4 +154,4 @@ const cityAndDistrict: cityAndDistrictType = {
   충청북도: ['영동군', '옥천군', '음성군', '제천시', '증평군', '진천군', '청주시', '충주시'],
 };
 
-export default cityAndDistrict;
+export default district;
