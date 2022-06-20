@@ -1,10 +1,19 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 
+interface LinkButtonProps {
+  link: string;
+  buttonTitle: string;
+}
+
+interface IsValidLinkButtonProps extends LinkButtonProps {
+  isValid: boolean;
+}
+
 const StyledGradientBackground = styled.a`
   display: flex;
   position: absolute;
-  width: 375px;
+  width: 326px;
   height: 43px;
   bottom: 30px;
   left: 50%;
@@ -20,12 +29,33 @@ const StyledGradientBackground = styled.a`
   font-size: 19px;
 `;
 
-type GradientButtonProps = {
-  link: string;
-  buttonTitle: string;
-};
+const StyledFixedLinkButton = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 77px;
+  position: absolute;
+  bottom: 0;
+  font-size: 17px;
+  cursor: pointer;
+  background: ${({ theme }) => theme.purple};
+  color: white;
+`;
 
-export function GradientButton({ link, buttonTitle }: GradientButtonProps) {
+const DisabledFixedLinkButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 77px;
+  position: absolute;
+  bottom: 0;
+  font-size: 17px;
+  background: #f1eded;
+`;
+
+export const GradientButton = ({ link, buttonTitle }: LinkButtonProps) => {
   return (
     <Link href={link}>
       <StyledGradientBackground>
@@ -33,12 +63,18 @@ export function GradientButton({ link, buttonTitle }: GradientButtonProps) {
       </StyledGradientBackground>
     </Link>
   );
-}
+};
 
-// export function FixedBottomLinkButton({ isValid, link, buttonTitle }) {
-//   return (
-//     <Link href={link}>
-//       <a>{buttonTitle}</a>
-//     </Link>
-//   );
-// }
+export const FixedBottomLinkButton = ({ isValid, link, buttonTitle }: IsValidLinkButtonProps) => {
+  return (
+    <>
+      {isValid ? (
+        <Link href={link}>
+          <StyledFixedLinkButton>{buttonTitle}</StyledFixedLinkButton>
+        </Link>
+      ) : (
+        <DisabledFixedLinkButton>{buttonTitle}</DisabledFixedLinkButton>
+      )}
+    </>
+  );
+};
