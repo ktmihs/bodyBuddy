@@ -44,7 +44,7 @@ export const SocialLinkButton = ({ KakaoLink, NaverLink, purpose }: SocialLinkBu
   );
 };
 
-export const TobButton = () => {
+export const TopButton = () => {
   return (
     <StyledTopButton>
       <div id="polygon"></div>

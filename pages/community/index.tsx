@@ -1,5 +1,5 @@
 import { ItemGroup } from '@components/common/ItemGroup';
-import { TobButton } from '@components/common/button';
+import { TopButton } from '@components/common/button';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 
@@ -28,7 +28,7 @@ const Community: NextPage = () => {
           <span>글쓰기</span>
         </a>
       </div>
-      <TobButton />
+      <TopButton />
     </section>
   );
 };
