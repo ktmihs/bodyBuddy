@@ -11,10 +11,10 @@ import {
 import NaverLogo from '@assets/signUp/naver.svg';
 import KakaoLogo from '@assets/signUp/kakao.svg';
 
-export const GradientButton = ({ link, buttonTitle }: LinkButtonProps) => {
+export const GradientButton = ({ link, buttonTitle, bottomPercent }: GradientButtonProps) => {
   return (
     <Link href={link}>
-      <StyledGradientBackground>
+      <StyledGradientBackground bottom={bottomPercent}>
         <span>{buttonTitle}</span>
       </StyledGradientBackground>
     </Link>

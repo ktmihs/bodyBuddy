@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 
-export const StyledGradientBackground = styled.a`
+export const StyledGradientBackground = styled.a<{ bottom: number }>`
   display: flex;
   position: absolute;
   width: 326px;
   height: 43px;
-  bottom: 30px;
+  bottom: ${({ bottom }) => bottom}%;
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(180deg, #70b4e0 0%, #858ff1 100%);

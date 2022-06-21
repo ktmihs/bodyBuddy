@@ -19,13 +19,13 @@ const StyledSignUpComplete = styled.div`
 
   .member-greeting {
     position: absolute;
-    top: 10%;
+    top: 14%;
     left: 21px;
   }
 
   .trainer {
     position: absolute;
-    top: 8%;
+    top: 10%;
     left: 21px;
   }
 
@@ -62,7 +62,7 @@ const StyledSignUpComplete = styled.div`
   }
 
   .exercise {
-    width: 100%;
+    width: 120%;
     height: 400px;
     background-image: url(${exercise.src});
     background-repeat: no-repeat;
@@ -70,7 +70,7 @@ const StyledSignUpComplete = styled.div`
     position: absolute;
     z-index: 0;
     right: 0;
-    bottom: 10%;
+    bottom: 15%;
   }
 `;
 
@@ -96,7 +96,7 @@ const SignUpComplete = ({ mainAgent }: { mainAgent: string }) => {
           </div>
         </div>
       )}
-      <GradientButton link={'/'} buttonTitle={'홈으로 이동하기'} />
+      <GradientButton link={'/'} buttonTitle={'홈으로 이동하기'} bottomPercent={4} />
       <div className="leftCircle" />
       <div className="exercise" />
       <div className="rightCircle" />

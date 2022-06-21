@@ -3,6 +3,10 @@ interface LinkButtonProps {
   buttonTitle: string;
 }
 
+interface GradientButtonProps extends LinkButtonProps {
+  bottomPercent: number;
+}
+
 interface IsValidLinkButtonProps extends LinkButtonProps {
   isValid: boolean;
 }
