@@ -99,3 +99,14 @@ export const StyledTopButton = styled.button`
     border-right: 8px solid transparent;
   }
 `;
+
+export const StyledFixedBottomButton = styled.button`
+  width: 100%;
+  height: 77px;
+  position: absolute;
+  bottom: 0;
+  font-size: 17px;
+  cursor: pointer;
+  background: ${({ theme }) => theme.purple};
+  color: white;
+`;

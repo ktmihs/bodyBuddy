@@ -6,6 +6,7 @@ import {
   StyledFixedLinkButton,
   StyledSocialButton,
   StyledTopButton,
+  StyledFixedBottomButton,
 } from './styledButton';
 
 import NaverLogo from '@assets/signUp/naver.svg';
@@ -30,6 +31,25 @@ export const FixedBottomLinkButton = ({ isValid, link, buttonTitle }: IsValidLin
         </Link>
       ) : (
         <DisabledFixedLinkButton>{buttonTitle}</DisabledFixedLinkButton>
+      )}
+    </>
+  );
+};
+
+export const FixedBottomButton = ({
+  isValid,
+  buttonTitle,
+  buttonType,
+  onButtonEvent,
+}: IsValidButtonProps) => {
+  return (
+    <>
+      {isValid ? (
+        <StyledFixedBottomButton type={buttonType} onClick={onButtonEvent()}>
+          {buttonTitle}
+        </StyledFixedBottomButton>
+      ) : (
+        <button disabled>{buttonTitle}</button>
       )}
     </>
   );
