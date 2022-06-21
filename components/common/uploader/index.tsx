@@ -12,7 +12,7 @@ export const ImageUploader = () => {
           width={'100px'}
           height={'100px'}
         />
-        <button>X</button>
+        <button></button>
       </div>
 
       <div>

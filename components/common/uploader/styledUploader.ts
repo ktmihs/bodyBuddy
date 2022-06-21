@@ -8,11 +8,13 @@ export const StyledImageUploader = styled.div`
   }
   button {
     position: absolute;
-    right: 0px;
-    background-color: #858ff1;
-    color: white;
-    border-radius: 50%;
+    right: -10px;
+    top: -10px;
+    width: 25px;
+    height: 25px;
     border-style: none;
+    background: url('/assets/common/button-delete.svg') no-repeat;
+    background-position: center;
   }
   label {
     display: inline-block;
