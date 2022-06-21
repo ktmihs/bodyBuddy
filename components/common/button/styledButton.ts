@@ -45,33 +45,37 @@ export const DisabledFixedLinkButton = styled.div`
   background: #f1eded;
 `;
 
-export const StyledSocialButton = styled.div`
+export const StyledSocialButton = styled.div<{ bottom: number }>`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: ${({ bottom }) => bottom}%;
+
   a {
+    box-sizing: border-box;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 330px;
-    height: 50px;
+    height: 45px;
     cursor: pointer;
     border-radius: 12px;
     font-weight: 600;
+    text-decoration: none;
+    padding: 0 50px 0 40px;
   }
-`;
-export const StyledKakaoButton = styled.a`
-  background-color: #fee500;
-`;
 
-export const StyledNaverButton = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 330px;
-  height: 50px;
-  cursor: pointer;
-  border-radius: 12px;
-  font-weight: 600;
-  background-color: #4fa42b;
-  color: white;
+  .kakao {
+    background-color: #fee500;
+    color: ${({ theme }) => theme.black};
+    margin-bottom: 10px;
+  }
+
+  .naver {
+    padding-left: 52px;
+    background-color: #4fa42b;
+    color: white;
+  }
 `;
 
 export const StyledTopButton = styled.button`

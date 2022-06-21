@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   StyledGradientBackground,
@@ -6,6 +7,9 @@ import {
   StyledSocialButton,
   StyledTopButton,
 } from './styledButton';
+
+import NaverLogo from '@assets/signUp/naver.svg';
+import KakaoLogo from '@assets/signUp/kakao.svg';
 
 export const GradientButton = ({ link, buttonTitle }: LinkButtonProps) => {
   return (
@@ -31,16 +35,27 @@ export const FixedBottomLinkButton = ({ isValid, link, buttonTitle }: IsValidLin
   );
 };
 
-export const SocialLinkButton = ({ KakaoLink, NaverLink, purpose }: SocialLinkButtonProps) => {
+export const SocialLinkButton = ({
+  KakaoLink,
+  NaverLink,
+  purpose,
+  absoluteBottomPercent,
+}: SocialLinkButtonProps) => {
   return (
-    <div>
+    <StyledSocialButton bottom={absoluteBottomPercent}>
       <Link href={KakaoLink}>
-        <a>카카오로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</a>
+        <a className="kakao">
+          <Image src={KakaoLogo} alt="카카오 로고" />
+          <span>카카오로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</span>
+        </a>
       </Link>
       <Link href={NaverLink}>
-        <a>네이버로 {purpose === 'signIn' ? '로그인하기' : '시작하기'} </a>
+        <a className="naver">
+          <Image src={NaverLogo} alt="네이버 로고" />
+          <span>네이버로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</span>
+        </a>
       </Link>
-    </div>
+    </StyledSocialButton>
   );
 };
 
