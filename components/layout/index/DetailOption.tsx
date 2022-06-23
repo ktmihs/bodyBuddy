@@ -7,37 +7,45 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
   const fieldList = [
     {
       checkBoxItemID: '123',
-      checkBoxText: 'PT'
+      checkBoxText: 'PT',
+      checkBoxImage: '/assets/index/option/pt.svg',
+      checkBoxCheckedImage: '/assets/index/option/pt-checked.svg'
     }, {
       checkBoxItemID: '124',
-      checkBoxText: '요가'
+      checkBoxText: '요가',
+      checkBoxImage: '/assets/index/option/yoga.svg',
+      checkBoxCheckedImage: '/assets/index/option/yoga-checked.svg'
     }, {
       checkBoxItemID: '125',
-      checkBoxText: '필라테스'
+      checkBoxText: '필라테스',
+      checkBoxImage: '/assets/index/option/pilates.svg',
+      checkBoxCheckedImage: '/assets/index/option/pilates-checked.svg'
     }, {
       checkBoxItemID: '126',
-      checkBoxText: '발레'
+      checkBoxText: '발레',
+      checkBoxImage: '/assets/index/option/ballet.svg',
+      checkBoxCheckedImage: '/assets/index/option/ballet-checked.svg'
     }
   ]
 
   const purposeList = [
     {
-      checkBoxItemID: '123',
+      checkBoxItemID: '1123',
       checkBoxText: '기초체력증진'
     }, {
-      checkBoxItemID: '124',
+      checkBoxItemID: '1124',
       checkBoxText: '다이어트'
     }, {
-      checkBoxItemID: '125',
+      checkBoxItemID: '1125',
       checkBoxText: '근력향상'
     }, {
-      checkBoxItemID: '126',
+      checkBoxItemID: '1126',
       checkBoxText: '재활'
     }, {
-      checkBoxItemID: '127',
+      checkBoxItemID: '1127',
       checkBoxText: '체형교정'
     }, {
-      checkBoxItemID: '128',
+      checkBoxItemID: '1128',
       checkBoxText: '근육량증가'
     }
   ]
