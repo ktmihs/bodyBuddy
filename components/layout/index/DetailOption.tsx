@@ -1,7 +1,7 @@
-import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { OptionCheckBox } from '@components/common/checkbox';
+import Image from 'next/image';
 
 const DetailOption = ({isModalState, onChangeSetState}:any) => {
   const fieldList = [
@@ -76,7 +76,32 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
     }
   `;
 
-    const SaveButton = styled.button`
+  const ModalTitle = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 22px;
+    align-items: center;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 11px;
+    }
+
+    h2 {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 31px;
+    }
+  `;
+
+  const CloseButton = styled.button`
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+  `;
+
+  const SaveButton = styled.button`
     width: 335px;
     height: 47px;
     background: #858FF1;
@@ -94,12 +119,12 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
   return(
     <>
       <Modal>
-        <RightButtonModal modalContent={"상세 옵션"}
-          rightButtonContent={"X"}
-          onClickedRightBtn={onChangeSetState}
-          isModalState={isModalState}
-          onChangeSetState={onChangeSetState} />
-        {/* <button onClick={onChangeSetState}>X</button> */}
+        <ModalTitle>
+          <h2>상세 옵션</h2>
+          <CloseButton onClick={() => onChangeSetState(!isModalState)}>
+            <Image src='/assets/common/closeButton.svg' alt='상세 옵션 닫기' width={11} height={13} />
+          </CloseButton>
+        </ModalTitle>
         <form>
           <fieldset>
             <legend className="srOnly">상세 옵션</legend>
