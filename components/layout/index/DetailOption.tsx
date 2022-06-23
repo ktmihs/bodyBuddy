@@ -1,9 +1,47 @@
 import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import { useEffect } from 'react';
+import { OptionCheckBox } from '@components/common/checkbox';
 
 const DetailOption = ({isModalState, onChangeSetState}:any) => {
+  const fieldList = [
+    {
+      checkBoxItemID: '123',
+      checkBoxText: 'PT'
+    }, {
+      checkBoxItemID: '124',
+      checkBoxText: '요가'
+    }, {
+      checkBoxItemID: '125',
+      checkBoxText: '필라테스'
+    }, {
+      checkBoxItemID: '126',
+      checkBoxText: '발레'
+    }
+  ]
+
+  const purposeList = [
+    {
+      checkBoxItemID: '123',
+      checkBoxText: '기초체력증진'
+    }, {
+      checkBoxItemID: '124',
+      checkBoxText: '다이어트'
+    }, {
+      checkBoxItemID: '125',
+      checkBoxText: '근력향상'
+    }, {
+      checkBoxItemID: '126',
+      checkBoxText: '재활'
+    }, {
+      checkBoxItemID: '127',
+      checkBoxText: '체형교정'
+    }, {
+      checkBoxItemID: '128',
+      checkBoxText: '근육량증가'
+    }
+  ]
+  
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
@@ -30,40 +68,7 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
     }
   `;
 
-  const CheckBoxContainer = styled.section`
-    padding: 10px 0;
-  `;
-
-  const CheckBox = styled.div`
-    display: inline-block;
-    width: 164px;
-    height: 43px;
-    background: #FFFFFF;
-    border: 1px solid #CDCDCD;
-    border-radius: 5px;
-    margin-bottom: 10px;
-
-    & > h2{
-      display: inline;
-      background-color: aqua;
-    }
-
-    span{
-      display: inline-block;
-      font-weight: 700;
-      font-size: 14px;
-      text-align: center;
-      line-height: 43px;
-      color: #464646;
-      padding: 0 17px;
-    }
-
-    &:nth-of-type(2n){
-      margin-left: 10px;
-    }
-  `;
-
-  const SaveButton = styled.button`
+    const SaveButton = styled.button`
     width: 335px;
     height: 47px;
     background: #858FF1;
@@ -119,58 +124,12 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
             <div>
               <h2>종목</h2>
               <span>중복 선택이 가능합니다.</span>
-              <CheckBoxContainer>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>PT</span>
-                  {/* <Image src={'test'}></Image> */}
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>요가</span>
-                  {/* <Image src={'test'}></Image> */}
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>필라테스</span>
-                  {/* <Image src={'test'}></Image> */}
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>발레</span>
-                  {/* <Image src={'test'}></Image> */}
-                </CheckBox>
-              </CheckBoxContainer>
+              <OptionCheckBox checkBoxList={fieldList} />
             </div>
             <div>
               <h2>목적</h2>
               <span>중복 선택이 가능합니다.</span>
-              <CheckBoxContainer>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>기초체력증진</span>
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>다이어트</span>
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>근력향상</span>
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>재활</span>
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>체형교정</span>
-                </CheckBox>
-                <CheckBox>
-                  {/* <Image src={checkbox}></Image> */}
-                  <span>근육량증가</span>
-                </CheckBox>
-              </CheckBoxContainer>
+              <OptionCheckBox checkBoxList={purposeList} />
             </div>
             <div>
               <h2>가격</h2>
