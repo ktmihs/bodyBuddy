@@ -1,4 +1,4 @@
-import SignUpComplete from '@components/layout/signUp/signUpComplete';
+import SignUpComplete from '@components/layout/signUp/SignUpComplete';
 
 const Complete = () => {
   return (
