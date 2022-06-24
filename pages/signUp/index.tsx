@@ -10,7 +10,7 @@ const StyledSignUp = styled.div`
   .greeting {
     font-size: 37px;
     position: absolute;
-    top: 18%;
+    top: 15%;
     left: 21px;
     z-index: 100;
 
@@ -53,6 +53,7 @@ const StyledSignUp = styled.div`
     background-image: url(${rightSideCircle.src});
     background-repeat: no-repeat;
     background-size: cover;
+    z-index: 0;
   }
 
   .exercise {
@@ -65,6 +66,13 @@ const StyledSignUp = styled.div`
     z-index: 0;
     right: 0;
     bottom: 25%;
+    z-index: 1;
+  }
+
+  .signUp-trainer {
+    a {
+      color: ${({ theme }) => theme.black};
+    }
   }
 `;
 
@@ -76,13 +84,7 @@ const SignUp = () => {
         <span>쉬운 1:1</span>
         <span className="greeting-purple">트레이닝의 시작</span>
       </div>
-      <SocialLinkButton NaverLink="/" KakaoLink="/" purpose="signUP" />
-      <div className="signUp-trainer">
-        <span>혹시 강사님이신가요?</span>{' '}
-        <Link href="">
-          <a>강사님 가입</a>
-        </Link>
-      </div>
+      <SocialLinkButton NaverLink="/s" KakaoLink="/w" purpose="signUP" absoluteBottomPercent={4} />
       <div className="leftCircle" />
       <div className="exercise" />
       <div className="rightCircle" />

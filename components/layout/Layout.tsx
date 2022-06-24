@@ -12,6 +12,7 @@ const StyledLayout = styled.div`
   color: ${({ theme }) => theme.black};
   min-height: 100vh;
   position: relative;
+  box-sizing: border-box;
 `;
 
 export default function Layout({ children }: { children: JSX.Element }) {

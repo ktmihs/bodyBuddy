@@ -1,12 +1,27 @@
 import { SocialLinkButton } from '@components/common/button';
+import styled from '@emotion/styled';
 import Image from 'next/image';
 
 import fullLogo from '/public/assets/fullLogo.svg';
 
+const BodyBuddyLogo = styled.h1`
+  padding-top: 45%;
+  text-align: center;
+`;
+
+const LoginGuide = styled.span`
+  width: 100%;
+  display: block;
+  position: absolute;
+  bottom: 150px;
+  text-align: center;
+  color: #626262;
+  font-size: 13px;
+`;
 const SignIn = () => {
   return (
     <>
-      <h1>
+      <BodyBuddyLogo>
         <span className="srOnly">바디버디</span>
         <Image
           src={fullLogo}
@@ -15,9 +30,9 @@ const SignIn = () => {
           width={'193.57.px'}
           height={'132px'}
         />
-      </h1>
-      <span>SNS로 간편하게 로그인 하세요 !</span>
-      <SocialLinkButton NaverLink="/" KakaoLink="/" purpose="signIn" />
+      </BodyBuddyLogo>
+      <LoginGuide>SNS로 간편하게 로그인 하세요 !</LoginGuide>
+      <SocialLinkButton NaverLink="/" KakaoLink="/" purpose="signIn" absoluteBottomPercent={5} />
     </>
   );
 };

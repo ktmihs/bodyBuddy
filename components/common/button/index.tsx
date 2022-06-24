@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   StyledGradientBackground,
@@ -5,12 +6,16 @@ import {
   StyledFixedLinkButton,
   StyledSocialButton,
   StyledTopButton,
+  StyledFixedBottomButton,
 } from './styledButton';
 
-export const GradientButton = ({ link, buttonTitle }: LinkButtonProps) => {
+import NaverLogo from '@assets/signUp/naver.svg';
+import KakaoLogo from '@assets/signUp/kakao.svg';
+
+export const GradientButton = ({ link, buttonTitle, bottomPercent }: GradientButtonProps) => {
   return (
     <Link href={link}>
-      <StyledGradientBackground>
+      <StyledGradientBackground bottom={bottomPercent}>
         <span>{buttonTitle}</span>
       </StyledGradientBackground>
     </Link>
@@ -31,16 +36,46 @@ export const FixedBottomLinkButton = ({ isValid, link, buttonTitle }: IsValidLin
   );
 };
 
-export const SocialLinkButton = ({ KakaoLink, NaverLink, purpose }: SocialLinkButtonProps) => {
+export const FixedBottomButton = ({
+  isValid,
+  buttonTitle,
+  buttonType,
+  onButtonEvent,
+}: IsValidButtonProps) => {
   return (
-    <div>
+    <>
+      {isValid ? (
+        <StyledFixedBottomButton type={buttonType} onClick={onButtonEvent()}>
+          {buttonTitle}
+        </StyledFixedBottomButton>
+      ) : (
+        <button disabled>{buttonTitle}</button>
+      )}
+    </>
+  );
+};
+
+export const SocialLinkButton = ({
+  KakaoLink,
+  NaverLink,
+  purpose,
+  absoluteBottomPercent,
+}: SocialLinkButtonProps) => {
+  return (
+    <StyledSocialButton bottom={absoluteBottomPercent}>
       <Link href={KakaoLink}>
-        <a>카카오로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</a>
+        <a className="kakao">
+          <Image src={KakaoLogo} alt="카카오 로고" />
+          <span>카카오로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</span>
+        </a>
       </Link>
       <Link href={NaverLink}>
-        <a>네이버로 {purpose === 'signIn' ? '로그인하기' : '시작하기'} </a>
+        <a className="naver">
+          <Image src={NaverLogo} alt="네이버 로고" />
+          <span>네이버로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</span>
+        </a>
       </Link>
-    </div>
+    </StyledSocialButton>
   );
 };
 

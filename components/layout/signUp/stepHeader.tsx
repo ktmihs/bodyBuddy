@@ -6,7 +6,7 @@ type props = {
   subTitleStageComment: string;
 };
 
-const StyledStepHeader = styled.header`
+const StyledStepHeader = styled.header<{ mainAgent: string }>`
   .greeting {
     padding: 54px 0 0 21px;
     font-weight: 700;
@@ -17,16 +17,16 @@ const StyledStepHeader = styled.header`
 
   .greeting-highlight {
     background: rgba(133, 143, 241, 0.6);
-    width: 109px;
-    height: 12px;
+    width: ${({ mainAgent }) => (mainAgent === 'member' ? '109px' : '83px')};
+    height: 8px;
     position: absolute;
     left: 19px;
-    top: 112px;
+    top: ${({ mainAgent }) => (mainAgent === 'member' ? '112px' : '80px')};
   }
 
   h3 {
     padding-left: 21px;
-    margin: 69px 0 10px 0;
+    margin: ${({ mainAgent }) => (mainAgent === 'member' ? '69px 0 10px 0' : ' 37px 0 10px 0')};
     font-size: 35px;
     font-weight: 700;
     color: ${({ theme }) => theme.purple};
@@ -40,19 +40,18 @@ const StyledStepHeader = styled.header`
 
 const StepHeader = ({ mainAgent, titleStageNumber, subTitleStageComment }: props) => {
   return (
-    <StyledStepHeader>
+    <StyledStepHeader mainAgent={mainAgent}>
       <h2 className="srOnly">회원가입</h2>
       {mainAgent === 'member' ? (
         <div className="greeting">
+          <div className="greeting-highlight" />
           <div>가장 쉬운</div>
           트레이닝시작해볼까요?
-          <div className="greeting-highlight" />
         </div>
       ) : (
         <div className="greeting">
-          <div>
-            <span>훌륭한</span>트레이너님
-          </div>
+          <div className="greeting-highlight" />
+          <div>훌륭한 트레이너님</div>
           <span>{`반가습니다 :)`}</span>
         </div>
       )}

@@ -24,4 +24,12 @@ export const global = css`
     height: 1px;
     margin: -1px;
   }
+
+  input:focus,
+  select:focus,
+  option:focus,
+  textarea:focus,
+  button:focus {
+    outline: none;
+  }
 `;
