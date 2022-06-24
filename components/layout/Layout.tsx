@@ -5,6 +5,12 @@ import SEO from '@components/layout/SEO';
 import { global } from '@styles/globals';
 import theme from '@styles/theme';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 const StyledLayout = styled.div`
   width: 390px;
   margin: 0 auto;
