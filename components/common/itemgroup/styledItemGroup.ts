@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const StyledItemGroup = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 15px;
   ul {
     display: flex;
     justify-content: start;
