@@ -1,4 +1,4 @@
-import { ItemGroup } from '@components/common/ItemGroup';
+import { ItemGroup } from '@components/common/itemgroup/ItemGroup';
 import { TopButton } from '@components/common/button';
 import type { NextPage } from 'next';
 import Image from 'next/image';

@@ -1,5 +1,5 @@
 import { FixedBottomLinkButton } from '@components/common/button';
-import { ItemGroup } from '@components/common/ItemGroup';
+import { ItemGroup } from '@components/common/itemgroup/ItemGroup';
 import { TitleBar } from '@components/common/title';
 import { ImageUploader } from '@components/common/uploader';
 import type { NextPage } from 'next';
