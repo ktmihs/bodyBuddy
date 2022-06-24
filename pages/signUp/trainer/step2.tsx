@@ -2,6 +2,9 @@ import { FixedBottomLinkButton } from '@components/common/button';
 import { KakaoMap } from '@components/common/map';
 import StepHeader from '@components/layout/signUp/StepHeader';
 import styled from '@emotion/styled';
+import Image from 'next/image';
+
+import search from '@assets/signUp/search.svg';
 
 const StyledStep2 = styled.section`
   padding: 40px 0 100px 21px;
@@ -20,10 +23,11 @@ const StyledStep2 = styled.section`
   .location {
     input {
       border: 1px solid ${({ theme }) => theme.lineGray};
-      width: 321px;
-      height: 32px;
+      width: 340px;
+      height: 35px;
       padding: 0px 6px;
       border-radius: 10px;
+      box-sizing: border-box;
     }
   }
 
@@ -36,6 +40,20 @@ const StyledStep2 = styled.section`
 
   .location {
     position: relative;
+
+    input {
+      padding-left: 33px;
+      padding-right: 61px;
+    }
+
+    .img {
+      position: absolute;
+      top: 36px;
+      left: 9px;
+    }
+    .map {
+      margin-top: 10px;
+    }
 
     button {
       position: absolute;
@@ -71,8 +89,13 @@ const Step2 = () => {
         <div className="location">
           <label>트레이닝장 위치</label>
           <input />
+          <div className="img">
+            <Image src={search.src} alt="찾기" width="15px" height="15px" />
+          </div>
           <button>검색</button>
-          <KakaoMap />
+          <div className="map">
+            <KakaoMap />
+          </div>
         </div>
       </StyledStep2>
       <FixedBottomLinkButton isValid={true} link="/signUp/trainer/step3" buttonTitle={'다음'} />

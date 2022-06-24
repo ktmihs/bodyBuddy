@@ -109,4 +109,16 @@ export const StyledFixedBottomButton = styled.button`
   cursor: pointer;
   background: ${({ theme }) => theme.purple};
   color: white;
+  border: none;
+`;
+
+export const StyledDisabledBottomButton = styled.button`
+  background: #f1eded;
+  border: none;
+  width: 100%;
+  height: 77px;
+  position: absolute;
+  bottom: 0;
+  font-size: 17px;
+  color: ${({ theme }) => theme.black};
 `;
