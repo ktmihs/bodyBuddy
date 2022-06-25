@@ -66,7 +66,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
-      top: -${window.scrollY}px;
+      top: 0px;
       overflow-y: scroll;
       width: 100%;`;
     return () => {
