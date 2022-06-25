@@ -19,6 +19,7 @@ const Option = ({ options }: any) => {
     background-color: ${({ optColor }: { optColor: number }) => OptionColors[optColor % OPT_LEN]};
     border-radius: 5px;
     padding: 4px;
+    cursor: pointer;
   `;
 
   return (
