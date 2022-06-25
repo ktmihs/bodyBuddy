@@ -10,6 +10,10 @@ import TrainerItem from '@components/layout/index/TrainerItem';
 import { useState } from 'react';
 
 const Home: NextPage = () => {
+  // 로그인 여부를 확인
+  // 로그인이 되어 있다면, 현재 로그인 된 유저의 정보를 가져옴
+  // 로그인이 되어 있지 않다면, 온보딩 페이지를 보여주기
+
   const name = '손흥민';
   const options = [
     '서울시 강남구',
@@ -121,7 +125,7 @@ const Home: NextPage = () => {
       price: 15000,
       totalCareer: 5,
       introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-      isOnline: false,
+      isOnline: true,
     },
     {
       id: 456789126,
@@ -298,9 +302,9 @@ const Home: NextPage = () => {
   const [isModalState, setIsModalState] = useState<boolean>(false);
 
   const handleClick = () => {
-    setIsModalState(state => !state);
+    setIsModalState((state) => !state);
     console.log(isModalState);
-  }
+  };
 
   const Index = styled.div`
     background: #ececec;
@@ -354,6 +358,7 @@ const Home: NextPage = () => {
 
   const DetailOption = styled.section`
     margin-top: 10px;
+    cursor: pointer;
 
     span {
       background-color: #fff;
@@ -379,41 +384,43 @@ const Home: NextPage = () => {
     padding: 10px 10px;
   `;
 
-  return <>
-      {
-        isModalState && <DetailOptionModal isModalState={isModalState} onChangeSetState={handleClick} />
-      }
-    <Index>
-      <Header>
-        <h1 className="srOnly">index page</h1>
-        <IconWrapper>
-          <Image src={logo} title="바디버디" alt="바디버디 로고" width={25} height={30} />
-          <Image src={myPage} title="마이페이지" alt="마이페이지" width={20} height={20} />
-        </IconWrapper>
-        <IntroMessage>
-          <p>
-            <UserName>{name}</UserName>님
-          </p>
-          <p>반갑습니다.</p>
-        </IntroMessage>
-      </Header>
-      <Main>
-        <Option>
-          <OptionWrapper>
-            <OptionList options={options} />
-            <DetailOption onClick={handleClick}>
-              <span>상세 옵션</span>
-            </DetailOption>
-          </OptionWrapper>
-        </Option>
-        <TrainerList>
-          {trainerList.map((trainer: any) => (
-            <TrainerItem trainer={trainer} />
-          ))}
-        </TrainerList>
-      </Main>
-    </Index>
+  return (
+    <>
+      {isModalState && (
+        <DetailOptionModal isModalState={isModalState} onChangeSetState={handleClick} />
+      )}
+      <Index>
+        <Header>
+          <h1 className="srOnly">index page</h1>
+          <IconWrapper>
+            <Image src={logo} title="바디버디" alt="바디버디 로고" width={25} height={30} />
+            <Image src={myPage} title="마이페이지" alt="마이페이지" width={20} height={20} />
+          </IconWrapper>
+          <IntroMessage>
+            <p>
+              <UserName>{name}</UserName>님
+            </p>
+            <p>반갑습니다.</p>
+          </IntroMessage>
+        </Header>
+        <Main>
+          <Option>
+            <OptionWrapper>
+              <OptionList options={options} />
+              <DetailOption onClick={handleClick}>
+                <span>상세 옵션</span>
+              </DetailOption>
+            </OptionWrapper>
+          </Option>
+          <TrainerList>
+            {trainerList.map((trainer: any) => (
+              <TrainerItem key={trainer.id} trainer={trainer} />
+            ))}
+          </TrainerList>
+        </Main>
+      </Index>
     </>
+  );
 };
 
 export default Home;

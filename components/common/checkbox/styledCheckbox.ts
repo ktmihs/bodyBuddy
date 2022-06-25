@@ -9,18 +9,19 @@ const CheckBoxContentWrapper = styled.div`
   justify-content: space-between;
   width: 164px;
   height: 43px;
-  background: #FFFFFF;
-  border: 1px solid #CDCDCD;
+  background: #ffffff;
+  border: 1px solid #cdcdcd;
   border-radius: 5px;
   margin-bottom: 10px;
-  
+  cursor: pointer;
+
   &.checked {
-    background-color: #F4F5FF;
-    border-color: #858FF1;
+    background-color: #f4f5ff;
+    border-color: #858ff1;
   }
 
   &.checked span {
-    color: #858FF1;
+    color: #858ff1;
   }
 
   & > h2 {
@@ -52,6 +53,4 @@ const CheckBoxContent = styled.div`
   justify-content: space-around;
 `;
 
-export {
-  CheckBoxContainer, CheckBoxContentWrapper, CheckBoxContent, CheckedIconWrapper
-}
+export { CheckBoxContainer, CheckBoxContentWrapper, CheckBoxContent, CheckedIconWrapper };
