@@ -22,6 +22,7 @@ export const StyledSelect = styled.button<{ width: number }>`
 `;
 
 export const StyledSelectUl = styled.ul<{ width: number }>`
+  z-index: 100;
   background-color: #f8f8f8;
   box-sizing: border-box;
   width: ${({ width }) => width}px;
