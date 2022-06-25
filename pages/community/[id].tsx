@@ -1,29 +1,13 @@
-import { TitleBar } from '@components/common/title';
-import Image from 'next/image';
 import type { NextPage } from 'next';
+import Image from 'next/image';
 import styled from '@emotion/styled';
+import { TitleBar } from '@components/common/title';
+import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
 
 const UserProfile = styled.div`
   display: flex;
   padding: 0 0 3% 5%;
   gap: 10px;
-`;
-
-const PostMetaInfo = styled.div`
-  display: flex;
-  flex-grow: 2;
-  gap: 5px;
-  &[class~='post'] {
-    flex-direction: column;
-  }
-
-  span {
-    font-weight: bold;
-  }
-  time {
-    font-size: 14px;
-    color: ${({ theme }) => theme.gray};
-  }
 `;
 
 const ButtonGroup = styled.div`
@@ -65,18 +49,6 @@ const MainText = styled.div`
     &:nth-child(2) {
       margin-bottom: 5%;
     }
-  }
-`;
-
-const LikeCount = styled.div`
-  display: flex;
-  width: 20%;
-  margin-bottom: 5%;
-  * {
-    flex-grow: 1;
-  }
-  button {
-    height: 100%;
   }
 `;
 
@@ -148,10 +120,7 @@ const PostingDetail: NextPage = () => {
       <TitleBar left={left} centerTitle="PT 게시판" />
       <UserProfile>
         <Image src="/assets/common/profile.svg" alt="프로필" width="50" height="50" />
-        <PostMetaInfo className="post">
-          <span>밍망디</span>
-          <time dateTime="2022-06-17T23:00">1분 전</time>
-        </PostMetaInfo>
+        <PostMetaInfo nickname="밍망디" time={new Date()} className="post"></PostMetaInfo>
         <ButtonGroup className="post">
           <button>수정</button>
           <button>삭제</button>
@@ -164,12 +133,12 @@ const PostingDetail: NextPage = () => {
           <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="250" height="150" />
           <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="250" height="150" />
         </UploadImage>
-        <LikeCount>
-          <Image src="/assets/common/love-blank.svg" alt="좋아요" width={15} height={15}></Image>
-          <span>1</span>
-          <Image src="/assets/community/speech.svg" alt="댓글" width={15} height={15}></Image>
-          <span>3</span>
-        </LikeCount>
+        <LikeAndCommentCount
+          like={1}
+          comment={3}
+          isClickable={true}
+          isClicked={false}
+        ></LikeAndCommentCount>
       </MainText>
       <Comments>
         <div role="none"></div>
@@ -184,11 +153,12 @@ const PostingDetail: NextPage = () => {
               height="30"
             />
           </ImageContainer>
+          <PostMetaInfo
+            nickname="길에서 숨쉰 채 발견"
+            time={new Date()}
+            className="comment"
+          ></PostMetaInfo>
 
-          <PostMetaInfo className="comment">
-            <span>길에서 숨쉰 채 발견</span>
-            <time dateTime="2022-06-17T23:00">1분 전</time>
-          </PostMetaInfo>
           <p>염분기 없는 닭가슴살이면 ㄱㅊ</p>
         </Commentor>
         <Commentor className="myComment">
@@ -201,11 +171,7 @@ const PostingDetail: NextPage = () => {
               height="30"
             />
           </ImageContainer>
-
-          <PostMetaInfo className="comment">
-            <span>미묘하게 안맞아</span>
-            <time dateTime="2022-06-17T23:00">방금</time>
-          </PostMetaInfo>
+          <PostMetaInfo nickname="밍망디" time={new Date()} className="comment"></PostMetaInfo>
           <ButtonGroup className="comment">
             <button>수정</button>
             <button>삭제</button>
@@ -222,10 +188,11 @@ const PostingDetail: NextPage = () => {
               height="30"
             />
           </ImageContainer>
-          <PostMetaInfo className="comment">
-            <span>그만먹고싶닭</span>
-            <time dateTime="2022-06-17T23:00">1분 전</time>
-          </PostMetaInfo>
+          <PostMetaInfo
+            nickname="그만먹고싶닭"
+            time={new Date()}
+            className="comment"
+          ></PostMetaInfo>
           <p>한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!</p>
         </Commentor>
       </Comments>
