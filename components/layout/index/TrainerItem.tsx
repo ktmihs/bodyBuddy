@@ -10,6 +10,29 @@ const Trainer = ({ trainer }: any) => {
     background: #f3f2f2;
     border-radius: 10px;
     position: relative;
+    cursor: pointer;
+  `;
+
+  const Offline = styled.div`
+    box-sizing: border-box;
+    width: 172px;
+    height: 246px;
+    background-color: rgba(43, 43, 43, 0.8);
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding: 100px 20px;
+    cursor: no-drop;
+
+    p {
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+      text-align: center;
+    }
   `;
 
   const ImageWrapper = styled.div`
@@ -172,31 +195,38 @@ const Trainer = ({ trainer }: any) => {
   `;
 
   return (
-    <TrainerItem key={trainer.id}>
-      <ImageWrapper>
-        <Image src={mypage} alt={trainer.name} title={trainer.name} width={112} height={112} />
-      </ImageWrapper>
-      <TrainerItemTop>
-        <span>5.0</span>
-        <span>{trainer.name}</span>
-      </TrainerItemTop>
-      <TrainerItemBottom>
-        <TrainerPurpose>다이어트</TrainerPurpose>
-        <TrainerFieldContainer>
-          <span>PT</span>
-          <span>경력 {trainer.totalCareer}년</span>
-        </TrainerFieldContainer>
-        <TrainerIntroduction>
-          <p>{trainer.introduction}</p>
-        </TrainerIntroduction>
-        <TrainerPositionAndPrice>
-          <span>
-            {trainer.city} {trainer.district}
-          </span>
-          <span>{trainer.price.toLocaleString()}</span>
-        </TrainerPositionAndPrice>
-      </TrainerItemBottom>
-    </TrainerItem>
+    <>
+      <TrainerItem>
+        {trainer.isOnline && (
+          <Offline>
+            <p>{trainer.name} 트레이너 님은 현재 상담이 불가능 합니다.</p>
+          </Offline>
+        )}
+        <ImageWrapper>
+          <Image src={mypage} alt={trainer.name} title={trainer.name} width={112} height={112} />
+        </ImageWrapper>
+        <TrainerItemTop>
+          <span>5.0</span>
+          <span>{trainer.name}</span>
+        </TrainerItemTop>
+        <TrainerItemBottom>
+          <TrainerPurpose>다이어트</TrainerPurpose>
+          <TrainerFieldContainer>
+            <span>PT</span>
+            <span>경력 {trainer.totalCareer}년</span>
+          </TrainerFieldContainer>
+          <TrainerIntroduction>
+            <p>{trainer.introduction}</p>
+          </TrainerIntroduction>
+          <TrainerPositionAndPrice>
+            <span>
+              {trainer.city} {trainer.district}
+            </span>
+            <span>{trainer.price.toLocaleString()}</span>
+          </TrainerPositionAndPrice>
+        </TrainerItemBottom>
+      </TrainerItem>
+    </>
   );
 };
 

@@ -125,7 +125,7 @@ const Home: NextPage = () => {
       price: 15000,
       totalCareer: 5,
       introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-      isOnline: false,
+      isOnline: true,
     },
     {
       id: 456789126,
