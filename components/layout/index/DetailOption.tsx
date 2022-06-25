@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { OptionCheckBox } from '@components/common/checkbox';
 import Image from 'next/image';
+import { Select } from '@components/common/select';
+import { city, district } from '@data';
 
 const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const fieldList = [
@@ -58,6 +60,9 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     },
   ];
 
+  const [cityInfo, setCityInfo] = useState('시/도');
+  const [districtInfo, setDistrictInfo] = useState('군/구');
+
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
@@ -72,7 +77,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   }, []);
 
   const Modal = styled.div`
-    width: 100%;
+    width: 390px;
     height: 100%;
     background-color: #fff;
     position: fixed;
@@ -80,7 +85,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     text-align: center;
 
     form {
-      /* margin: 0 20px; */
+      margin: 0 20px;
     }
   `;
 
@@ -109,6 +114,14 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     border: none;
   `;
 
+  const PositionList = styled.div`
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  `;
+
   const SaveButton = styled.button`
     width: 335px;
     height: 47px;
@@ -118,7 +131,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     border: none;
     cursor: pointer;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
     font-weight: 500;
     font-size: 17px;
     line-height: 25px;
@@ -143,20 +156,22 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
             <legend className="srOnly">상세 옵션</legend>
             <div>
               <h2>위치</h2>
-              <ul id="city">
-                <li>서울시</li>
-                <li>서울시</li>
-                <li>서울시</li>
-                <li>서울시</li>
-                <li>서울시</li>
-              </ul>
-              <ul id="city">
-                <li>서울시</li>
-                <li>서울시</li>
-                <li>서울시</li>
-                <li>서울시</li>
-                <li>서울시</li>
-              </ul>
+              <PositionList>
+                <Select
+                  currentSelectedData={cityInfo}
+                  onSetCurrentSelected={setCityInfo}
+                  selectData={city}
+                  selectWidth={150}
+                />
+                <Select
+                  currentSelectedData={districtInfo}
+                  onSetCurrentSelected={setDistrictInfo}
+                  selectData={
+                    districtInfo === '군/구' ? ['시/도를 선택해주세요'] : district[districtInfo]
+                  }
+                  selectWidth={190}
+                />
+              </PositionList>
             </div>
             <div>
               <h2>성별</h2>
@@ -169,12 +184,12 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
             </div>
             <div>
               <h2>종목</h2>
-              <span>중복 선택이 가능합니다.</span>
+              <span className="section-descript">중복 선택이 가능합니다.</span>
               <OptionCheckBox checkBoxList={fieldList} />
             </div>
             <div>
               <h2>목적</h2>
-              <span>중복 선택이 가능합니다.</span>
+              <span className="section-descript">중복 선택이 가능합니다.</span>
               <OptionCheckBox checkBoxList={purposeList} />
             </div>
             <div>
