@@ -3,53 +3,61 @@ import { useEffect } from 'react';
 import { OptionCheckBox } from '@components/common/checkbox';
 import Image from 'next/image';
 
-const DetailOption = ({isModalState, onChangeSetState}:any) => {
+const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const fieldList = [
     {
       checkBoxItemID: '123',
       checkBoxText: 'PT',
       checkBoxImage: '/assets/index/option/pt.svg',
-      checkBoxCheckedImage: '/assets/index/option/pt-checked.svg'
-    }, {
+      checkBoxCheckedImage: '/assets/index/option/pt-checked.svg',
+    },
+    {
       checkBoxItemID: '124',
       checkBoxText: '요가',
       checkBoxImage: '/assets/index/option/yoga.svg',
-      checkBoxCheckedImage: '/assets/index/option/yoga-checked.svg'
-    }, {
+      checkBoxCheckedImage: '/assets/index/option/yoga-checked.svg',
+    },
+    {
       checkBoxItemID: '125',
       checkBoxText: '필라테스',
       checkBoxImage: '/assets/index/option/pilates.svg',
-      checkBoxCheckedImage: '/assets/index/option/pilates-checked.svg'
-    }, {
+      checkBoxCheckedImage: '/assets/index/option/pilates-checked.svg',
+    },
+    {
       checkBoxItemID: '126',
       checkBoxText: '발레',
       checkBoxImage: '/assets/index/option/ballet.svg',
-      checkBoxCheckedImage: '/assets/index/option/ballet-checked.svg'
-    }
-  ]
+      checkBoxCheckedImage: '/assets/index/option/ballet-checked.svg',
+    },
+  ];
 
   const purposeList = [
     {
       checkBoxItemID: '1123',
-      checkBoxText: '기초체력증진'
-    }, {
+      checkBoxText: '기초체력증진',
+    },
+    {
       checkBoxItemID: '1124',
-      checkBoxText: '다이어트'
-    }, {
+      checkBoxText: '다이어트',
+    },
+    {
       checkBoxItemID: '1125',
-      checkBoxText: '근력향상'
-    }, {
+      checkBoxText: '근력향상',
+    },
+    {
       checkBoxItemID: '1126',
-      checkBoxText: '재활'
-    }, {
+      checkBoxText: '재활',
+    },
+    {
       checkBoxItemID: '1127',
-      checkBoxText: '체형교정'
-    }, {
+      checkBoxText: '체형교정',
+    },
+    {
       checkBoxItemID: '1128',
-      checkBoxText: '근육량증가'
-    }
-  ]
-  
+      checkBoxText: '근육량증가',
+    },
+  ];
+
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
@@ -71,7 +79,7 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
     z-index: 1000;
     text-align: center;
 
-    form{
+    form {
       /* margin: 0 20px; */
     }
   `;
@@ -104,7 +112,7 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
   const SaveButton = styled.button`
     width: 335px;
     height: 47px;
-    background: #858FF1;
+    background: #858ff1;
     border-radius: 10px;
     color: #fff;
     border: none;
@@ -115,14 +123,19 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
     font-size: 17px;
     line-height: 25px;
   `;
-  
-  return(
+
+  return (
     <>
       <Modal>
         <ModalTitle>
           <h2>상세 옵션</h2>
           <CloseButton onClick={() => onChangeSetState(!isModalState)}>
-            <Image src='/assets/common/closeButton.svg' alt='상세 옵션 닫기' width={11} height={13} />
+            <Image
+              src="/assets/common/closeButton.svg"
+              alt="상세 옵션 닫기"
+              width={11}
+              height={13}
+            />
           </CloseButton>
         </ModalTitle>
         <form>
@@ -179,7 +192,7 @@ const DetailOption = ({isModalState, onChangeSetState}:any) => {
         </form>
       </Modal>
     </>
-  )
-}
+  );
+};
 
 export default DetailOption;
