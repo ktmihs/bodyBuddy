@@ -112,6 +112,29 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     display: inline-block;
     background-color: transparent;
     border: none;
+    cursor: pointer;
+  `;
+
+  const FormSection = styled.section`
+    margin-bottom: 10px;
+    position: relative;
+
+    h2 {
+      text-align: left;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 31px;
+    }
+
+    .section-descript {
+      position: absolute;
+      top: 0;
+      font-weight: 700;
+      font-size: 8px;
+      line-height: 31px;
+      color: #8b8b8b;
+      left: 45px;
+    }
   `;
 
   const PositionList = styled.div`
@@ -154,7 +177,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
         <form>
           <fieldset>
             <legend className="srOnly">상세 옵션</legend>
-            <div>
+            <FormSection>
               <h2>위치</h2>
               <PositionList>
                 <Select
@@ -172,8 +195,8 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
                   selectWidth={190}
                 />
               </PositionList>
-            </div>
-            <div>
+            </FormSection>
+            <FormSection>
               <h2>성별</h2>
               <input type="radio" />
               <label>상관 없음</label>
@@ -181,27 +204,27 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
               <label>남성</label>
               <input type="radio" />
               <label>여성</label>
-            </div>
-            <div>
+            </FormSection>
+            <FormSection>
               <h2>종목</h2>
               <span className="section-descript">중복 선택이 가능합니다.</span>
               <OptionCheckBox checkBoxList={fieldList} />
-            </div>
-            <div>
+            </FormSection>
+            <FormSection>
               <h2>목적</h2>
               <span className="section-descript">중복 선택이 가능합니다.</span>
               <OptionCheckBox checkBoxList={purposeList} />
-            </div>
-            <div>
+            </FormSection>
+            <FormSection>
               <h2>가격</h2>
               <label htmlFor="optionPrice">시간 당 3만원</label>
               <input type="range" id="optionPrice" />
-            </div>
-            <div>
+            </FormSection>
+            <FormSection>
               <h2>경력</h2>
               <label htmlFor="optionCareers">경력 2년</label>
               <input type="range" id="optionCareers" />
-            </div>
+            </FormSection>
             <SaveButton onClick={onChangeSetState}>변경 사항 저장</SaveButton>
           </fieldset>
         </form>
