@@ -5,7 +5,7 @@ const Option = ({ options }: any) => {
   const OPT_LEN = OptionColors.length;
 
   const OptionList = styled.ul`
-    width: 70vw;
+    width: 80%;
     margin-top: 20px;
     height: fit-content;
     background-color: #fff;
