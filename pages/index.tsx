@@ -358,6 +358,7 @@ const Home: NextPage = () => {
 
   const DetailOption = styled.section`
     margin-top: 10px;
+    cursor: pointer;
 
     span {
       background-color: #fff;

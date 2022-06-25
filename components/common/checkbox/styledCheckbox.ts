@@ -13,6 +13,7 @@ const CheckBoxContentWrapper = styled.div`
   border: 1px solid #cdcdcd;
   border-radius: 5px;
   margin-bottom: 10px;
+  cursor: pointer;
 
   &.checked {
     background-color: #f4f5ff;
