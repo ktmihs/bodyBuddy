@@ -7,6 +7,7 @@ import {
   StyledSocialButton,
   StyledTopButton,
   StyledFixedBottomButton,
+  StyledDisabledBottomButton,
 } from './styledButton';
 
 import NaverLogo from '@assets/signUp/naver.svg';
@@ -49,7 +50,7 @@ export const FixedBottomButton = ({
           {buttonTitle}
         </StyledFixedBottomButton>
       ) : (
-        <button disabled>{buttonTitle}</button>
+        <StyledDisabledBottomButton disabled>{buttonTitle}</StyledDisabledBottomButton>
       )}
     </>
   );

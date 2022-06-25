@@ -26,13 +26,14 @@ const StyledStepHeader = styled.header<{ mainAgent: string }>`
 
   h3 {
     padding-left: 21px;
-    margin: ${({ mainAgent }) => (mainAgent === 'member' ? '69px 0 10px 0' : ' 37px 0 10px 0')};
+    margin: ${({ mainAgent }) => (mainAgent === 'member' ? '69px 0 5px 0' : ' 37px 0 5px 0')};
     font-size: 35px;
     font-weight: 700;
     color: ${({ theme }) => theme.purple};
   }
 
   .subTitle {
+    font-size: 12px;
     padding-left: 21px;
     color: #7d7d7d;
   }
