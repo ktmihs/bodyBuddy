@@ -64,8 +64,9 @@ const UploadImage = styled.div`
   }
 `;
 const Comments = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   div[role~='none'] {
+    margin-top: 5%;
     border-top: 1px solid ${({ theme }) => theme.lineGray};
   }
 

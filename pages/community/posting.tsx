@@ -42,7 +42,7 @@ const Posting: NextPage = () => {
       <PostingForm>
         <fieldset>
           <legend className="srOnly">작성 중인 게시물</legend>
-          <PostingTitle maxLength={16}></PostingTitle>
+          <PostingTitle maxLength={14}></PostingTitle>
           <MainText>
             <textarea></textarea>
             <ImageUploader />

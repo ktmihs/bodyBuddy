@@ -2,8 +2,24 @@ import styled from '@emotion/styled';
 
 export const PostMeta = styled.div`
   display: flex;
-  flex-grow: 2;
   gap: 5px;
+  &[class~='post'],
+  &[class~='comment'] {
+    flex-grow: 2;
+  }
+  &[class~='list'] {
+    color: ${({ theme }) => theme.gray};
+    * {
+      font-size: 16px;
+    }
+    span {
+      font-weight: normal;
+    }
+    time {
+      order: -1;
+    }
+  }
+
   &[class~='post'] {
     flex-direction: column;
   }
@@ -20,7 +36,6 @@ export const PostMeta = styled.div`
 export const LikeAndCommentInfo = styled.div`
   display: flex;
   width: 20%;
-  margin-bottom: 5%;
   * {
     flex-grow: 1;
   }

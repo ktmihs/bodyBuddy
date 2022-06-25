@@ -79,7 +79,7 @@ export const StyledSocialButton = styled.div<{ bottom: number }>`
 `;
 
 export const StyledTopButton = styled.button`
-  position: absolute;
+  position: fixed;
   width: 50px;
   height: 50px;
   bottom: calc(77px + 5%);
@@ -89,6 +89,7 @@ export const StyledTopButton = styled.button`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background: linear-gradient(180deg, #858ff1 0%, #70b4e0 100%);
   color: #ffffff;
+  cursor: pointer;
 
   #polygon {
     display: inline-block;

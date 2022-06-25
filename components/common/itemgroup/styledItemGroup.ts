@@ -15,6 +15,7 @@ export const StyledItemGroup = styled.div`
     padding: 2%;
     font-size: 13px;
     text-align: center;
+    font-weight: bold;
     border: 1px solid ${({ theme }) => theme.lineGray};
     border-radius: 15px;
     cursor: pointer;
