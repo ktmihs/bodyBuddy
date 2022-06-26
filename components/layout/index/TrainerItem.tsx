@@ -102,7 +102,7 @@ const Trainer = ({ trainer }: any) => {
     border-radius: 10px;
     width: 55px;
     background: #ffffff;
-    color: #858ff1;
+    color: ${(props) => props.theme.purple};
     line-height: 15px;
     font-style: normal;
     font-weight: 700;

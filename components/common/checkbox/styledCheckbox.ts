@@ -10,18 +10,18 @@ const CheckBoxContentWrapper = styled.div`
   width: 164px;
   height: 43px;
   background: #ffffff;
-  border: 1px solid #cdcdcd;
+  border: 1px solid ${(props) => props.theme.lineGray};
   border-radius: 5px;
   margin-bottom: 10px;
   cursor: pointer;
 
   &.checked {
-    background-color: #f4f5ff;
-    border-color: #858ff1;
+    background-color: ${(props) => props.theme.lightPurple};
+    border-color: ${(props) => props.theme.purple};
   }
 
   &.checked span {
-    color: #858ff1;
+    color: ${(props) => props.theme.purple};
   }
 
   & > h2 {
@@ -34,7 +34,7 @@ const CheckBoxContentWrapper = styled.div`
     font-size: 14px;
     text-align: center;
     line-height: 43px;
-    color: #464646;
+    color: ${(props) => props.theme.black};
   }
 
   &:nth-of-type(2n) {
