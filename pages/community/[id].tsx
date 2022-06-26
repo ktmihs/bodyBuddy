@@ -42,11 +42,11 @@ const MainText = styled.div`
 
   p {
     padding: 2% 0;
-    &:nth-child(1) {
+    &:nth-of-type(1) {
       font-weight: bold;
       font-size: 16px;
     }
-    &:nth-child(2) {
+    &:nth-of-type(2) {
       margin-bottom: 5%;
     }
   }
@@ -98,10 +98,10 @@ const Commentor = styled.div`
   }
   &[class~='myComment'] {
     background-color: ${({ theme }) => theme.lightPurple};
-    div:nth-child(1) {
+    div:nth-of-type(1) {
       margin-left: 8%;
     }
-    div:nth-child(n + 2) {
+    div:nth-of-type(n + 2) {
       width: 30%;
     }
     p {

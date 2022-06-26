@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
 
 const CommunityPage = styled.section`
-  &:nth-child(1) {
+  &:nth-of-type(1) {
     padding-top: 15%;
   }
 `;
@@ -31,12 +31,12 @@ const Post = styled.article`
       color: inherit;
     }
 
-    p:nth-child(1) {
+    p:nth-of-type(1) {
       font-weight: bold;
       font-size: 16px;
       margin-bottom: 5%;
     }
-    p:nth-child(2) {
+    p:nth-of-type(2) {
       display: -webkit-box;
       word-wrap: break-word;
       -webkit-line-clamp: 3;
@@ -59,7 +59,7 @@ const MetaContainer = styled.div`
   display: flex;
   margin-bottom: 0;
 
-  div:nth-child(1) {
+  div:nth-of-type(1) {
     width: 40%;
     align-self: flex-end;
   }
