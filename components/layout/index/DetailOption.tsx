@@ -4,6 +4,7 @@ import { OptionCheckBox } from '@components/common/checkbox';
 import Image from 'next/image';
 import { Select } from '@components/common/select';
 import { city, district } from '@data';
+import { Radio } from '@components/common/radio';
 
 const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const fieldList = [
@@ -148,7 +149,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const SaveButton = styled.button`
     width: 335px;
     height: 47px;
-    background: #858ff1;
+    background: ${(props) => props.theme.purple};
     border-radius: 10px;
     color: #fff;
     border: none;
@@ -198,12 +199,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
             </FormSection>
             <FormSection>
               <h2>성별</h2>
-              <input type="radio" />
-              <label>상관 없음</label>
-              <input type="radio" />
-              <label>남성</label>
-              <input type="radio" />
-              <label>여성</label>
+              <Radio notSelected={true} />
             </FormSection>
             <FormSection>
               <h2>종목</h2>
