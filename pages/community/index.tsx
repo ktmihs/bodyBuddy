@@ -1,9 +1,10 @@
-import { ItemGroup } from '@components/common/itemgroup/ItemGroup';
+import { ItemGroup } from '@components/common/itemgroup';
 import { TopButton } from '@components/common/button';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
+import { useState } from 'react';
 
 const CommunityPage = styled.section`
   &:nth-of-type(1) {
@@ -101,10 +102,12 @@ const PostButton = styled.div`
 `;
 
 const Community: NextPage = () => {
+  const [selectedItem, changeSelectedItem] = useState('0');
+
   return (
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
-      <ItemGroup />
+      <ItemGroup changeSelectedItem={changeSelectedItem} />
       <div>
         <Post>
           <a href="community/1">
