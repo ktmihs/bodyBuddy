@@ -1,12 +1,14 @@
+import { StyledItemGroup } from './styledItemGroup';
+
 export const ItemGroup = () => {
   return (
-    <div>
+    <StyledItemGroup>
       <ul>
-        <li>PT</li>
+        <li className="active">PT</li>
         <li>요가</li>
         <li>필라테스</li>
         <li>발레</li>
       </ul>
-    </div>
+    </StyledItemGroup>
   );
 };

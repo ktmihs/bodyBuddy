@@ -1,8 +1,9 @@
 import Image from 'next/image';
+import { StyledTitle } from './styledTitle';
 
 export const TitleBar = ({ left, right, centerTitle }: TitleBarProps) => {
   return (
-    <div className="titleBtnGroup">
+    <StyledTitle>
       {left ? (
         <a className="left" href={left?.link}>
           <Image
@@ -13,7 +14,7 @@ export const TitleBar = ({ left, right, centerTitle }: TitleBarProps) => {
           ></Image>
         </a>
       ) : (
-        ''
+        <a className="left"></a>
       )}
       <span>{centerTitle ? centerTitle : ''}</span>
       {right ? (
@@ -26,8 +27,8 @@ export const TitleBar = ({ left, right, centerTitle }: TitleBarProps) => {
           ></Image>
         </a>
       ) : (
-        ''
+        <a className="right"></a>
       )}
-    </div>
+    </StyledTitle>
   );
 };
