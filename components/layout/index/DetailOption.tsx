@@ -149,7 +149,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const SaveButton = styled.button`
     width: 335px;
     height: 47px;
-    background: #858ff1;
+    background: ${(props) => props.theme.purple};
     border-radius: 10px;
     color: #fff;
     border: none;

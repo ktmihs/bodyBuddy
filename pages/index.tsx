@@ -328,7 +328,7 @@ const Home: NextPage = () => {
   `;
 
   const UserName = styled.span`
-    color: #858ff1;
+    color: ${(props) => props.theme.purple};
   `;
 
   const Main = styled.main`
