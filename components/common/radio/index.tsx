@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { MouseEvent, useState } from 'react';
-import { RadioProps } from './radio';
 import { RadioWrapper, CheckedIconWrapper } from './styledRadio';
 import activeCheckBox from 'public/assets/common/checkbox-checked.svg';
 import inActiveCheckBox from 'public/assets/common/checkbox.svg';
