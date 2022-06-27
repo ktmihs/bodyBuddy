@@ -129,7 +129,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="밍망디" time={new Date()} className="list" />
-            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={true} />
+            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -142,7 +142,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="육회랑연어" time={new Date()} className="list" />
-            <LikeAndCommentCount like={0} comment={0} isClickable={false} isClicked={true} />
+            <LikeAndCommentCount like={0} comment={0} isClickable={false} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -174,8 +174,31 @@ const Community: NextPage = () => {
             <p>마구 먹어야지~!</p>
           </a>
           <MetaContainer>
-            <PostMetaInfo nickname="돼지KING" time={new Date()} className="list" />
-            <LikeAndCommentCount like={0} comment={5} isClickable={false} isClicked={true} />
+            <PostMetaInfo nickname="돼지KIN" time={new Date()} className="list" />
+            <LikeAndCommentCount like={0} comment={5} isClickable={false} isClicked={false} />
+          </MetaContainer>
+        </Post>
+        <Post>
+          <a href="community/7">
+            <p>데드리프트..봐주세요</p>
+            <p>데드리프트 할 때마다 허리가 아픈데 이게 맞는지 모르겠어요 ㅜㅜ</p>
+            <ImageContainer>
+              <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="100" height="80" />
+            </ImageContainer>
+          </a>
+          <MetaContainer>
+            <PostMetaInfo nickname="먹고싶당" time={new Date()} className="list" />
+            <LikeAndCommentCount like={0} comment={3} isClickable={false} isClicked={false} />
+          </MetaContainer>
+        </Post>
+        <Post>
+          <a href="community/8">
+            <p>상여자특:비와도 운동감</p>
+            <p>저는 하여자입니다</p>
+          </a>
+          <MetaContainer>
+            <PostMetaInfo nickname="맘스터치" time={new Date()} className="list" />
+            <LikeAndCommentCount like={4} comment={1} isClickable={false} isClicked={false} />
           </MetaContainer>
         </Post>
       </div>

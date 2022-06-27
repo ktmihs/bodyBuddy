@@ -12,6 +12,8 @@ import {
 
 import NaverLogo from '@assets/signUp/naver.svg';
 import KakaoLogo from '@assets/signUp/kakao.svg';
+import { useEffect, useRef } from 'react';
+import { throttle } from 'lodash';
 
 export const GradientButton = ({ link, buttonTitle, bottomPercent }: GradientButtonProps) => {
   return (
@@ -81,8 +83,27 @@ export const SocialLinkButton = ({
 };
 
 export const TopButton = () => {
+  const button = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const HandleScroll = throttle(() => {
+      if (!button.current) return;
+      button.current.style.display = window.pageYOffset > 100 ? 'block' : 'none';
+    }, 300);
+
+    const GoToTop = () => window.scroll({ top: 0, behavior: 'smooth' });
+
+    window.addEventListener('scroll', HandleScroll);
+    button.current?.addEventListener('click', GoToTop);
+
+    return () => {
+      window.removeEventListener('scroll', HandleScroll);
+      button.current?.removeEventListener('click', GoToTop);
+    };
+  }, []);
+
   return (
-    <StyledTopButton>
+    <StyledTopButton ref={button}>
       <div id="polygon"></div>
       <div>TOP</div>
     </StyledTopButton>
