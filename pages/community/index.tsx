@@ -119,7 +119,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="울면근손실" time={new Date()} className="list" />
-            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={true} />
+            <LikeAndCommentCount like={1} comment={3} isClicked={true} />
           </MetaContainer>
         </Post>
         <Post>
@@ -129,7 +129,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="밍망디" time={new Date()} className="list" />
-            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={false} />
+            <LikeAndCommentCount like={1} comment={3} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -142,7 +142,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="육회랑연어" time={new Date()} className="list" />
-            <LikeAndCommentCount like={0} comment={0} isClickable={false} isClicked={false} />
+            <LikeAndCommentCount like={0} comment={0} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -152,7 +152,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="밍망디" time={new Date()} className="list" />
-            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={true} />
+            <LikeAndCommentCount like={1} comment={3} isClicked={true} />
           </MetaContainer>
         </Post>
         <Post>
@@ -165,7 +165,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="삐약이" time={new Date()} className="list" />
-            <LikeAndCommentCount like={5} comment={3} isClickable={false} isClicked={true} />
+            <LikeAndCommentCount like={5} comment={3} isClicked={true} />
           </MetaContainer>
         </Post>
         <Post>
@@ -175,7 +175,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="돼지KIN" time={new Date()} className="list" />
-            <LikeAndCommentCount like={0} comment={5} isClickable={false} isClicked={false} />
+            <LikeAndCommentCount like={0} comment={5} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -188,7 +188,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="먹고싶당" time={new Date()} className="list" />
-            <LikeAndCommentCount like={0} comment={3} isClickable={false} isClicked={false} />
+            <LikeAndCommentCount like={0} comment={3} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -198,7 +198,7 @@ const Community: NextPage = () => {
           </a>
           <MetaContainer>
             <PostMetaInfo nickname="맘스터치" time={new Date()} className="list" />
-            <LikeAndCommentCount like={4} comment={1} isClickable={false} isClicked={false} />
+            <LikeAndCommentCount like={4} comment={1} isClicked={false} />
           </MetaContainer>
         </Post>
       </div>

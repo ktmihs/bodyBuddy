@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 import { TitleBar } from '@components/common/title';
 import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
+import { useState } from 'react';
 
 const UserProfile = styled.div`
   display: flex;
@@ -114,6 +115,7 @@ const Commentor = styled.div`
 `;
 
 const PostingDetail: NextPage = () => {
+  const [liked, toggleLiked] = useState(false);
   const left = { link: '/community', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
   return (
     <section>
@@ -137,8 +139,8 @@ const PostingDetail: NextPage = () => {
         <LikeAndCommentCount
           like={1}
           comment={3}
-          isClickable={true}
-          isClicked={false}
+          isClicked={liked}
+          toggleLiked={toggleLiked}
         ></LikeAndCommentCount>
       </MainText>
       <Comments>
