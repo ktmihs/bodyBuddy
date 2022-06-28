@@ -1,10 +1,6 @@
 import styled from '@emotion/styled';
 
-interface ButtonProps {
-  className: string;
-}
-
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   flex-grow: 1;
   display: flex;
   justify-content: space-evenly;
@@ -14,7 +10,13 @@ const ButtonContainer = styled.div`
       border: 1px solid ${({ theme }) => theme.lineGray};
     }
   }
-
+  &[class~='review'] {
+    button {
+      color: ${({ theme }) => theme.lineGray};
+      font-weight: bold;
+      border: none;
+    }
+  }
   &[class~='comment'],
   &[class~='edit'] {
     button {
@@ -31,14 +33,3 @@ const ButtonContainer = styled.div`
     cursor: pointer;
   }
 `;
-
-const ButtonGroup = ({ className }: ButtonProps) => {
-  return (
-    <ButtonContainer className={className}>
-      <button>수정</button>
-      <button>{className === 'edit' ? '취소' : '삭제'}</button>
-    </ButtonContainer>
-  );
-};
-
-export default ButtonGroup;

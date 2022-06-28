@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { TitleBar } from '@components/common/title';
 import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
 import { useState } from 'react';
-import Comments from '@components/community/comment';
-import ButtonGroup from '@components/community/ButtonGroup';
+import ButtonGroup from '@components/common/buttongroup';
+import Comments from '@components/community/Comment';
 
 const UserProfile = styled.div`
   display: flex;
@@ -49,7 +49,12 @@ const PostingDetail: NextPage = () => {
       <TitleBar left={left} centerTitle="PT 게시판" />
       <UserProfile>
         <Image src="/assets/common/profile.svg" alt="프로필" width="50" height="50" />
-        <PostMetaInfo nickname="밍망디" time={new Date()} className="post"></PostMetaInfo>
+        <PostMetaInfo
+          nickname="밍망디"
+          time={new Date()}
+          className="post"
+          displayByDate={false}
+        ></PostMetaInfo>
         <ButtonGroup className="post" />
       </UserProfile>
       <MainText>
