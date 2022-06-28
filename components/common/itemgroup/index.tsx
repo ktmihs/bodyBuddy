@@ -7,10 +7,7 @@ export const ServiceGroup = () => {
       <span>분류</span>
       <select name="service">
         <option value="counsel">상담</option>
-        <option value="pt">PT</option>
-        <option value="yoga">요가</option>
-        <option value="pilates">필라테스</option>
-        <option value="ballet">발레</option>
+        <option value="class">수업</option>
       </select>
     </div>
   );
