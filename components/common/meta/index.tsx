@@ -13,20 +13,28 @@ export const PostMetaInfo = ({ nickname, time, className }: PostMetaProps) => {
 export const LikeAndCommentCount = ({
   like,
   comment,
-  isClickable,
   isClicked,
+  toggleLiked,
   width,
   height,
 }: CountProps) => {
+  const clickToggleLiked = () => {
+    if (!toggleLiked) return;
+    toggleLiked(!isClicked);
+  };
   return (
     <LikeAndCommentInfo>
       <Image
+        className="likeBtn"
         src={isClicked ? '/assets/common/love.svg' : '/assets/common/love-blank.svg'}
         alt="좋아요"
         width={width ? width : 15}
         height={height ? height : 15}
+        onClick={() => {
+          clickToggleLiked();
+        }}
       ></Image>
-      <span>{like}</span>
+      <span>{like + +isClicked}</span>
       <Image src="/assets/community/speech.svg" alt="댓글" width={15} height={15}></Image>
       <span>{comment}</span>
     </LikeAndCommentInfo>

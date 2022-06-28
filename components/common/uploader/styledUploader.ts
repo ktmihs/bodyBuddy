@@ -15,6 +15,7 @@ export const StyledImageUploader = styled.div`
     border-style: none;
     background: url('/assets/common/button-delete.svg') no-repeat;
     background-position: center;
+    cursor: pointer;
   }
   label {
     display: inline-block;

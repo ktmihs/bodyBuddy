@@ -1,9 +1,10 @@
 import { FixedBottomLinkButton } from '@components/common/button';
-import { ItemGroup } from '@components/common/itemgroup/ItemGroup';
+import { ItemGroup } from '@components/common/itemgroup';
 import { TitleBar } from '@components/common/title';
 import { ImageUploader } from '@components/common/uploader';
 import type { NextPage } from 'next';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
 const PostingForm = styled.form`
   margin: 0 5%;
@@ -33,12 +34,13 @@ const MainText = styled.div`
 `;
 
 const Posting: NextPage = () => {
+  const [selectedItem, changeSelectedItem] = useState('0');
   const left = { link: '/community', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
   return (
     <section>
       <h2 className="srOnly">게시물 작성하기</h2>
       <TitleBar left={left} centerTitle="게시물 작성" />
-      <ItemGroup />
+      <ItemGroup changeSelectedItem={changeSelectedItem} />
       <PostingForm>
         <fieldset>
           <legend className="srOnly">작성 중인 게시물</legend>
