@@ -1,7 +1,7 @@
 import { PostMetaInfo } from '@components/common/meta';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import ButtonGroup from './ButtonGroup';
+import ButtonGroup from '../common/buttongroup';
 
 const WriteComment = styled.form`
   padding-left: 5%;
@@ -91,6 +91,7 @@ const Comments = () => {
           nickname="길에서 숨쉰 채 발견"
           time={new Date()}
           className="comment"
+          displayByDate={false}
         ></PostMetaInfo>
 
         <p>염분기 없는 닭가슴살이면 ㄱㅊ</p>
@@ -105,7 +106,12 @@ const Comments = () => {
             height="30"
           />
         </ImageContainer>
-        <PostMetaInfo nickname="밍망디" time={new Date()} className="comment"></PostMetaInfo>
+        <PostMetaInfo
+          nickname="밍망디"
+          time={new Date()}
+          className="comment"
+          displayByDate={false}
+        ></PostMetaInfo>
         <ButtonGroup className="edit" />
         <WriteComment>
           <textarea placeholder="댓글을 작성하세요" />
@@ -121,7 +127,12 @@ const Comments = () => {
             height="30"
           />
         </ImageContainer>
-        <PostMetaInfo nickname="그만먹고싶닭" time={new Date()} className="comment"></PostMetaInfo>
+        <PostMetaInfo
+          nickname="그만먹고싶닭"
+          time={new Date()}
+          className="comment"
+          displayByDate={false}
+        ></PostMetaInfo>
         <p>한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!</p>
       </Commentor>
       <Commentor className="myComment">
@@ -134,7 +145,12 @@ const Comments = () => {
             height="30"
           />
         </ImageContainer>
-        <PostMetaInfo nickname="밍망디" time={new Date()} className="comment"></PostMetaInfo>
+        <PostMetaInfo
+          nickname="밍망디"
+          time={new Date()}
+          className="comment"
+          displayByDate={false}
+        ></PostMetaInfo>
         <ButtonGroup className="comment" />
         <p>답글 남겨 주신 모든 분들 감사합니다!</p>
       </Commentor>
