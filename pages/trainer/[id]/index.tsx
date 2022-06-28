@@ -2,7 +2,7 @@ import Image from 'next/image';
 import profile from '@assets/common/profile.svg';
 
 import type { NextPage } from 'next';
-import { TrainerHeader } from '@components/layout/trainer/trainerHeader';
+import { TrainerHeader } from '@components/layout/trainer/TrainerHeader';
 import { useState } from 'react';
 
 const Trainer: NextPage = () => {
