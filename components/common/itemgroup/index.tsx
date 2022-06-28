@@ -1,15 +1,27 @@
 import { useRef } from 'react';
 import { StyledItemGroup } from './styledItemGroup';
 
+export const ServiceGroup = () => {
+  return (
+    <div>
+      <span>분류</span>
+      <select name="service">
+        <option value="counsel">상담</option>
+        <option value="class">수업</option>
+      </select>
+    </div>
+  );
+};
+
 export const ItemGroup = ({ changeSelectedItem }: ItemGroupProps) => {
   const items = useRef<any[]>([]);
 
-  const onClickChangeItem = (e: React.SyntheticEvent<EventTarget>): void => {
-    const { target } = e;
-    if (!(target instanceof HTMLLIElement)) return;
-    changeSelectedItem(target.dataset.index as string);
+  const onClickChangeItem = (e: React.SyntheticEvent<HTMLUListElement>): void => {
+    if (!(e.currentTarget instanceof HTMLLIElement)) return;
+    changeSelectedItem(e.currentTarget.dataset.index as string);
     items.current.forEach((item) => {
-      item.className = target.dataset.index === item.dataset.index ? item.className + 'active' : '';
+      item.className =
+        e.currentTarget.dataset.index === item.dataset.index ? item.className + 'active' : '';
     });
   };
 

@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { LikeAndCommentInfo, PostMeta } from './styledMetaContainer';
 
-export const PostMetaInfo = ({ nickname, time, className }: PostMetaProps) => {
+export const PostMetaInfo = ({ nickname, time, className, displayByDate }: PostMetaProps) => {
   return (
     <PostMeta className={className}>
       <span>{nickname}</span>
-      <time dateTime={time.toISOString()}>1분 전</time>
+      <time dateTime={time.toISOString()}>{displayByDate ? '2022.06.09' : '1분 전'}</time>
     </PostMeta>
   );
 };
