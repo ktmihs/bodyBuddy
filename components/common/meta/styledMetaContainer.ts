@@ -39,7 +39,8 @@ export const LikeAndCommentInfo = styled.div`
   * {
     flex-grow: 1;
   }
-  button {
-    height: 100%;
+
+  .likeBtn {
+    cursor: pointer;
   }
 `;
