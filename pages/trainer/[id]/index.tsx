@@ -1,37 +1,15 @@
-import { TitleBar } from '@components/common/title';
 import Image from 'next/image';
 import profile from '@assets/common/profile.svg';
 
-const Trainer = () => {
-  const edit = {
-    // 강사로 로그인됐을 경우에만,
-    link: '[id]/edit',
-    src: 'setting img',
-    alt: '수정페이지로 이동하기',
-  };
-  const liked = {
-    liked: 'liked img',
-    unLiked: 'unliked img',
-    likedAlt: '관심 트레이너 설정하기',
-    unLikedAlt: '관심 트레이너 해제하기',
-  };
+import type { NextPage } from 'next';
+import { TrainerHeader } from '@components/layout/trainer/trainerHeader';
+import { useState } from 'react';
 
+const Trainer: NextPage = () => {
+  const [liked, setLiked] = useState(false);
   return (
     <div>
-      {/* <TitleBar right={edit} />
-      <div>하트 아이콘</div> */}
-      <header>
-        <p>다이어트, 매번 어려우셨나요?</p>
-        <Image src={profile} alt="강사" />
-        <section>
-          <div>최세민 트레이너</div>
-          <div>PT | 다이어트</div>
-          {/* <div>현재 off 상태입니다.</div> */}
-          <div>
-            <button>상담 하기</button>
-          </div>
-        </section>
-      </header>
+      <TrainerHeader state={'user'} liked={liked} onClickSetLiked={setLiked} />
       <main>
         <section>
           <h2>자격 및 수상 경력</h2>
