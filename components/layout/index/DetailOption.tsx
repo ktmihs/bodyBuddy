@@ -4,6 +4,8 @@ import { OptionCheckBox } from '@components/common/checkbox';
 import Image from 'next/image';
 import { Select } from '@components/common/select';
 import { city, district } from '@data';
+import { Radio } from '@components/common/radio';
+import { CustomRange } from '@components/common/range';
 
 const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const fieldList = [
@@ -63,16 +65,16 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const [cityInfo, setCityInfo] = useState('시/도');
   const [districtInfo, setDistrictInfo] = useState('군/구');
 
+  const [price, setPrice] = useState<number[]>([0, 100]);
+  const [career, setCareer] = useState<number[]>([0, 10]);
+
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
       top: 0px;
-      overflow-y: scroll;
       width: 100%;`;
     return () => {
-      const scrollY = document.body.style.top;
       document.body.style.cssText = '';
-      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     };
   }, []);
 
@@ -81,8 +83,12 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     height: 100%;
     background-color: #fff;
     position: fixed;
+    overflow: scroll;
     z-index: 1000;
     text-align: center;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     form {
       margin: 0 20px;
@@ -137,6 +143,13 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     }
   `;
 
+  const RangeLabel = styled.p`
+    font-weight: 800;
+    font-size: 12px;
+    text-align: right;
+    color: ${(props) => props.theme.purple};
+  `;
+
   const PositionList = styled.div`
     display: flex;
     flex-flow: row nowrap;
@@ -148,7 +161,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const SaveButton = styled.button`
     width: 335px;
     height: 47px;
-    background: #858ff1;
+    background: ${(props) => props.theme.purple};
     border-radius: 10px;
     color: #fff;
     border: none;
@@ -158,6 +171,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     font-weight: 500;
     font-size: 17px;
     line-height: 25px;
+    margin-bottom: 22px;
   `;
 
   return (
@@ -198,12 +212,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
             </FormSection>
             <FormSection>
               <h2>성별</h2>
-              <input type="radio" />
-              <label>상관 없음</label>
-              <input type="radio" />
-              <label>남성</label>
-              <input type="radio" />
-              <label>여성</label>
+              <Radio notSelected={true} />
             </FormSection>
             <FormSection>
               <h2>종목</h2>
@@ -217,13 +226,17 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
             </FormSection>
             <FormSection>
               <h2>가격</h2>
-              <label htmlFor="optionPrice">시간 당 3만원</label>
-              <input type="range" id="optionPrice" />
+              <RangeLabel>
+                시간 당 {price[0]} ~ {price[1]}만원
+              </RangeLabel>
+              <CustomRange type={'price'} range={price} onChangeSetRange={setPrice} />
             </FormSection>
             <FormSection>
               <h2>경력</h2>
-              <label htmlFor="optionCareers">경력 2년</label>
-              <input type="range" id="optionCareers" />
+              <RangeLabel>
+                경력 {career[0]} ~ {career[1]}년
+              </RangeLabel>
+              <CustomRange type={'career'} range={career} onChangeSetRange={setCareer} />
             </FormSection>
             <SaveButton onClick={onChangeSetState}>변경 사항 저장</SaveButton>
           </fieldset>

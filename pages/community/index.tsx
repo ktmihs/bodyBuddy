@@ -1,12 +1,13 @@
-import { ItemGroup } from '@components/common/itemgroup/ItemGroup';
+import { ItemGroup } from '@components/common/itemgroup';
 import { TopButton } from '@components/common/button';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
+import { useState } from 'react';
 
 const CommunityPage = styled.section`
-  &:nth-child(1) {
+  &:nth-of-type(1) {
     padding-top: 15%;
   }
 `;
@@ -31,12 +32,12 @@ const Post = styled.article`
       color: inherit;
     }
 
-    p:nth-child(1) {
+    p:nth-of-type(1) {
       font-weight: bold;
       font-size: 16px;
       margin-bottom: 5%;
     }
-    p:nth-child(2) {
+    p:nth-of-type(2) {
       display: -webkit-box;
       word-wrap: break-word;
       -webkit-line-clamp: 3;
@@ -59,7 +60,7 @@ const MetaContainer = styled.div`
   display: flex;
   margin-bottom: 0;
 
-  div:nth-child(1) {
+  div:nth-of-type(1) {
     width: 40%;
     align-self: flex-end;
   }
@@ -101,10 +102,12 @@ const PostButton = styled.div`
 `;
 
 const Community: NextPage = () => {
+  const [selectedItem, changeSelectedItem] = useState('0');
+
   return (
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
-      <ItemGroup />
+      <ItemGroup changeSelectedItem={changeSelectedItem} />
       <div>
         <Post>
           <a href="community/1">
@@ -115,8 +118,13 @@ const Community: NextPage = () => {
             </ImageContainer>
           </a>
           <MetaContainer>
-            <PostMetaInfo nickname="울면근손실" time={new Date()} className="list" />
-            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={true} />
+            <PostMetaInfo
+              nickname="울면근손실"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={1} comment={3} isClicked={true} />
           </MetaContainer>
         </Post>
         <Post>
@@ -125,8 +133,13 @@ const Community: NextPage = () => {
             <p>ㅠㅠ</p>
           </a>
           <MetaContainer>
-            <PostMetaInfo nickname="밍망디" time={new Date()} className="list" />
-            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={true} />
+            <PostMetaInfo
+              nickname="밍망디"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={1} comment={3} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -138,8 +151,13 @@ const Community: NextPage = () => {
             </ImageContainer>
           </a>
           <MetaContainer>
-            <PostMetaInfo nickname="육회랑연어" time={new Date()} className="list" />
-            <LikeAndCommentCount like={0} comment={0} isClickable={false} isClicked={true} />
+            <PostMetaInfo
+              nickname="육회랑연어"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={0} comment={0} isClicked={false} />
           </MetaContainer>
         </Post>
         <Post>
@@ -148,8 +166,13 @@ const Community: NextPage = () => {
             <p>ㅠㅠ</p>
           </a>
           <MetaContainer>
-            <PostMetaInfo nickname="밍망디" time={new Date()} className="list" />
-            <LikeAndCommentCount like={1} comment={3} isClickable={false} isClicked={true} />
+            <PostMetaInfo
+              nickname="밍망디"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={1} comment={3} isClicked={true} />
           </MetaContainer>
         </Post>
         <Post>
@@ -161,8 +184,13 @@ const Community: NextPage = () => {
             </p>
           </a>
           <MetaContainer>
-            <PostMetaInfo nickname="삐약이" time={new Date()} className="list" />
-            <LikeAndCommentCount like={5} comment={3} isClickable={false} isClicked={true} />
+            <PostMetaInfo
+              nickname="삐약이"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={5} comment={3} isClicked={true} />
           </MetaContainer>
         </Post>
         <Post>
@@ -171,8 +199,46 @@ const Community: NextPage = () => {
             <p>마구 먹어야지~!</p>
           </a>
           <MetaContainer>
-            <PostMetaInfo nickname="돼지KING" time={new Date()} className="list" />
-            <LikeAndCommentCount like={0} comment={5} isClickable={false} isClicked={true} />
+            <PostMetaInfo
+              nickname="돼지KIN"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={0} comment={5} isClicked={false} />
+          </MetaContainer>
+        </Post>
+        <Post>
+          <a href="community/7">
+            <p>데드리프트..봐주세요</p>
+            <p>데드리프트 할 때마다 허리가 아픈데 이게 맞는지 모르겠어요 ㅜㅜ</p>
+            <ImageContainer>
+              <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="100" height="80" />
+            </ImageContainer>
+          </a>
+          <MetaContainer>
+            <PostMetaInfo
+              nickname="먹고싶당"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={0} comment={3} isClicked={false} />
+          </MetaContainer>
+        </Post>
+        <Post>
+          <a href="community/8">
+            <p>상여자특:비와도 운동감</p>
+            <p>저는 하여자입니다</p>
+          </a>
+          <MetaContainer>
+            <PostMetaInfo
+              nickname="맘스터치"
+              time={new Date()}
+              className="list"
+              displayByDate={false}
+            />
+            <LikeAndCommentCount like={4} comment={1} isClicked={false} />
           </MetaContainer>
         </Post>
       </div>
