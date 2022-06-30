@@ -1,12 +1,14 @@
-import { ServiceGroup } from '@components/common/itemgroup';
 import RatingGroup from '@components/common/rating';
 import { TitleBar } from '@components/common/title';
 import { NextPage } from 'next/types';
 import { RightButtonModal } from '@components/common/modal';
+import { Select } from '@components/common/select';
+import { service } from '@data';
 import { useState } from 'react';
 import Image from 'next/image';
 
 const Review: NextPage = () => {
+  const [category, setCategory] = useState('상담');
   const right = { link: '/profile', src: '/assets/common/closeButton.svg', alt: '뒤로가기' };
   const [isModalState, onChangeSetState] = useState<boolean>(true);
   return (
@@ -21,7 +23,12 @@ const Review: NextPage = () => {
         </div>
       </div>
       <RatingGroup isEditingMode={true} />
-      <ServiceGroup />
+      <Select
+        currentSelectedData={category}
+        onSetCurrentSelected={setCategory}
+        selectData={service}
+        selectWidth={100}
+      />
       <form>
         <fieldset>
           <legend className="srOnly">후기</legend>
