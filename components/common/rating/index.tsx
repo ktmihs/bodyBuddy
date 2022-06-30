@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import Image from 'next/image';
 
 interface RatingGroupProps {
@@ -5,10 +6,26 @@ interface RatingGroupProps {
   width: number;
   height: number;
 }
+const RatingGroupContainer = styled.div`
+  display: inline-block;
+
+  input {
+    display: none;
+  }
+  label {
+    background: url('/assets/common/star.svg') no-repeat;
+    background-size: 30px;
+    background-position: center;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    cursor: pointer;
+  }
+`;
 
 const RatingGroup = ({ isEditingMode, width, height }: RatingGroupProps) => {
   return (
-    <div className="rating-container">
+    <RatingGroupContainer className="rating-container">
       {isEditingMode ? (
         <>
           <input type="radio" id="5-stars" name="rating" value="5" />
@@ -31,7 +48,7 @@ const RatingGroup = ({ isEditingMode, width, height }: RatingGroupProps) => {
           <Image src="/assets/common/star-blank.svg" alt="5" width={width} height={height} />
         </>
       )}
-    </div>
+    </RatingGroupContainer>
   );
 };
 

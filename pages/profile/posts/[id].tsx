@@ -6,7 +6,7 @@ import { Select } from '@components/common/select';
 import styled from '@emotion/styled';
 
 const ServiceGroup = styled.div`
-  margin-left: 5%;
+  margin-left: 20px;
   margin-bottom: 5%;
   display: flex;
   gap: 20px;

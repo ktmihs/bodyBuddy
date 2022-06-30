@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import NoContent from '@components/common/noContent';
 
 const ReviewGroup = styled.div`
-  margin-left: 5%;
+  margin-left: 20px;
   padding: 1%;
 `;
 
