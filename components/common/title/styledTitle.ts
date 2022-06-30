@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const StyledTitle = styled.div`
   display: flex;
+  width: 100vw;
   height: 5vh;
-  margin-top: 20px;
   justify-content: space-between;
   align-items: center;
   text-align: center;
