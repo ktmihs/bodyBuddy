@@ -1,5 +1,5 @@
 import { TitleBar } from '@components/common/title';
-import Review from '@components/review/Review';
+import Review from '@components/layout/review/Review';
 import { ServiceGroup } from '@components/common/itemgroup';
 
 const PostList = () => {

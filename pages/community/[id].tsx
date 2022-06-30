@@ -5,7 +5,7 @@ import { TitleBar } from '@components/common/title';
 import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
 import { useState } from 'react';
 import ButtonGroup from '@components/common/buttongroup';
-import Comments from '@components/community/Comment';
+import Comments from '@components/layout/community/Comment';
 
 const UserProfile = styled.div`
   display: flex;

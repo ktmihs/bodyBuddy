@@ -1,7 +1,7 @@
 import { PostMetaInfo } from '@components/common/meta';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import ButtonGroup from '../common/buttongroup';
+import ButtonGroup from '../../common/buttongroup';
 
 const WriteComment = styled.form`
   padding-left: 5%;
