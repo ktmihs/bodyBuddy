@@ -4,12 +4,12 @@ import Image from 'next/image';
 import ButtonGroup from '../../common/buttongroup';
 
 const WriteComment = styled.form`
-  padding-left: 5%;
+  padding-left: 20px;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
   textarea {
-    width: 90%;
+    width: calc(100% - 50px);
     padding: 2% 5% 10% 2%;
     border-color: ${({ theme }) => theme.lineGray};
     resize: none;
@@ -17,7 +17,7 @@ const WriteComment = styled.form`
   button {
     width: 50px;
     height: 30px;
-    margin: 10px;
+    margin: 10px 20px;
     background-color: ${({ theme }) => theme.purple};
     color: white;
     border: none;
@@ -34,14 +34,14 @@ const CommenGroup = styled.div`
   }
 
   h3 {
-    margin-left: 5%;
+    margin-left: 20px;
     font-weight: bold;
     padding: 5% 0;
   }
 `;
 
 const ImageContainer = styled.div`
-  margin-left: 5%;
+  margin-left: 20px;
 `;
 
 const Commentor = styled.div`
@@ -55,7 +55,7 @@ const Commentor = styled.div`
   }
 
   p {
-    margin-left: 5%;
+    margin-left: 20px;
     line-height: 1.3;
     padding-bottom: 1%;
   }

@@ -7,11 +7,11 @@ export const StyledItemGroup = styled.div`
     justify-content: start;
     flex-wrap: wrap;
     gap: 10px;
-    padding-left: 5%;
+    padding-left: 20px;
   }
 
   li {
-    width: 18%;
+    width: 16%;
     padding: 2%;
     font-size: 13px;
     text-align: center;

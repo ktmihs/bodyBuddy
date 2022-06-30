@@ -9,12 +9,12 @@ import Comments from '@components/layout/community/Comment';
 
 const UserProfile = styled.div`
   display: flex;
-  padding: 0 0 3% 5%;
+  padding: 0 0 15px 20px;
   gap: 10px;
 `;
 
 const MainText = styled.div`
-  padding-left: 5%;
+  padding-left: 20px;
 
   p {
     padding: 2% 0;
