@@ -2,9 +2,11 @@ import Image from 'next/image';
 
 interface RatingGroupProps {
   isEditingMode: boolean;
+  width: number;
+  height: number;
 }
 
-const RatingGroup = ({ isEditingMode }: RatingGroupProps) => {
+const RatingGroup = ({ isEditingMode, width, height }: RatingGroupProps) => {
   return (
     <div className="rating-container">
       {isEditingMode ? (
@@ -22,11 +24,11 @@ const RatingGroup = ({ isEditingMode }: RatingGroupProps) => {
         </>
       ) : (
         <>
-          <Image src="/assets/common/star.svg" alt="1" width="20" height="20" />
-          <Image src="/assets/common/star.svg" alt="2" width="20" height="20" />
-          <Image src="/assets/common/star.svg" alt="3" width="20" height="20" />
-          <Image src="/assets/common/star.svg" alt="3" width="20" height="20" />
-          <Image src="/assets/common/star-blank.svg" alt="5" width="20" height="20" />
+          <Image src="/assets/common/star.svg" alt="1" width={width} height={height} />
+          <Image src="/assets/common/star.svg" alt="2" width={width} height={height} />
+          <Image src="/assets/common/star.svg" alt="3" width={width} height={height} />
+          <Image src="/assets/common/star.svg" alt="3" width={width} height={height} />
+          <Image src="/assets/common/star-blank.svg" alt="5" width={width} height={height} />
         </>
       )}
     </div>

@@ -22,7 +22,7 @@ const Review: NextPage = () => {
           <p>다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요</p>
         </div>
       </div>
-      <RatingGroup isEditingMode={true} />
+      <RatingGroup isEditingMode={true} width={15} height={15} />
       <Select
         currentSelectedData={category}
         onSetCurrentSelected={setCategory}
