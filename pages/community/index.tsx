@@ -16,7 +16,7 @@ const Post = styled.article`
   position: relative;
   height: 100px;
   padding: 3%;
-  margin-left: 5%;
+  margin-left: 10px;
   margin-top: 5%;
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@ const Post = styled.article`
 
 const ImageContainer = styled.div`
   position: absolute;
-  right: 10px;
+  right: 20px;
   top: 10px;
   img {
     object-fit: cover;

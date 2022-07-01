@@ -23,7 +23,7 @@ export const ImageUploader = () => {
   return (
     <StyledImageUploader>
       {url.map((source, index) => (
-        <div className={url[index] ? 'uploaded' : ''}>
+        <div key={index} className={url[index] ? 'uploaded' : ''}>
           {url[index] ? (
             <>
               <img src={source} alt="첨부한 사진" width={'100px'} height={'100px'} />

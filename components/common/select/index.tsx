@@ -13,10 +13,14 @@ export const Select = ({
 }: SelectProps) => {
   const [isListOpen, setIsListOpen] = useState(false);
 
-  const onSetIsListOpen = () => setIsListOpen(!isListOpen);
+  const onSetIsListOpen = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setIsListOpen(!isListOpen);
+  };
 
   const onClickCurrentSelected = (e: React.SyntheticEvent): void => {
     if (!(e.target instanceof HTMLLIElement)) {
+      setIsListOpen(false);
       return;
     }
 
