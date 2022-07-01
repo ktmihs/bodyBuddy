@@ -1,12 +1,31 @@
+import styled from '@emotion/styled';
 import Image from 'next/image';
 
 interface RatingGroupProps {
   isEditingMode: boolean;
+  width: number;
+  height: number;
 }
+const RatingGroupContainer = styled.div`
+  display: inline-block;
 
-const RatingGroup = ({ isEditingMode }: RatingGroupProps) => {
+  input {
+    display: none;
+  }
+  label {
+    background: url('/assets/common/star.svg') no-repeat;
+    background-size: 30px;
+    background-position: center;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    cursor: pointer;
+  }
+`;
+
+const RatingGroup = ({ isEditingMode, width, height }: RatingGroupProps) => {
   return (
-    <div className="rating-container">
+    <RatingGroupContainer className="rating-container">
       {isEditingMode ? (
         <>
           <input type="radio" id="5-stars" name="rating" value="5" />
@@ -22,14 +41,14 @@ const RatingGroup = ({ isEditingMode }: RatingGroupProps) => {
         </>
       ) : (
         <>
-          <Image src="/assets/common/star.svg" alt="1" width="20" height="20" />
-          <Image src="/assets/common/star.svg" alt="2" width="20" height="20" />
-          <Image src="/assets/common/star.svg" alt="3" width="20" height="20" />
-          <Image src="/assets/common/star.svg" alt="3" width="20" height="20" />
-          <Image src="/assets/common/star-blank.svg" alt="5" width="20" height="20" />
+          <Image src="/assets/common/star.svg" alt="1" width={width} height={height} />
+          <Image src="/assets/common/star.svg" alt="2" width={width} height={height} />
+          <Image src="/assets/common/star.svg" alt="3" width={width} height={height} />
+          <Image src="/assets/common/star.svg" alt="3" width={width} height={height} />
+          <Image src="/assets/common/star-blank.svg" alt="5" width={width} height={height} />
         </>
       )}
-    </div>
+    </RatingGroupContainer>
   );
 };
 
