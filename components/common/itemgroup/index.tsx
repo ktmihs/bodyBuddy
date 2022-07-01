@@ -1,18 +1,6 @@
 import { useRef } from 'react';
 import { StyledItemGroup } from './styledItemGroup';
 
-export const ServiceGroup = () => {
-  return (
-    <div>
-      <span>분류</span>
-      <select name="service">
-        <option value="counsel">상담</option>
-        <option value="class">수업</option>
-      </select>
-    </div>
-  );
-};
-
 export const ItemGroup = ({ changeSelectedItem }: ItemGroupProps) => {
   const items = useRef<any[]>([]);
 
