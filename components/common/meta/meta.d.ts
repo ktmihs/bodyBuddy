@@ -1,8 +1,7 @@
 interface PostMetaProps {
   nickname: string;
-  time: Date;
+  dateTime: Date;
   className: string;
-  displayByDate: boolean;
 }
 interface CountProps {
   like: number;

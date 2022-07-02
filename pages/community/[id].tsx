@@ -51,9 +51,8 @@ const PostingDetail: NextPage = () => {
         <Image src="/assets/common/profile.svg" alt="프로필" width="50" height="50" />
         <PostMetaInfo
           nickname="밍망디"
-          time={new Date()}
+          dateTime={new Date('2021-06-14T06:30:10.792Z')}
           className="post"
-          displayByDate={false}
         ></PostMetaInfo>
         <ButtonGroup className="post" />
       </UserProfile>

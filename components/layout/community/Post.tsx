@@ -55,7 +55,7 @@ const MetaContainer = styled.div`
   margin-bottom: 0;
 
   div:nth-of-type(1) {
-    width: 40%;
+    width: 50%;
     align-self: flex-end;
   }
 `;

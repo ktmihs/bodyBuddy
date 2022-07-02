@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import { LikeAndCommentInfo, PostMeta } from './styledMetaContainer';
 
-export const PostMetaInfo = ({ nickname, time, className, displayByDate }: PostMetaProps) => {
+export const PostMetaInfo = ({ nickname, dateTime, className }: PostMetaProps) => {
   return (
     <PostMeta className={className}>
       <span>{nickname}</span>
-      <time dateTime={time.toISOString()}>{displayByDate ? '2022.06.09' : '1분 전'}</time>
+      <time dateTime={dateTime?.toISOString()}>
+        {className === 'review' ? '2022.06.09' : '1분 전'}
+      </time>
     </PostMeta>
   );
 };
@@ -25,7 +27,7 @@ export const LikeAndCommentCount = ({
   return (
     <LikeAndCommentInfo>
       <Image
-        className="likeBtn"
+        className={toggleLiked ? 'likeBtn' : ''}
         src={isClicked ? '/assets/common/love.svg' : '/assets/common/love-blank.svg'}
         alt="좋아요"
         width={width ? width : 15}
@@ -34,7 +36,7 @@ export const LikeAndCommentCount = ({
           clickToggleLiked();
         }}
       ></Image>
-      <span>{like + +isClicked}</span>
+      <span>{like}</span>
       <Image src="/assets/community/speech.svg" alt="댓글" width={15} height={15}></Image>
       <span>{comment}</span>
     </LikeAndCommentInfo>

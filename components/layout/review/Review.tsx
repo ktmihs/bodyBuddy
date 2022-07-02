@@ -70,12 +70,7 @@ const MyReview = () => {
         <div>
           <Image src="/assets/common/profile.svg" alt="프로필" width="30" height="30" />
           <RatingContainer>
-            <PostMetaInfo
-              nickname="루시안"
-              time={new Date()}
-              className="review"
-              displayByDate={true}
-            ></PostMetaInfo>
+            <PostMetaInfo nickname="루시안" time={new Date()} className="review"></PostMetaInfo>
             <RatingGroup isEditingMode={false} width={15} height={15} />
           </RatingContainer>
           <ButtonGroup className="review" />
@@ -93,12 +88,7 @@ const MyReview = () => {
         <div>
           <Image src="/assets/common/profile.svg" alt="프로필" width="30" height="30" />
           <RatingContainer>
-            <PostMetaInfo
-              nickname="루시안"
-              time={new Date()}
-              className="review"
-              displayByDate={true}
-            ></PostMetaInfo>
+            <PostMetaInfo nickname="루시안" time={new Date()} className="review"></PostMetaInfo>
             <RatingGroup isEditingMode={false} width={15} height={15} />
           </RatingContainer>
           <ButtonGroup className="review" />
