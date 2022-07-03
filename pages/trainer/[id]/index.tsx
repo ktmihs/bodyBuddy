@@ -1,45 +1,48 @@
-import Image from 'next/image';
-import profile from '@assets/common/profile.svg';
-
 import type { NextPage } from 'next';
 import { TrainerHeader } from '@components/layout/trainer/TrainerHeader';
 import { useState } from 'react';
+import { TrainerBody } from '@components/layout/trainer/TrainerBody';
 
 const Trainer: NextPage = () => {
   const [liked, setLiked] = useState(false);
+
+  // career에서 isApproval이 true인 content만 뽑아서 전달하기
+  const careers = ['아주대학교 축구부 졸업', '에버랜드 아마존 소울리스 출신'];
+  const reviews = [
+    {
+      id: 612151056,
+      userId: 123456789,
+      creationDate: new Date(),
+      rating: 4,
+      trainerId: 456789123,
+      image: '',
+      category: '상담',
+      content: '친절하게 잘 해주셨어요~',
+      isActivation: true,
+    },
+    {
+      id: 612151757,
+      userId: 123456789,
+      creationDate: new Date(),
+      rating: 4,
+      trainerId: 456789123,
+      image: '',
+      category: '상담',
+      content: '친절하게 잘 해주셨어요~22',
+      isActivation: true,
+    },
+  ];
+  const address = '서울 강남구 강남대로 364 미왕빌딩 11층';
+  const images = [
+    '/assets/common/profile.svg',
+    '/assets/common/profile.svg',
+    '/assets/common/profile.svg',
+  ];
+
   return (
     <div>
       <TrainerHeader state={'user'} liked={liked} onClickSetLiked={setLiked} />
-      <main>
-        <section>
-          <h2>자격 및 수상 경력</h2>
-          <ul>
-            <li>아주대학교 축구부 졸업</li>
-            <li>에버랜드 아마존 소울리스 출신</li>
-          </ul>
-        </section>
-        <section>
-          <h2>후기</h2>
-          {/* <div>작성된 후기가 없습니다.</div> */}
-          <ul>
-            <li>아주대학교 축구부 졸업</li>
-            <li>에버랜드 아마존 소울리스 출신</li>
-          </ul>
-        </section>
-        <section>
-          <h2>위치</h2>
-          <div>서울 강남구 강남대로 364 미왕빌딩 11층</div>
-          {/* 지도 가져오기 */}
-        </section>
-        <section>
-          <h2>사진</h2>
-          <div>
-            <Image src={profile} alt={'강사 사진'} />
-            <Image src={profile} alt={'강사 사진'} />
-            <Image src={profile} alt={'강사 사진'} />
-          </div>
-        </section>
-      </main>
+      <TrainerBody careers={careers} reviews={reviews} address={address} images={images} />
     </div>
   );
 };
