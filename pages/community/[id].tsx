@@ -2,8 +2,7 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import { TitleBar } from '@components/common/title';
-import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
-import { useState } from 'react';
+import { CommentCount, PostMetaInfo } from '@components/common/meta';
 import ButtonGroup from '@components/common/buttongroup';
 import Comments from '@components/layout/community/Comment';
 
@@ -41,7 +40,6 @@ const UploadImage = styled.div`
 `;
 
 const PostingDetail: NextPage = () => {
-  const [liked, toggleLiked] = useState(false);
   const left = { link: '/community', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
   return (
     <section>
@@ -63,12 +61,7 @@ const PostingDetail: NextPage = () => {
           <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="250" height="150" />
           <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="250" height="150" />
         </UploadImage>
-        <LikeAndCommentCount
-          like={1}
-          comment={3}
-          isClicked={liked}
-          toggleLiked={toggleLiked}
-        ></LikeAndCommentCount>
+        <CommentCount comment={3}></CommentCount>
       </MainText>
       <Comments />
     </section>

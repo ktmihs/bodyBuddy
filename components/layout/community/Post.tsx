@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { LikeAndCommentCount, PostMetaInfo } from '@components/common/meta';
+import { CommentCount, PostMetaInfo } from '@components/common/meta';
 
 interface PostListProps {
   selectedItem: string;
@@ -13,6 +13,7 @@ const Post = styled.article`
   margin-left: 10px;
   margin-top: 5%;
   display: flex;
+  gap: 10px;
   flex-direction: column;
   justify-content: space-between;
   a {
@@ -25,13 +26,16 @@ const Post = styled.article`
     & {
       color: inherit;
     }
+    p {
+      font-size: 16px;
+    }
 
     p:nth-of-type(1) {
       font-weight: bold;
-      font-size: 16px;
       margin-bottom: 5%;
     }
     p:nth-of-type(2) {
+      line-height: 1.1;
       display: -webkit-box;
       word-wrap: break-word;
       -webkit-line-clamp: 3;
@@ -176,14 +180,10 @@ const PostList = ({ selectedItem }: PostListProps) => {
           <MetaContainer>
             <PostMetaInfo
               nickname="울면근손실"
-              time={new Date(post.creationDate)}
+              dateTime={new Date(post.creationDate)}
               className="list"
             />
-            <LikeAndCommentCount
-              like={post.totalLiked}
-              comment={post.totalComments}
-              isClicked={true}
-            />
+            <CommentCount comment={post.totalComments} />
           </MetaContainer>
         </Post>
       ))}

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { LikeAndCommentInfo, PostMeta } from './styledMetaContainer';
+import { CommentInfo, PostMeta } from './styledMetaContainer';
 
 export const PostMetaInfo = ({ nickname, dateTime, className }: PostMetaProps) => {
   return (
@@ -12,33 +12,16 @@ export const PostMetaInfo = ({ nickname, dateTime, className }: PostMetaProps) =
   );
 };
 
-export const LikeAndCommentCount = ({
-  like,
-  comment,
-  isClicked,
-  toggleLiked,
-  width,
-  height,
-}: CountProps) => {
-  const clickToggleLiked = () => {
-    if (!toggleLiked) return;
-    toggleLiked(!isClicked);
-  };
+export const CommentCount = ({ comment, width, height }: CountProps) => {
   return (
-    <LikeAndCommentInfo>
+    <CommentInfo>
       <Image
-        className={toggleLiked ? 'likeBtn' : ''}
-        src={isClicked ? '/assets/common/love.svg' : '/assets/common/love-blank.svg'}
-        alt="좋아요"
+        src="/assets/community/speech.svg"
+        alt="댓글"
         width={width ? width : 15}
         height={height ? height : 15}
-        onClick={() => {
-          clickToggleLiked();
-        }}
       ></Image>
-      <span>{like}</span>
-      <Image src="/assets/community/speech.svg" alt="댓글" width={15} height={15}></Image>
       <span>{comment}</span>
-    </LikeAndCommentInfo>
+    </CommentInfo>
   );
 };

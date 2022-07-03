@@ -34,15 +34,14 @@ export const PostMeta = styled.div`
   }
 `;
 
-export const LikeAndCommentInfo = styled.div`
+export const CommentInfo = styled.div`
   display: flex;
+  gap: 5px;
   width: 20%;
-  * {
-    flex-grow: 1;
-    font-size: 14px;
+  span {
+    line-height: 1.2;
   }
-
-  .likeBtn {
-    cursor: pointer;
+  * {
+    font-size: 14px;
   }
 `;
