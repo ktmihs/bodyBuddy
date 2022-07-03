@@ -70,10 +70,9 @@ const PostList = ({ selectedItem }: PostListProps) => {
       content: '야무지게 먹어야징',
       creationDate: '2022-07-03T05:41:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '',
+      images: [],
       title: '치팅메뉴 추천받아요!',
       totalComments: 2,
-      totalLiked: 0,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
     {
@@ -81,30 +80,27 @@ const PostList = ({ selectedItem }: PostListProps) => {
         '회원들이 힘들어할 때마다 자기는 행복하다면서 ㄷㄷ... 매일 보고 싶대요. 트레이너 자격에 남의 고통 즐기기 같은 게 있는 건가요? ㅡㅡ',
       creationDate: '2022-07-03T05:38:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '/assets/community/blank.svg',
+      images: ['/assets/community/blank.svg'],
       title: '트레이너가 이상해요',
       totalComments: 5,
-      totalLiked: 8,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
     {
       content: '정상인가요?ㅜㅜ',
       creationDate: '2022-07-03T04:00:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '/assets/community/blank.svg',
+      images: ['/assets/community/blank.svg'],
       title: '데드리프트 할 때 허리가 아파요',
       totalComments: 3,
-      totalLiked: 0,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
     {
       content: '사정상 양도합니다',
       creationDate: '2022-07-02T15:00:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '/assets/community/blank.svg',
+      images: ['/assets/community/blank.svg'],
       title: 'PT 이용권 10회 팝니다',
       totalComments: 0,
-      totalLiked: 0,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
     {
@@ -112,10 +108,9 @@ const PostList = ({ selectedItem }: PostListProps) => {
         ' 회원들이 힘들어할 때마다 자기는 행복하다면서 ㄷㄷ... 매일 보고 싶대요. 트레이너 자격에 남의 고통 즐기기 같은 게 있는 건가요? ㅡㅡ',
       creationDate: '2022-07-01T12:00:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '/assets/community/blank.svg',
+      images: ['/assets/community/blank.svg'],
       title: '트레이너가 이상해요',
       totalComments: 5,
-      totalLiked: 8,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
 
@@ -123,40 +118,36 @@ const PostList = ({ selectedItem }: PostListProps) => {
       content: '사정상 양도합니다',
       creationDate: '2022-06-30T06:30:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '/assets/community/blank.svg',
+      images: ['/assets/community/blank.svg'],
       title: 'PT 이용권 10회 팝니다',
       totalComments: 0,
-      totalLiked: 0,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
     {
       content: 'ㅠㅠ',
       creationDate: '2022-06-27T13:30:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '',
+      images: [],
       title: ' 수영하다 기절한 SSUL',
       totalComments: 3,
-      totalLiked: 0,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
     {
       content: '죽겠어요 원래 이런가요... 덕분에 저는 다리를 잃었고',
       creationDate: '2022-06-26T06:30:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '',
+      images: [],
       title: '트레이너가 하체만 시켜요',
       totalComments: 3,
-      totalLiked: 1,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
     {
       content: '요만한건데',
       creationDate: '2022-06-14T06:30:10.792Z',
       fieldId: 'QrcJU3p8uWBbL0J6mjNL',
-      image: '/assets/community/blank.svg',
+      images: ['/assets/community/blank.svg'],
       title: '트쌤한테 먹을거 줘도 돼?',
-      totalComments: 5,
-      totalLiked: 25,
+      totalComments: 4,
       userId: 'ReBwBbk6bhMIcJWPmJCU',
     },
   ];
@@ -168,9 +159,9 @@ const PostList = ({ selectedItem }: PostListProps) => {
             <p>{post.title}</p>
             <p>{post.content}</p>
 
-            {post.image ? (
+            {post.images.length ? (
               <ImageContainer>
-                <Image src={post.image} alt="첨부한 사진" width="100" height="80" />
+                <Image src={post.images[0]} alt="첨부한 사진" width="100" height="80" />
               </ImageContainer>
             ) : (
               ''

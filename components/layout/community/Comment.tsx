@@ -73,79 +73,66 @@ const Commentor = styled.div`
 `;
 
 const Comments = () => {
+  const userId = '밍망디';
+  const comments = [
+    {
+      id: '1',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '염분기 없는 닭가슴살이면 ㄱㅊ',
+      creationDate: '2022-07-03T00:00:10.792Z',
+      userId: '그만먹고싶닭',
+    },
+    {
+      id: '2',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '감사합니다!',
+      creationDate: '2022-07-03T02:00:10.792Z',
+      userId: '밍망디',
+    },
+    {
+      id: '3',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!',
+      creationDate: '2022-07-03T06:36:10.792Z',
+      userId: '상여자',
+    },
+    {
+      id: '4',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '답글 남겨 주신 모든 분들 감사합니다!',
+      creationDate: '2022-07-03T06:37:10.792Z',
+      userId: '밍망디',
+    },
+  ];
+
   return (
     <CommenGroup>
       <div role="none"></div>
       <h3>댓글</h3>
-      <Commentor>
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
-          />
-        </ImageContainer>
-        <PostMetaInfo
-          nickname="길에서 숨쉰 채 발견"
-          dateTime={new Date()}
-          className="comment"
-        ></PostMetaInfo>
+      {comments.map((comment, index) => (
+        <Commentor className={userId === comment.userId ? 'myComment' : ''} key={index}>
+          <ImageContainer>
+            <Image
+              className="profile"
+              src="/assets/common/profile.svg"
+              alt="프로필"
+              width="30"
+              height="30"
+            />
+          </ImageContainer>
+          <PostMetaInfo
+            nickname={comment.userId}
+            dateTime={new Date(comment.creationDate)}
+            className="comment"
+          ></PostMetaInfo>
+          {userId === comment.userId ? <ButtonGroup className="comment" /> : ''}
+          <p>{comment.content}</p>
+        </Commentor>
+      ))}
 
-        <p>염분기 없는 닭가슴살이면 ㄱㅊ</p>
-      </Commentor>
-      <Commentor className="myComment">
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
-          />
-        </ImageContainer>
-        <PostMetaInfo nickname="밍망디" dateTime={new Date()} className="comment"></PostMetaInfo>
-        <ButtonGroup className="edit" />
-        <WriteComment>
+      {/* <WriteComment>
           <textarea placeholder="댓글을 작성하세요" />
-        </WriteComment>
-      </Commentor>
-      <Commentor>
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
-          />
-        </ImageContainer>
-        <PostMetaInfo
-          nickname="그만먹고싶닭"
-          dateTime={new Date()}
-          className="comment"
-        ></PostMetaInfo>
-        <p>한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!</p>
-      </Commentor>
-      <Commentor className="myComment">
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
-          />
-        </ImageContainer>
-        <PostMetaInfo nickname="밍망디" dateTime={new Date()} className="comment"></PostMetaInfo>
-        <ButtonGroup className="comment" />
-        <p>답글 남겨 주신 모든 분들 감사합니다!</p>
-      </Commentor>
-      <WriteComment>
-        <textarea placeholder="댓글을 작성하세요" />
-        <button>게시</button>
-      </WriteComment>
+        </WriteComment> */}
     </CommenGroup>
   );
 };

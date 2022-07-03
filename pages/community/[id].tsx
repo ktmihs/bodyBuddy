@@ -40,6 +40,17 @@ const UploadImage = styled.div`
 `;
 
 const PostingDetail: NextPage = () => {
+  const userId = '밍망디';
+  const post = {
+    content: '요만한건데',
+    creationDate: '2022-06-14T06:30:10.792Z',
+    fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+    images: ['/assets/community/blank.svg'],
+    title: '트쌤한테 먹을거 줘도 돼?',
+    totalComments: 4,
+    userId: '밍망디',
+  };
+
   const left = { link: '/community', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
   return (
     <section>
@@ -48,20 +59,25 @@ const PostingDetail: NextPage = () => {
       <UserProfile>
         <Image src="/assets/common/profile.svg" alt="프로필" width="50" height="50" />
         <PostMetaInfo
-          nickname="밍망디"
-          dateTime={new Date('2021-06-14T06:30:10.792Z')}
+          nickname={post.userId}
+          dateTime={new Date(post.creationDate)}
           className="post"
         ></PostMetaInfo>
-        <ButtonGroup className="post" />
+        {userId === post.userId ? <ButtonGroup className="post" /> : ''}
       </UserProfile>
       <MainText>
-        <p>트쌤한테</p>
-        <p>먹을 거 줘도 돼요? 요만한 건데</p>
-        <UploadImage>
-          <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="250" height="150" />
-          <Image src="/assets/community/blank.svg" alt="첨부한 사진" width="250" height="150" />
-        </UploadImage>
-        <CommentCount comment={3}></CommentCount>
+        <p>{post.title}</p>
+        <p>{post.content}</p>
+        {post.images.length ? (
+          <UploadImage>
+            {post.images.map((src, index) => (
+              <Image key={index} src={src} alt="첨부한 사진" width="250" height="150" />
+            ))}
+          </UploadImage>
+        ) : (
+          ''
+        )}
+        <CommentCount comment={post.totalComments}></CommentCount>
       </MainText>
       <Comments />
     </section>
