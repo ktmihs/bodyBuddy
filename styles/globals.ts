@@ -38,4 +38,16 @@ export const global = css`
   button:focus {
     outline: none;
   }
+
+  button {
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  a {
+    text-decoration: none;
+    color: #5a5858;
+  }
 `;
