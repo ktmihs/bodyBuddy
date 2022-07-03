@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 export const StyledRightLinkModal = styled.div`
   z-index: 100;
   position: absolute;
+  top:40%;
   left: 50%;
   transform: translateX(-50%);
   background-color:white;
