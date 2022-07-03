@@ -22,3 +22,10 @@ interface BodyProps {
   address: string;
   images: string[];
 }
+
+interface EditProps {
+  field: string;
+  purpose: string;
+  images: string[];
+  gymImage: string;
+}

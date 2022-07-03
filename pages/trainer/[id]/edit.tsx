@@ -1,54 +1,50 @@
-import Image from 'next/image';
-import profile from '@assets/common/profile.svg';
+import { TitleBar } from '@components/common/title';
+import { Edit } from '@components/layout/trainer/edit';
+import styled from '@emotion/styled';
+import Link from 'next/link';
 
 const TrainerEdit = () => {
+  const id = 1;
+
+  const gymImage = '/assets/common/profile/svg';
+  const images = ['/assets/common/profile/svg', '/assets/common/profile/svg'];
+
+  const left = {
+    link: `/trainer/${id}`,
+    src: '/assets/common/arrow-left-purple.svg',
+    alt: '뒤로가기',
+  };
+
+  const right = {
+    link: '',
+    src: '/assets/common/withdraw.svg',
+    alt: '회원탈퇴',
+  };
+
+  const Withdraw = styled.div`
+    position: absolute;
+    width: 73px;
+    height: 22px;
+    left: 290px;
+    top: 38px;
+    background: #ffffff;
+    border: 1px solid #b0b0b0;
+    color: #b0b0b0;
+    font-size: 11px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+  `;
+
   return (
     <>
       <h2 className="srOnly">내 정보</h2>
-      <header>내정보</header>
-      <main>
-        <div>
-          <Image src={profile} alt="썸네일" />
-        </div>
-        <section>
-          <h2>상세 정보</h2>
-          <section>
-            <h3>종목 및 분야</h3>
-            <div>
-              <div>종목 select</div>
-              <div>분야 select</div>
-            </div>
-          </section>
-          <section>
-            <h3>프로필 사진</h3>
-            <p></p>
-            <div>
-              <div>종목 select</div>
-              <div>분야 select</div>
-            </div>
-          </section>
-        </section>
-        <section>
-          <h2>트레이닝장 정보</h2>
-          <section>
-            <h3>트레이닝장 사진</h3>
-            <div>
-              <div>트레이닝장 사진들</div>
-            </div>
-          </section>
-          <section>
-            <h3>트레이닝장 위치</h3>
-            <div>
-              <div>검색엔진</div>
-              <div>트레이닝장 위치</div>
-            </div>
-          </section>
-        </section>
-        <section>
-          <h2>경력 정보</h2>
-        </section>
-        <button>변경 사항 저장</button>
-      </main>
+      <TitleBar left={left} right={right} centerTitle={'내 정보'} />
+      <Link href={`/profile/${id}/withdraw`}>
+        <Withdraw>회원탈퇴</Withdraw>
+      </Link>
+      <Edit field={'필라테스'} purpose={'체력 증진'} images={images} gymImage={gymImage} />
     </>
   );
 };
