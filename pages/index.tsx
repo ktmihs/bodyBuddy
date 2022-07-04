@@ -4,6 +4,7 @@ import Image from 'next/image';
 import logo from 'public/assets/index/logo.svg';
 import myPage from 'public/assets/index/mypage.svg';
 
+import { TopButton } from '@components/common/button';
 import DetailOptionModal from '@components/layout/index/DetailOption';
 import OptionList from '@components/layout/index/Option';
 import TrainerItem from '@components/layout/index/TrainerItem';
@@ -414,6 +415,7 @@ const Home: NextPage = () => {
             ))}
           </TrainerList>
         </Main>
+        <TopButton />
       </Index>
     </>
   );
