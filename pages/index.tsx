@@ -405,7 +405,9 @@ const Home: NextPage = () => {
           <IconWrapper>
             <Image src={logo} title="바디버디" alt="바디버디 로고" width={25} height={30} />
             <Link href={MYPAGE_LINK}>
-              <Image src={myPage} title="마이페이지" alt="마이페이지" width={20} height={20} />
+              <div>
+                <Image src={myPage} title="마이페이지" alt="마이페이지" width={30} height={30} />
+              </div>
             </Link>
           </IconWrapper>
           <IntroMessage>
