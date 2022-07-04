@@ -1,13 +1,17 @@
 import styled from '@emotion/styled';
-import { useEffect, useState, MouseEvent, useCallback } from 'react';
-import { OptionCheckBox } from '@components/common/checkbox';
+import { useEffect, useState, MouseEvent, useCallback, memo } from 'react';
+import OptionCheckBox from '@components/common/checkbox';
 import Image from 'next/image';
 import { Select } from '@components/common/select';
 import { city, district } from '@data';
 import { Radio } from '@components/common/radio';
 import { CustomRange } from '@components/common/range';
 
-const DetailOption = ({ isModalState, onChangeSetState }: any) => {
+interface ModalProps {
+  onChangeSetState: () => void;
+}
+
+const DetailOption = ({ onChangeSetState }: ModalProps) => {
   const fieldList = [
     {
       checkBox: 'PT',
@@ -93,10 +97,10 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const [isFieldChecked, setIsFieldChecked] = useState(fieldInitialState);
   const [isPurposeChecked, setIsPurposeChecked] = useState(purposeInitialState);
 
-  const handleSubmitButton = () => {
+  const handleSubmitButton = useCallback(() => {
     console.log(cityInfo, districtInfo, isGenderChecked, isFieldChecked, isPurposeChecked);
     onChangeSetState();
-  };
+  }, []);
 
   const Modal = styled.div`
     width: 390px;
@@ -199,7 +203,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
       <Modal>
         <ModalTitle>
           <h2>상세 옵션</h2>
-          <CloseButton onClick={() => onChangeSetState(!isModalState)}>
+          <CloseButton onClick={onChangeSetState}>
             <Image
               src="/assets/common/closeButton.svg"
               alt="상세 옵션 닫기"
@@ -276,4 +280,4 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   );
 };
 
-export default DetailOption;
+export default memo(DetailOption);

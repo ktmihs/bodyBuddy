@@ -396,9 +396,7 @@ const Home: NextPage = () => {
 
   return hasLogin ? (
     <>
-      {isModalState && (
-        <DetailOptionModal isModalState={isModalState} onChangeSetState={handleClick} />
-      )}
+      {isModalState && <DetailOptionModal onChangeSetState={handleClick} />}
       <Index>
         <Header>
           <h1 className="srOnly">index page</h1>
