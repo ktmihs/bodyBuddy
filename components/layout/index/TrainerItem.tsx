@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import Link from 'next/link';
 import mypage from 'public/assets/index/mypage.svg';
 
 const Trainer = ({ trainer }: any) => {
   const TrainerItem = styled.li`
     width: 172px;
     height: 246px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     background: #f3f2f2;
     border-radius: 10px;
     position: relative;
@@ -195,38 +196,40 @@ const Trainer = ({ trainer }: any) => {
   `;
 
   return (
-    <>
-      <TrainerItem>
-        {trainer.isOnline && (
-          <Offline>
-            <p>{trainer.name} 트레이너 님은 현재 상담이 불가능 합니다.</p>
-          </Offline>
-        )}
-        <ImageWrapper>
-          <Image src={mypage} alt={trainer.name} title={trainer.name} width={112} height={112} />
-        </ImageWrapper>
-        <TrainerItemTop>
-          <span>5.0</span>
-          <span>{trainer.name}</span>
-        </TrainerItemTop>
-        <TrainerItemBottom>
-          <TrainerPurpose>다이어트</TrainerPurpose>
-          <TrainerFieldContainer>
-            <span>PT</span>
-            <span>경력 {trainer.totalCareer}년</span>
-          </TrainerFieldContainer>
-          <TrainerIntroduction>
-            <p>{trainer.introduction}</p>
-          </TrainerIntroduction>
-          <TrainerPositionAndPrice>
-            <span>
-              {trainer.city} {trainer.district}
-            </span>
-            <span>{trainer.price.toLocaleString()}</span>
-          </TrainerPositionAndPrice>
-        </TrainerItemBottom>
-      </TrainerItem>
-    </>
+    <TrainerItem>
+      {trainer.isOnline && (
+        <Offline>
+          <p>{trainer.name} 트레이너 님은 현재 상담이 불가능 합니다.</p>
+        </Offline>
+      )}
+      <Link href={`/trainer/${trainer.id}`}>
+        <div>
+          <ImageWrapper>
+            <Image src={mypage} alt={trainer.name} title={trainer.name} width={112} height={112} />
+          </ImageWrapper>
+          <TrainerItemTop>
+            <span>5.0</span>
+            <span>{trainer.name}</span>
+          </TrainerItemTop>
+          <TrainerItemBottom>
+            <TrainerPurpose>다이어트</TrainerPurpose>
+            <TrainerFieldContainer>
+              <span>PT</span>
+              <span>경력 {trainer.totalCareer}년</span>
+            </TrainerFieldContainer>
+            <TrainerIntroduction>
+              <p>{trainer.introduction}</p>
+            </TrainerIntroduction>
+            <TrainerPositionAndPrice>
+              <span>
+                {trainer.city} {trainer.district}
+              </span>
+              <span>{trainer.price.toLocaleString()}</span>
+            </TrainerPositionAndPrice>
+          </TrainerItemBottom>
+        </div>
+      </Link>
+    </TrainerItem>
   );
 };
 

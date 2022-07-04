@@ -4,26 +4,30 @@ import Image from 'next/image';
 import logo from 'public/assets/index/logo.svg';
 import myPage from 'public/assets/index/mypage.svg';
 
+import { TopButton } from '@components/common/button';
 import DetailOptionModal from '@components/layout/index/DetailOption';
 import OptionList from '@components/layout/index/Option';
 import TrainerItem from '@components/layout/index/TrainerItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
-  // 로그인 여부를 확인
-  // 로그인이 되어 있다면, 현재 로그인 된 유저의 정보를 가져옴
-  // 로그인이 되어 있지 않다면, 온보딩 페이지를 보여주기
-
+  // 로그인 여부
+  const hasLogin = true;
   const name = '손흥민';
-  const options = [
-    '서울시 강남구',
-    '서울시 강남구',
-    '서울시 강남구',
-    '여성',
-    '요가',
-    'PT',
-    '경력 신입 ~ 5년 이상',
-  ];
+
+  useEffect(() => {
+    if (!hasLogin) document.location.href = '/onBoarding';
+  }, []);
+
+  const [options, setOptions] = useState({
+    city: '',
+    district: '',
+    gender: '',
+    field: [],
+    purpose: [],
+  });
+
   const trainerList = [
     {
       id: 456789123,
@@ -299,12 +303,14 @@ const Home: NextPage = () => {
     },
   ];
 
+  // 로그인한 대상이 트레이너 여부에 따라 마이페이지 링크 다르게 해주기
+  const isTrainer = true;
+  const id = 456789123;
+
+  const MYPAGE_LINK = isTrainer ? `/trainer/${id}/edit` : `/mypage/${id}`;
   const [isModalState, setIsModalState] = useState<boolean>(false);
 
-  const handleClick = () => {
-    setIsModalState((state) => !state);
-    console.log(isModalState);
-  };
+  const handleClick = () => setIsModalState((state) => !state);
 
   const Index = styled.div`
     background: #ececec;
@@ -318,6 +324,10 @@ const Home: NextPage = () => {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+
+    span:last-of-type {
+      cursor: pointer;
+    }
   `;
 
   const IntroMessage = styled.div`
@@ -379,22 +389,29 @@ const Home: NextPage = () => {
   const TrainerList = styled.ul`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-content: space-between;
     background: #ffffff;
-    padding: 10px 10px;
+    padding: 10px 0 10px 15px;
   `;
 
-  return (
+  return hasLogin ? (
     <>
       {isModalState && (
-        <DetailOptionModal isModalState={isModalState} onChangeSetState={handleClick} />
+        <DetailOptionModal
+          options={options}
+          handleSetOptions={setOptions}
+          onChangeSetState={handleClick}
+        />
       )}
       <Index>
         <Header>
           <h1 className="srOnly">index page</h1>
           <IconWrapper>
             <Image src={logo} title="바디버디" alt="바디버디 로고" width={25} height={30} />
-            <Image src={myPage} title="마이페이지" alt="마이페이지" width={20} height={20} />
+            <Link href={MYPAGE_LINK}>
+              <div>
+                <Image src={myPage} title="마이페이지" alt="마이페이지" width={30} height={30} />
+              </div>
+            </Link>
           </IconWrapper>
           <IntroMessage>
             <p>
@@ -418,8 +435,11 @@ const Home: NextPage = () => {
             ))}
           </TrainerList>
         </Main>
+        <TopButton />
       </Index>
     </>
+  ) : (
+    <></>
   );
 };
 
