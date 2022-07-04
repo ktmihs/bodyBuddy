@@ -301,10 +301,7 @@ const Home: NextPage = () => {
 
   const [isModalState, setIsModalState] = useState<boolean>(false);
 
-  const handleClick = () => {
-    setIsModalState((state) => !state);
-    console.log(isModalState);
-  };
+  const handleClick = () => setIsModalState((state) => !state);
 
   const Index = styled.div`
     background: #ececec;
@@ -379,9 +376,8 @@ const Home: NextPage = () => {
   const TrainerList = styled.ul`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-content: space-between;
     background: #ffffff;
-    padding: 10px 10px;
+    padding: 10px 0 10px 15px;
   `;
 
   return (
