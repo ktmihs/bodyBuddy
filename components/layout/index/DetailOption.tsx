@@ -7,11 +7,21 @@ import { city, district } from '@data';
 import { Radio } from '@components/common/radio';
 import { CustomRange } from '@components/common/range';
 
+interface OptionProps {
+  city: string;
+  district: string;
+  gender: string;
+  field: string[];
+  purpose: string[];
+}
+
 interface ModalProps {
+  options: OptionProps;
+  handleSetOptions: any;
   onChangeSetState: () => void;
 }
 
-const DetailOption = ({ onChangeSetState }: ModalProps) => {
+const DetailOption = ({ options, handleSetOptions, onChangeSetState }: ModalProps) => {
   const fieldList = [
     {
       checkBox: 'PT',
@@ -56,10 +66,17 @@ const DetailOption = ({ onChangeSetState }: ModalProps) => {
     },
   ];
 
-  const [cityInfo, setCityInfo] = useState('시/도');
-  const [districtInfo, setDistrictInfo] = useState('군/구');
+  const {
+    city: initCity,
+    district: initDistrict,
+    gender: initGender,
+    field: initField,
+    purpose: initPurpose,
+  } = options;
+  const [cityInfo, setCityInfo] = useState(initCity || '시/도');
+  const [districtInfo, setDistrictInfo] = useState(initDistrict || '군/구');
 
-  const [isGenderChecked, setIsGenderChecked] = useState('anyone');
+  const [isGenderChecked, setIsGenderChecked] = useState(initGender || 'anyone');
 
   const [price, setPrice] = useState<number[]>([0, 100]);
   const [career, setCareer] = useState<number[]>([0, 10]);
@@ -89,18 +106,45 @@ const DetailOption = ({ onChangeSetState }: ModalProps) => {
     const { checkBox } = field;
     fieldInitialState[checkBox] = false;
   });
+  initField.length &&
+    initField.forEach((field) => {
+      fieldInitialState[field] = true;
+    });
+
   purposeList.forEach((purpose) => {
     const { checkBox } = purpose;
     purposeInitialState[checkBox] = false;
   });
+  initPurpose.length &&
+    initPurpose.forEach((purpose) => {
+      purposeInitialState[purpose] = true;
+    });
 
   const [isFieldChecked, setIsFieldChecked] = useState(fieldInitialState);
   const [isPurposeChecked, setIsPurposeChecked] = useState(purposeInitialState);
 
-  const handleSubmitButton = useCallback(() => {
-    console.log(cityInfo, districtInfo, isGenderChecked, isFieldChecked, isPurposeChecked);
+  const handleSubmitButton = () => {
+    const checkedFieldList = [];
+    for (const field in isFieldChecked) {
+      isFieldChecked[field] && checkedFieldList.push(field);
+    }
+
+    const checkedPurposeList = [];
+    for (const purpose in isPurposeChecked) {
+      isPurposeChecked[purpose] && checkedPurposeList.push(purpose);
+    }
+
+    const optionList = {
+      city: cityInfo,
+      district: districtInfo,
+      gender: isGenderChecked,
+      field: checkedFieldList,
+      purpose: checkedPurposeList,
+    };
+
+    handleSetOptions(optionList);
     onChangeSetState();
-  }, []);
+  };
 
   const Modal = styled.div`
     width: 390px;

@@ -20,15 +20,14 @@ const Home: NextPage = () => {
     if (!hasLogin) document.location.href = '/onBoarding';
   }, []);
 
-  const options = [
-    '서울시 강남구',
-    '서울시 강남구',
-    '서울시 강남구',
-    '여성',
-    '요가',
-    'PT',
-    '경력 신입 ~ 5년 이상',
-  ];
+  const [options, setOptions] = useState({
+    city: '',
+    district: '',
+    gender: '',
+    field: [],
+    purpose: [],
+  });
+
   const trainerList = [
     {
       id: 456789123,
@@ -396,7 +395,13 @@ const Home: NextPage = () => {
 
   return hasLogin ? (
     <>
-      {isModalState && <DetailOptionModal onChangeSetState={handleClick} />}
+      {isModalState && (
+        <DetailOptionModal
+          options={options}
+          handleSetOptions={setOptions}
+          onChangeSetState={handleClick}
+        />
+      )}
       <Index>
         <Header>
           <h1 className="srOnly">index page</h1>
