@@ -1,5 +1,7 @@
 interface RangeProps {
   type: string;
-  range: number[] | number;
-  onChangeSetRange: any;
+  range: any;
+  onChangeSetRange: Dispatch<SetStateAction<number[]>>;
+  min: number;
+  max: number;
 }
