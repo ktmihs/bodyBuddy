@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useCallback } from 'react';
 import { OptionCheckBox } from '@components/common/checkbox';
 import Image from 'next/image';
 import { Select } from '@components/common/select';
@@ -10,26 +10,22 @@ import { CustomRange } from '@components/common/range';
 const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const fieldList = [
     {
-      checkBoxItemID: '123',
-      checkBoxText: 'PT',
+      checkBox: 'PT',
       checkBoxImage: '/assets/index/option/pt.svg',
       checkBoxCheckedImage: '/assets/index/option/pt-checked.svg',
     },
     {
-      checkBoxItemID: '124',
-      checkBoxText: '요가',
+      checkBox: '요가',
       checkBoxImage: '/assets/index/option/yoga.svg',
       checkBoxCheckedImage: '/assets/index/option/yoga-checked.svg',
     },
     {
-      checkBoxItemID: '125',
-      checkBoxText: '필라테스',
+      checkBox: '필라테스',
       checkBoxImage: '/assets/index/option/pilates.svg',
       checkBoxCheckedImage: '/assets/index/option/pilates-checked.svg',
     },
     {
-      checkBoxItemID: '126',
-      checkBoxText: '발레',
+      checkBox: '발레',
       checkBoxImage: '/assets/index/option/ballet.svg',
       checkBoxCheckedImage: '/assets/index/option/ballet-checked.svg',
     },
@@ -37,35 +33,29 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
 
   const purposeList = [
     {
-      checkBoxItemID: '1123',
-      checkBoxText: '기초체력증진',
+      checkBox: '기초체력증진',
     },
     {
-      checkBoxItemID: '1124',
-      checkBoxText: '다이어트',
+      checkBox: '다이어트',
     },
     {
-      checkBoxItemID: '1125',
-      checkBoxText: '근력향상',
+      checkBox: '근력향상',
     },
     {
-      checkBoxItemID: '1126',
-      checkBoxText: '재활',
+      checkBox: '재활',
     },
     {
-      checkBoxItemID: '1127',
-      checkBoxText: '체형교정',
+      checkBox: '체형교정',
     },
     {
-      checkBoxItemID: '1128',
-      checkBoxText: '근육량증가',
+      checkBox: '근육량증가',
     },
   ];
 
   const [cityInfo, setCityInfo] = useState('시/도');
   const [districtInfo, setDistrictInfo] = useState('군/구');
 
-  const [isChecked, setIsChecked] = useState('anyone');
+  const [isGenderChecked, setIsGenderChecked] = useState('anyone');
 
   const [price, setPrice] = useState<number[]>([0, 100]);
   const [career, setCareer] = useState<number[]>([0, 10]);
@@ -80,12 +70,31 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
     };
   }, []);
 
-  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
-    const input = e.currentTarget.querySelector('input[name=gender]');
-    input && setIsChecked(input.id);
-  };
+  const handleGenderCheckedClick = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      const input = e.currentTarget.querySelector('input[name=gender]');
+      input && setIsGenderChecked(input.id);
+    },
+    [isGenderChecked]
+  );
+
+  const fieldInitialState: InitialStateProps = {};
+  const purposeInitialState: InitialStateProps = {};
+
+  fieldList.forEach((field) => {
+    const { checkBox } = field;
+    fieldInitialState[checkBox] = false;
+  });
+  purposeList.forEach((purpose) => {
+    const { checkBox } = purpose;
+    purposeInitialState[checkBox] = false;
+  });
+
+  const [isFieldChecked, setIsFieldChecked] = useState(fieldInitialState);
+  const [isPurposeChecked, setIsPurposeChecked] = useState(purposeInitialState);
 
   const handleSubmitButton = () => {
+    console.log(cityInfo, districtInfo, isGenderChecked, isFieldChecked, isPurposeChecked);
     onChangeSetState();
   };
 
@@ -221,17 +230,29 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
             </FormSection>
             <FormSection>
               <h2>성별</h2>
-              <Radio notSelected={true} isChecked={isChecked} handleClick={handleClick} />
+              <Radio
+                notSelected={true}
+                isChecked={isGenderChecked}
+                handleClick={handleGenderCheckedClick}
+              />
             </FormSection>
             <FormSection>
               <h2>종목</h2>
               <span className="section-descript">중복 선택이 가능합니다.</span>
-              <OptionCheckBox checkBoxList={fieldList} />
+              <OptionCheckBox
+                checkBoxList={fieldList}
+                isChecked={isFieldChecked}
+                handleClickSetIsChecked={setIsFieldChecked}
+              />
             </FormSection>
             <FormSection>
               <h2>목적</h2>
               <span className="section-descript">중복 선택이 가능합니다.</span>
-              <OptionCheckBox checkBoxList={purposeList} />
+              <OptionCheckBox
+                checkBoxList={purposeList}
+                isChecked={isPurposeChecked}
+                handleClickSetIsChecked={setIsPurposeChecked}
+              />
             </FormSection>
             <FormSection>
               <h2>가격</h2>
