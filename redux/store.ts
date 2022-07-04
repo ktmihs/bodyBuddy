@@ -1,14 +1,11 @@
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from '@reduxjs/toolkit';
+import userSlice from './userSlice';
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  blacklist: [],
-  // blacklist 포함시 그것만 제외
-};
+export const store = configureStore({
+  reducer: {
+    userInfo: userSlice,
+  },
+});
 
-export const rootReducer = combineReducers({});
-
-export default persistReducer(persistConfig, rootReducer);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

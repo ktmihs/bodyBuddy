@@ -18,6 +18,8 @@ const LoginGuide = styled.span`
   color: #626262;
   font-size: 13px;
 `;
+
+const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
 const SignIn = () => {
   return (
     <>
@@ -32,7 +34,12 @@ const SignIn = () => {
         />
       </BodyBuddyLogo>
       <LoginGuide>SNS로 간편하게 로그인 하세요 !</LoginGuide>
-      <SocialLinkButton NaverLink="/" KakaoLink="/" purpose="signIn" absoluteBottomPercent={5} />
+      <SocialLinkButton
+        NaverLink="/"
+        KakaoLink={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}`}
+        purpose="signIn"
+        absoluteBottomPercent={5}
+      />
     </>
   );
 };
