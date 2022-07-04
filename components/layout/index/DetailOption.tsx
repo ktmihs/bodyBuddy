@@ -203,9 +203,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
                 <Select
                   currentSelectedData={districtInfo}
                   onSetCurrentSelected={setDistrictInfo}
-                  selectData={
-                    districtInfo === '군/구' ? ['시/도를 선택해주세요'] : district[districtInfo]
-                  }
+                  selectData={cityInfo === '시/도' ? ['시/도를 선택해주세요'] : district[cityInfo]}
                   selectWidth={190}
                 />
               </PositionList>
