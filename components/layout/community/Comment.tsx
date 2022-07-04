@@ -1,6 +1,8 @@
-import { PostMetaInfo } from '@components/common/meta';
+import { CommentCount, PostMetaInfo } from '@components/common/meta';
+import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import { useState } from 'react';
 import ButtonGroup from '../../common/buttongroup';
 
 const WriteComment = styled.form`
@@ -23,6 +25,63 @@ const WriteComment = styled.form`
     border: none;
     align-self: flex-end;
     cursor: pointer;
+  }
+`;
+
+const CommentContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  .updateComment {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+
+    h4 {
+      padding: 5%;
+      font-size: 14px;
+      font-weight: bold;
+      border-bottom: 1px solid ${({ theme }) => theme.lightGray};
+      margin-bottom: 15px;
+    }
+    textarea {
+      line-height: 1.4;
+      padding: 2%;
+      resize: none;
+      width: 80%;
+      height: 150px;
+    }
+    div {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      display: flex;
+    }
+    button {
+      border: none;
+      width: 50%;
+      height: 45px;
+      &:nth-of-type(1) {
+        background-color: #f6f6f6;
+        color: ${({ theme }) => theme.purple};
+      }
+      &:nth-of-type(2) {
+        background-color: ${({ theme }) => theme.purple};
+        color: white;
+      }
+    }
   }
 `;
 
@@ -130,9 +189,20 @@ const Comments = () => {
         </Commentor>
       ))}
 
-      {/* <WriteComment>
-          <textarea placeholder="댓글을 작성하세요" />
-        </WriteComment> */}
+      <CommentContainer>
+        <div className="updateComment">
+          <h4>댓글 수정</h4>
+          <textarea placeholder="한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!" />
+          <div className="buttonGroup">
+            <button>취소</button>
+            <button>작성 완료</button>
+          </div>
+        </div>
+      </CommentContainer>
+
+      <WriteComment>
+        <textarea placeholder="댓글을 작성하세요" />
+      </WriteComment>
     </CommenGroup>
   );
 };
