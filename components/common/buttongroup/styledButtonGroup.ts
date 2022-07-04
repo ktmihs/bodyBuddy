@@ -4,18 +4,26 @@ export const ButtonContainer = styled.div`
   flex-grow: 1;
   display: flex;
   justify-content: space-evenly;
+  button,
+  a {
+    font-size: 12px;
+    line-height: 1.3;
+  }
   &[class~='post'] {
+    a,
     button {
       padding: 5% 10%;
       border-radius: 5px;
+      color: ${({ theme }) => theme.black};
       border: 1px solid ${({ theme }) => theme.lineGray};
     }
   }
   &[class~='review'] {
     justify-content: flex-end;
     transform: translateY(-40%);
+
+    a,
     button {
-      font-size: 12px;
       color: ${({ theme }) => theme.lineGray};
       font-weight: bold;
       align-self: center;
@@ -30,6 +38,7 @@ export const ButtonContainer = styled.div`
   }
   &[class~='comment'],
   &[class~='edit'] {
+    a,
     button {
       color: ${({ theme }) => theme.purple};
       font-weight: bold;
@@ -37,6 +46,7 @@ export const ButtonContainer = styled.div`
     }
   }
 
+  a,
   button {
     padding: 5%;
     align-self: flex-start;

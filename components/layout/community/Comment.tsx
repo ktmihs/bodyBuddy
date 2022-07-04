@@ -1,9 +1,9 @@
-import { CommentCount, PostMetaInfo } from '@components/common/meta';
+import { PostMetaInfo } from '@components/common/meta';
 import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useState } from 'react';
-import ButtonGroup from '../../common/buttongroup';
+import EditorGroup from '../../common/buttongroup';
 
 const WriteComment = styled.form`
   padding-left: 20px;
@@ -16,6 +16,7 @@ const WriteComment = styled.form`
     border-color: ${({ theme }) => theme.lineGray};
     resize: none;
   }
+
   button {
     width: 50px;
     height: 30px;
@@ -28,7 +29,7 @@ const WriteComment = styled.form`
   }
 `;
 
-const CommentContainer = styled.div`
+const ModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -61,7 +62,7 @@ const CommentContainer = styled.div`
       padding: 2%;
       resize: none;
       width: 80%;
-      height: 150px;
+      height: 100px;
     }
     div {
       position: absolute;
@@ -114,6 +115,7 @@ const Commentor = styled.div`
   }
 
   p {
+    width: 90%;
     margin-left: 20px;
     line-height: 1.3;
     padding-bottom: 1%;
@@ -125,6 +127,7 @@ const Commentor = styled.div`
     div:nth-of-type(n + 2) {
       width: 30%;
     }
+    a,
     button {
       line-height: 1.6;
     }
@@ -133,6 +136,9 @@ const Commentor = styled.div`
 
 const Comments = () => {
   const userId = '밍망디';
+  const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
+  const [isEditingMode, onChangeEditingMode] = useState<boolean>(false);
+
   const comments = [
     {
       id: '1',
@@ -184,21 +190,47 @@ const Comments = () => {
             dateTime={new Date(comment.creationDate)}
             className="comment"
           ></PostMetaInfo>
-          {userId === comment.userId ? <ButtonGroup className="comment" /> : ''}
+          {userId === comment.userId ? (
+            <EditorGroup
+              className="comment"
+              selectedItem="1"
+              onChangeEditingMode={onChangeEditingMode}
+              onChangeDeleteMode={onChangeDeleteMode}
+            />
+          ) : (
+            ''
+          )}
           <p>{comment.content}</p>
         </Commentor>
       ))}
 
-      <CommentContainer>
-        <div className="updateComment">
-          <h4>댓글 수정</h4>
-          <textarea placeholder="한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!" />
-          <div className="buttonGroup">
-            <button>취소</button>
-            <button>작성 완료</button>
+      {isDeleteMode ? (
+        <ModalContainer>
+          <RightButtonModal
+            modalContent="댓글을 삭제하시겠습니까?"
+            rightButtonContent="댓글 삭제"
+            onClickedRightBtn={() => console.log('완료!')}
+            isModalState={isDeleteMode}
+            onChangeSetState={onChangeDeleteMode}
+          />
+        </ModalContainer>
+      ) : (
+        ''
+      )}
+      {isEditingMode ? (
+        <ModalContainer>
+          <div className="updateComment">
+            <h4>댓글 수정</h4>
+            <textarea placeholder="한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!" />
+            <div className="buttonGroup">
+              <button onClick={() => onChangeEditingMode(false)}>취소</button>
+              <button onClick={() => onChangeEditingMode(false)}>작성 완료</button>
+            </div>
           </div>
-        </div>
-      </CommentContainer>
+        </ModalContainer>
+      ) : (
+        ''
+      )}
 
       <WriteComment>
         <textarea placeholder="댓글을 작성하세요" />

@@ -3,11 +3,14 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 import { TitleBar } from '@components/common/title';
 import { CommentCount, PostMetaInfo } from '@components/common/meta';
-import ButtonGroup from '@components/common/buttongroup';
 import Comments from '@components/layout/community/Comment';
+import { useState } from 'react';
+import { RightButtonModal } from '@components/common/modal';
+import EditorGroup from '@components/common/buttongroup';
 
 const UserProfile = styled.div`
   display: flex;
+  width: 90%;
   padding: 0 0 15px 20px;
   gap: 10px;
 `;
@@ -26,6 +29,15 @@ const MainText = styled.div`
     }
   }
 `;
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`;
 
 const UploadImage = styled.div`
   display: flex;
@@ -41,6 +53,7 @@ const UploadImage = styled.div`
 
 const PostingDetail: NextPage = () => {
   const userId = '밍망디';
+  const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const post = {
     content: '요만한건데',
     creationDate: '2022-06-14T06:30:10.792Z',
@@ -63,7 +76,29 @@ const PostingDetail: NextPage = () => {
           dateTime={new Date(post.creationDate)}
           className="post"
         ></PostMetaInfo>
-        {userId === post.userId ? <ButtonGroup className="post" /> : ''}
+        {userId === post.userId ? (
+          <EditorGroup
+            className="post"
+            selectedItem="1"
+            leftUrl="/community"
+            onChangeDeleteMode={onChangeDeleteMode}
+          />
+        ) : (
+          ''
+        )}
+        {isDeleteMode ? (
+          <ModalContainer>
+            <RightButtonModal
+              modalContent="게시물을 삭제하시겠습니까?"
+              rightButtonContent="게시물 삭제"
+              onClickedRightBtn={() => console.log('완료!')}
+              isModalState={isDeleteMode}
+              onChangeSetState={onChangeDeleteMode}
+            />
+          </ModalContainer>
+        ) : (
+          ''
+        )}
       </UserProfile>
       <MainText>
         <p>{post.title}</p>
