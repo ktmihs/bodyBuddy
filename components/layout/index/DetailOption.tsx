@@ -73,19 +73,21 @@ const DetailOption = ({ options, handleSetOptions, onChangeSetState }: ModalProp
     field: initField,
     purpose: initPurpose,
   } = options;
+
   const [cityInfo, setCityInfo] = useState(initCity || '시/도');
   const [districtInfo, setDistrictInfo] = useState(initDistrict || '군/구');
 
   const [isGenderChecked, setIsGenderChecked] = useState(initGender || 'anyone');
 
-  const [price, setPrice] = useState<number[]>([0, 100]);
-  const [career, setCareer] = useState<number[]>([0, 10]);
+  const [price, setPrice] = useState<number[] | number>([0, 100]);
+  const [career, setCareer] = useState<number[] | number>([0, 10]);
 
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
       top: 0px;
       width: 100%;`;
+
     return () => {
       document.body.style.cssText = '';
     };
@@ -140,6 +142,8 @@ const DetailOption = ({ options, handleSetOptions, onChangeSetState }: ModalProp
       gender: isGenderChecked,
       field: checkedFieldList,
       purpose: checkedPurposeList,
+      price: price,
+      career: career,
     };
 
     handleSetOptions(optionList);
@@ -209,13 +213,6 @@ const DetailOption = ({ options, handleSetOptions, onChangeSetState }: ModalProp
       color: #8b8b8b;
       left: 45px;
     }
-  `;
-
-  const RangeLabel = styled.p`
-    font-weight: 800;
-    font-size: 12px;
-    text-align: right;
-    color: ${(props) => props.theme.purple};
   `;
 
   const PositionList = styled.div`
@@ -304,17 +301,23 @@ const DetailOption = ({ options, handleSetOptions, onChangeSetState }: ModalProp
             </FormSection>
             <FormSection>
               <h2>가격</h2>
-              <RangeLabel>
-                시간 당 {price[0]} ~ {price[1]}만원
-              </RangeLabel>
-              <CustomRange type={'price'} range={price} onChangeSetRange={setPrice} />
+              <CustomRange
+                type={'만원'}
+                range={price}
+                onChangeSetRange={setPrice}
+                min={0}
+                max={100}
+              />
             </FormSection>
             <FormSection>
               <h2>경력</h2>
-              <RangeLabel>
-                경력 {career[0]} ~ {career[1]}년
-              </RangeLabel>
-              <CustomRange type={'career'} range={career} onChangeSetRange={setCareer} />
+              <CustomRange
+                type={'년'}
+                range={career}
+                onChangeSetRange={setCareer}
+                min={0}
+                max={10}
+              />
             </FormSection>
             <SaveButton onClick={handleSubmitButton}>변경 사항 저장</SaveButton>
           </fieldset>
