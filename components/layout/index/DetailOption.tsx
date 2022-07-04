@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { OptionCheckBox } from '@components/common/checkbox';
 import Image from 'next/image';
 import { Select } from '@components/common/select';
@@ -65,6 +65,8 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
   const [cityInfo, setCityInfo] = useState('시/도');
   const [districtInfo, setDistrictInfo] = useState('군/구');
 
+  const [isChecked, setIsChecked] = useState('anyone');
+
   const [price, setPrice] = useState<number[]>([0, 100]);
   const [career, setCareer] = useState<number[]>([0, 10]);
 
@@ -77,6 +79,15 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
       document.body.style.cssText = '';
     };
   }, []);
+
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const input = e.currentTarget.querySelector('input[name=gender]');
+    input && setIsChecked(input.id);
+  };
+
+  const handleSubmitButton = () => {
+    onChangeSetState();
+  };
 
   const Modal = styled.div`
     width: 390px;
@@ -210,7 +221,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
             </FormSection>
             <FormSection>
               <h2>성별</h2>
-              <Radio notSelected={true} />
+              <Radio notSelected={true} isChecked={isChecked} handleClick={handleClick} />
             </FormSection>
             <FormSection>
               <h2>종목</h2>
@@ -236,7 +247,7 @@ const DetailOption = ({ isModalState, onChangeSetState }: any) => {
               </RangeLabel>
               <CustomRange type={'career'} range={career} onChangeSetRange={setCareer} />
             </FormSection>
-            <SaveButton onClick={onChangeSetState}>변경 사항 저장</SaveButton>
+            <SaveButton onClick={handleSubmitButton}>변경 사항 저장</SaveButton>
           </fieldset>
         </form>
       </Modal>
