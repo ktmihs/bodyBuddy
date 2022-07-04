@@ -5,6 +5,8 @@ import SEO from '@components/layout/SEO';
 import Nav from '@components/common/nav';
 import { global } from '@styles/globals';
 import theme from '@styles/theme';
+import { Provider } from 'react-redux';
+import { store } from 'redux/store';
 
 declare global {
   interface Window {
@@ -43,12 +45,14 @@ export default function Layout({ children }: { children: JSX.Element }) {
     <>
       <SEO />
       <Global styles={global} />
-      <ThemeProvider theme={theme}>
-        <StyledLayout>
-          <Content>{children}</Content>
-          <Nav />
-        </StyledLayout>
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <StyledLayout>
+            <Content>{children}</Content>
+            <Nav />
+          </StyledLayout>
+        </ThemeProvider>
+      </Provider>
     </>
   );
 }
