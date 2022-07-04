@@ -7,7 +7,7 @@ const Trainer = ({ trainer }: any) => {
   const TrainerItem = styled.li`
     width: 172px;
     height: 246px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     background: #f3f2f2;
     border-radius: 10px;
     position: relative;
