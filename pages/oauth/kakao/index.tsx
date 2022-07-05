@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Router from 'next/router';
 
 import { useEffect } from 'react';
 
@@ -28,17 +29,19 @@ const KakaoLogin = () => {
 
   const getUserInfo = async (access_token: string) => {
     try {
-      const header = {
-        Authorization: `Bearer ${access_token}`,
-      };
-
-      const result = await axios({
-        url: 'https://kapi.kakao.com/v2/user/me',
-        method: 'get',
-        headers: header,
+      const { data } = await axios({
+        url: 'http://localhost:8000/oAuth/kakao',
+        method: 'post',
+        data: { access_token: access_token },
+        withCredentials: true,
       });
 
-      console.log(result);
+      if (data.result) {
+        // 회원 데이터가 있는 경우
+      } else {
+        // 회원 데이터가 없는 경우
+        Router.push('/signUp/checkCategory');
+      }
     } catch (e) {
       console.log(e);
     }
