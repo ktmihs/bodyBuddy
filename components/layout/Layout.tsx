@@ -49,7 +49,6 @@ export default function Layout({ children }: { children: JSX.Element }) {
         <ThemeProvider theme={theme}>
           <StyledLayout>
             <Content>{children}</Content>
-            <Nav />
           </StyledLayout>
         </ThemeProvider>
       </Provider>

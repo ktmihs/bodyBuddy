@@ -17,7 +17,7 @@ const TrainerEdit = () => {
 
   const right = {
     link: '',
-    src: '/assets/common/withdraw.svg',
+    src: '/assets/common/button-delete.svg',
     alt: '회원탈퇴',
   };
 

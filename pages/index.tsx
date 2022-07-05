@@ -8,7 +8,7 @@ import { TopButton } from '@components/common/button';
 import DetailOptionModal from '@components/layout/index/DetailOption';
 import OptionList from '@components/layout/index/Option';
 import TrainerItem from '@components/layout/index/TrainerItem';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 const Home: NextPage = () => {
@@ -312,11 +312,19 @@ const Home: NextPage = () => {
   const MYPAGE_LINK = isTrainer ? `/trainer/${id}/edit` : `/mypage/${id}`;
   const [isModalState, setIsModalState] = useState<boolean>(false);
 
+  const containerRef = useRef(null);
+
   const handleClick = () => setIsModalState((state) => !state);
 
   const Index = styled.div`
     background: #ececec;
     overflow-x: hidden;
+    overflow-y: auto;
+    height: 800px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `;
 
   const Header = styled.header`
@@ -405,7 +413,7 @@ const Home: NextPage = () => {
           onChangeSetState={handleClick}
         />
       )}
-      <Index>
+      <Index ref={containerRef}>
         <Header>
           <h1 className="srOnly">index page</h1>
           <IconWrapper>
@@ -438,7 +446,7 @@ const Home: NextPage = () => {
             ))}
           </TrainerList>
         </Main>
-        <TopButton />
+        <TopButton containerRef={containerRef} />
       </Index>
     </>
   ) : (

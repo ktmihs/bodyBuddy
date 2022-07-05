@@ -8,9 +8,10 @@ import setting from '@assets/common/setting-white.svg';
 import styled from '@emotion/styled';
 
 export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) => {
+  const id = 1234;
   const edit = {
     // 강사로 로그인됐을 경우에만,
-    link: '[id]/edit',
+    link: `${id}/edit`,
     src: setting,
     alt: '수정페이지로 이동하기',
     height: 30,
@@ -22,6 +23,8 @@ export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) =>
     likedAlt: '관심 트레이너 설정하기',
     unLikedAlt: '관심 트레이너 해제하기',
   };
+
+  const trainerImg = ''; // 트레이너로부터 이미지 받아오기
 
   const handleClick = () => {
     onClickSetLiked((state: boolean) => !state);
@@ -165,7 +168,7 @@ export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) =>
         </TrainerIntro>
         <TrainerProfile>
           <ImageWrapper>
-            <Image src={profile} alt="강사" width={150} height={150} />
+            <Image src={trainerImg ? trainerImg : profile} alt="강사" width={150} height={150} />
           </ImageWrapper>
           <TrainerInfo>
             <TrainerName>최세민 트레이너</TrainerName>

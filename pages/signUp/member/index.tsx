@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 
@@ -9,6 +9,9 @@ import { city, district } from '@data';
 
 import correct from '@assets/signUp/correct.svg';
 import incorrect from '@assets/signUp/incorrect.svg';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
+import { checkIsNicknameDuplicated } from 'api/firebase';
 
 const StyledStep = styled.div`
   margin: 40px 0 0 21px;
@@ -72,6 +75,39 @@ const StyledStep = styled.div`
 const Step1 = () => {
   const [cityInfo, setCityInfo] = useState('시/도');
   const [districtInfo, setDistrictInfo] = useState('군/구');
+  const [nickname, setNickname] = useState(false);
+  const [isduplicated, setIsDuplicated] = useState(false);
+  // const userInfo = useSelector((state: RootState) => state.userInfo);
+
+  const onChangeNickName = (e: React.SyntheticEvent) => {
+    if (!(e.target instanceof HTMLInputElement)) return;
+    const nickname = e.target.value;
+    if (nickname.length < 1 || nickname.length >= 5) setNickname(false);
+    else {
+      const reg = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩\s]/g;
+      if (reg.test(nickname)) {
+        // 특수문자 있는 경우
+        setNickname(false);
+      } else {
+        setNickname(true);
+        checkDuplicated(nickname);
+      }
+    }
+  };
+
+  const checkDuplicated = async (nickname: string) => {
+    try {
+      const result = await checkIsNicknameDuplicated(nickname);
+      if (!result) {
+        setIsDuplicated(true);
+      } else {
+        setIsDuplicated(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <form>
       <StepHeader
@@ -82,16 +118,26 @@ const Step1 = () => {
       <StyledStep>
         <div className="nickname">
           <label>닉네임</label>
-          {/* <span className="correct-nickname">좋은 닉네임이에요!</span> */}
-
-          {/* 2개 문제면 both className 추가  */}
-          {/* <span className="duplicate-nickname">중복된 닉네임이 있습니다!</span>
-          <span className="incorrect-nickname">닉네임은 특수문자 제외 5자 이내에요.</span> */}
+          {nickname && isduplicated ? (
+            <span className="correct-nickname">좋은 닉네임이에요!</span>
+          ) : (
+            <></>
+          )}
+          {nickname ? (
+            <></>
+          ) : (
+            <span className="incorrect-nickname">닉네임은 특수문자 제외 5자 이내에요.</span>
+          )}
+          {nickname && !isduplicated ? (
+            <span className="duplicate-nickname">중복된 닉네임이 있습니다!</span>
+          ) : (
+            <></>
+          )}
 
           <div className="nickname-img">
             <Image src={correct} alt="옳음" width={'17px'} height={'17px'} />
           </div>
-          <input type="text" placeholder="특수 문자 제외 5자 이내" />
+          <input onChange={onChangeNickName} type="text" placeholder="특수 문자 제외 5자 이내" />
         </div>
         <div className="interestedArea">
           <label>관심 지역</label>
@@ -113,11 +159,6 @@ const Step1 = () => {
           </div>
         </div>
       </StyledStep>
-      <FixedBottomLinkButton
-        isValid={true}
-        link={'/signUp/member/complete'}
-        buttonTitle={'회원가입 완료'}
-      />
     </form>
   );
 };
