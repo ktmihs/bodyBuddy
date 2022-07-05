@@ -24,6 +24,8 @@ export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) =>
     unLikedAlt: '관심 트레이너 해제하기',
   };
 
+  const trainerImg = ''; // 트레이너로부터 이미지 받아오기
+
   const handleClick = () => {
     onClickSetLiked((state: boolean) => !state);
   };
@@ -166,7 +168,7 @@ export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) =>
         </TrainerIntro>
         <TrainerProfile>
           <ImageWrapper>
-            <Image src={profile} alt="강사" width={150} height={150} />
+            <Image src={trainerImg ? trainerImg : profile} alt="강사" width={150} height={150} />
           </ImageWrapper>
           <TrainerInfo>
             <TrainerName>최세민 트레이너</TrainerName>
