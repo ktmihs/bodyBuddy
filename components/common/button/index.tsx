@@ -48,7 +48,7 @@ export const FixedBottomButton = ({
   return (
     <>
       {isValid ? (
-        <StyledFixedBottomButton type={buttonType} onClick={onButtonEvent()}>
+        <StyledFixedBottomButton type={buttonType} onClick={() => onButtonEvent()}>
           {buttonTitle}
         </StyledFixedBottomButton>
       ) : (
