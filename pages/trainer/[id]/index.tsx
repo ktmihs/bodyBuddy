@@ -41,7 +41,8 @@ const Trainer: NextPage = () => {
 
   return (
     <div>
-      <TrainerHeader state={'user'} liked={liked} onClickSetLiked={setLiked} />
+      <h1 className="srOnly">{'강사이름'} 트레이너 페이지</h1>
+      <TrainerHeader state={'trainer'} liked={liked} onClickSetLiked={setLiked} />
       <TrainerBody careers={careers} reviews={reviews} address={address} images={images} />
     </div>
   );

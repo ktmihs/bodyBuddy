@@ -10,7 +10,8 @@ export const PostMeta = styled.div`
   &[class~='list'] {
     color: ${({ theme }) => theme.gray};
     * {
-      font-size: 16px;
+      width: 45%;
+      font-size: 14px;
     }
     span {
       font-weight: normal;
@@ -33,14 +34,14 @@ export const PostMeta = styled.div`
   }
 `;
 
-export const LikeAndCommentInfo = styled.div`
+export const CommentInfo = styled.div`
   display: flex;
+  gap: 5px;
   width: 20%;
-  * {
-    flex-grow: 1;
+  span {
+    line-height: 1.2;
   }
-
-  .likeBtn {
-    cursor: pointer;
+  * {
+    font-size: 14px;
   }
 `;

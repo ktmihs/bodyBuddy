@@ -1,17 +1,9 @@
 import Image from 'next/image';
-import { MouseEvent, useState } from 'react';
 import { RadioWrapper, CheckedIconWrapper } from './styledRadio';
 import activeCheckBox from 'public/assets/common/checkbox-checked.svg';
 import inActiveCheckBox from 'public/assets/common/checkbox.svg';
 
-export const Radio = ({ notSelected }: RadioProps) => {
-  const [isChecked, setIsChecked] = useState('anyone');
-
-  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
-    const input = e.currentTarget.querySelector('input[name=gender]');
-    input && setIsChecked(input.id);
-  };
-
+export const Radio = ({ notSelected, isChecked, handleClick }: RadioProps) => {
   return (
     <RadioWrapper>
       {notSelected ? (

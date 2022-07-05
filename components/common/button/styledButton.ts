@@ -79,10 +79,10 @@ export const StyledSocialButton = styled.div<{ bottom: number }>`
 `;
 
 export const StyledTopButton = styled.button`
-  position: fixed;
+  position: absolute;
   width: 50px;
   height: 50px;
-  bottom: calc(77px + 5%);
+  bottom: calc(2% + 71px);
   right: 5%;
   border-radius: 50%;
   border-style: none;

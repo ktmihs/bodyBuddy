@@ -27,3 +27,7 @@ interface SocialLinkButtonProps {
   purpose: string;
   absoluteBottomPercent: number;
 }
+
+interface TopButtonProps {
+  containerRef: Ref<HTMLDivElement>;
+}
