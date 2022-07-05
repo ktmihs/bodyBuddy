@@ -9,7 +9,6 @@ interface post {
 }
 
 interface review {
-  category: string;
   content: string;
   creationDate: Date;
   isActivation: boolean;
@@ -22,6 +21,7 @@ interface trainer {
   trainerId: string;
   image: string;
   name: string;
+  fieldId: string;
   introduction: string;
 }
 
