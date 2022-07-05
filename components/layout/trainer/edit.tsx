@@ -1,15 +1,16 @@
 import { FixedBottomLinkButton } from '@components/common/button';
 import { KakaoMap } from '@components/common/map';
+import { ProfileUploader } from '@components/common/profile';
 import { Select } from '@components/common/select';
 import { ImageUploader } from '@components/common/uploader';
 import { healthEvents, healthPurpose } from '@data';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import { useState } from 'react';
 
 export const Edit = ({ field, purpose, images, gymImage }: EditProps) => {
   const [newField, setNewFieled] = useState(field);
   const [newPurpose, setNewPurpose] = useState(purpose);
+  const [profile, setProfile] = useState<string>(images[0] || '');
 
   const id = 1;
 
@@ -48,7 +49,7 @@ export const Edit = ({ field, purpose, images, gymImage }: EditProps) => {
     <TrainerEdit>
       <section>
         <h2 className="srOnly">썸네일</h2>
-        <Image src={'/assets/common/profile.svg'} alt={'profile'} width={100} height={100} />
+        <ProfileUploader profile={profile} setProfile={setProfile} />
       </section>
       <section>
         <h2>상세 정보</h2>
