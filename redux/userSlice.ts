@@ -4,14 +4,19 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 interface UserProps {
   value: {
     email: string;
+    gender: boolean;
     nickname: string;
     city: string;
     district: string;
   };
 }
 
-type SignUpUserInfoType = {
+type SignInUserType = {
   email: string;
+  gender: boolean;
+};
+
+type SignUpUserInfoType = {
   nickname: string;
   city: string;
   district: string;
@@ -20,6 +25,7 @@ type SignUpUserInfoType = {
 const initialState: UserProps = {
   value: {
     email: '',
+    gender: true,
     nickname: '',
     city: '',
     district: '',
@@ -30,8 +36,10 @@ export const userSlice = createSlice({
   name: 'userInfo',
   initialState,
   reducers: {
-    loginEmail: (state, action: PayloadAction<string>) => {
-      state.value.email = action.payload;
+    loginEmail: (state, action: PayloadAction<SignInUserType>) => {
+      const { email, gender } = action.payload;
+      state.value.email = email;
+      state.value.gender = gender;
     },
     signUpUser: (state, action: PayloadAction<SignUpUserInfoType>) => {
       const { nickname, city, district } = action.payload;
