@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, where, query } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -13,10 +13,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// user 데이터 가져오는 법
-// async function getUser(db: Firestore) {
-//   const col = collection(db, 'ueser');
-//   const snapShot = await getDocs(col);
+const userRef = collection(db, 'user');
 
-//   return snapShot.docs.map((doc) => doc.data);
-// }
+export const checkIsNicknameDuplicated = async (nickname: string) => {
+  try {
+    let user = '';
+
+    const q = query(userRef, where('nickname', '==', nickname));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      user = doc.id;
+    });
+
+    if (user.length) {
+      return true;
+    }
+
+    return false;
+  } catch (e) {
+    console.log(e);
+  }
+};
