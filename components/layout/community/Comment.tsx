@@ -2,10 +2,11 @@ import { PostMetaInfo } from '@components/common/meta';
 import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import EditorGroup from '../../common/buttongroup';
 
 const WriteComment = styled.form`
+  margin-top: 15px;
   padding-left: 20px;
   display: flex;
   flex-grow: 1;
@@ -137,14 +138,10 @@ const Commentor = styled.div`
 
 const Comments = ({ comments, setComments }) => {
   const userId = '밍망디';
-  const [newComment, setNewComment] = useState<string>('');
-  const [updatedComment, setUpdatedComment] = useState<string>('');
+  const newComment = useRef(null);
+  const updatedComment = useRef(null);
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const [isEditingMode, onChangeEditingMode] = useState<boolean>(false);
-
-  const handleInputChange = ({ target }): void => {
-    target.className === 'post' ? setNewComment(target.value) : setUpdatedComment(target.value);
-  };
 
   const fetchMyComment = () => {
     const item = sessionStorage.getItem('selected');
@@ -156,7 +153,7 @@ const Comments = ({ comments, setComments }) => {
     // 서버로 comment update 요청
     setComments(
       comments.map((comment) =>
-        comment.id === item ? { ...comment, content: updatedComment } : comment
+        comment.id === item ? { ...comment, content: updatedComment.current.value } : comment
       )
     );
     onChangeEditingMode(false);
@@ -173,19 +170,19 @@ const Comments = ({ comments, setComments }) => {
 
   const uploadComment = (e): void => {
     e.preventDefault();
-    if (!newComment) return;
+    if (!newComment.current.value) return;
     // 서버로 commnet post 요청
     setComments([
       ...comments,
       {
         id: '11',
         communityId: 'ZuDYupb7g2UYVDfSKOIH',
-        content: newComment,
+        content: newComment.current.value,
         creationDate: new Date(),
         userId: '육회랑연어랑',
       },
     ]);
-    setNewComment('');
+    newComment.current.value = '';
   };
 
   return (
@@ -239,11 +236,7 @@ const Comments = ({ comments, setComments }) => {
         <ModalContainer>
           <div className="updateComment">
             <h4>댓글 수정</h4>
-            <textarea
-              className="update"
-              onChange={handleInputChange}
-              defaultValue={fetchMyComment()}
-            />
+            <textarea className="update" ref={updatedComment} defaultValue={fetchMyComment()} />
             <div className="buttonGroup">
               <button onClick={() => onChangeEditingMode(false)}>취소</button>
               <button onClick={updateComment}>작성 완료</button>
@@ -255,12 +248,7 @@ const Comments = ({ comments, setComments }) => {
       )}
 
       <WriteComment onSubmit={uploadComment}>
-        <textarea
-          className="post"
-          onChange={handleInputChange}
-          value={newComment}
-          placeholder="댓글을 작성하세요"
-        />
+        <textarea className="post" ref={newComment} placeholder="댓글을 작성하세요" />
         <button>등록</button>
       </WriteComment>
     </CommenGroup>

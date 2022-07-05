@@ -95,11 +95,6 @@ export const TopButton = ({ containerRef }: TopButtonProps) => {
 
     containerRef.current.addEventListener('scroll', HandleScroll);
     button.current?.addEventListener('click', GoToTop);
-
-    return () => {
-      containerRef.current.removeEventListener('scroll', HandleScroll);
-      button.current?.removeEventListener('click', GoToTop);
-    };
   }, []);
 
   return (
