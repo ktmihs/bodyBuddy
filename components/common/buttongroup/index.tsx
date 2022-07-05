@@ -4,7 +4,8 @@ import { ButtonContainer } from './styledButtonGroup';
 const EditorGroup = ({
   selectedItem,
   className,
-  leftUrl,
+  EditorURL,
+  lastEdited,
   onChangeEditingMode,
   onChangeDeleteMode,
 }: EditorGroupProps) => {
@@ -16,7 +17,13 @@ const EditorGroup = ({
   return (
     <ButtonContainer className={className}>
       {className !== 'comment' ? (
-        <Link href={leftUrl ? leftUrl : '/'}>
+        <Link
+          href={{
+            pathname: EditorURL ? EditorURL : '/',
+            query: { edited: JSON.stringify(lastEdited) },
+          }}
+          as={EditorURL}
+        >
           <a>수정</a>
         </Link>
       ) : (

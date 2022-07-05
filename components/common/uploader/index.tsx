@@ -1,9 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { StyledImageUploader } from './styledUploader';
 
-export const ImageUploader = () => {
-  const [url, setImageUrl] = useState<string[]>(['', '', '']);
-
+export const ImageUploader = ({ url, setImageUrl }: ImageUploaderProps) => {
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
     const tempUrl = URL.createObjectURL(e.target.files[0]);

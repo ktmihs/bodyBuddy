@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { CommentCount, PostMetaInfo } from '@components/common/meta';
 import { TopButton } from '@components/common/button';
 import { useRef } from 'react';
+import Link from 'next/link';
 
 interface PostListProps {
   selectedItem: string;
@@ -76,7 +77,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
     {
       content: '야무지게 먹어야징',
       creationDate: '2022-07-03T05:41:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '0',
       images: [],
       title: '치팅메뉴 추천받아요!',
       totalComments: 2,
@@ -86,7 +87,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       content:
         '회원들이 힘들어할 때마다 자기는 행복하다면서 ㄷㄷ... 매일 보고 싶대요. 트레이너 자격에 남의 고통 즐기기 같은 게 있는 건가요? ㅡㅡ',
       creationDate: '2022-07-03T05:38:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '0',
       images: ['/assets/community/blank.svg'],
       title: '트레이너가 이상해요',
       totalComments: 5,
@@ -95,7 +96,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
     {
       content: '정상인가요?ㅜㅜ',
       creationDate: '2022-07-03T04:00:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '0',
       images: ['/assets/community/blank.svg'],
       title: '데드리프트 할 때 허리가 아파요',
       totalComments: 3,
@@ -104,7 +105,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
     {
       content: '사정상 양도합니다',
       creationDate: '2022-07-02T15:00:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '1',
       images: ['/assets/community/blank.svg'],
       title: 'PT 이용권 10회 팝니다',
       totalComments: 0,
@@ -114,7 +115,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       content:
         ' 회원들이 힘들어할 때마다 자기는 행복하다면서 ㄷㄷ... 매일 보고 싶대요. 트레이너 자격에 남의 고통 즐기기 같은 게 있는 건가요? ㅡㅡ',
       creationDate: '2022-07-01T12:00:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '1',
       images: ['/assets/community/blank.svg'],
       title: '트레이너가 이상해요',
       totalComments: 5,
@@ -124,7 +125,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
     {
       content: '사정상 양도합니다',
       creationDate: '2022-06-30T06:30:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '1',
       images: ['/assets/community/blank.svg'],
       title: 'PT 이용권 10회 팝니다',
       totalComments: 0,
@@ -133,7 +134,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
     {
       content: 'ㅠㅠ',
       creationDate: '2022-06-27T13:30:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '1',
       images: [],
       title: ' 수영하다 기절한 SSUL',
       totalComments: 3,
@@ -142,7 +143,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
     {
       content: '죽겠어요 원래 이런가요... 덕분에 저는 다리를 잃었고',
       creationDate: '2022-06-26T06:30:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '1',
       images: [],
       title: '트레이너가 하체만 시켜요',
       totalComments: 3,
@@ -151,7 +152,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
     {
       content: '요만한건데',
       creationDate: '2022-06-14T06:30:10.792Z',
-      fieldId: 'QrcJU3p8uWBbL0J6mjNL',
+      fieldId: '0',
       images: ['/assets/community/blank.svg'],
       title: '트쌤한테 먹을거 줘도 돼?',
       totalComments: 4,
@@ -162,18 +163,27 @@ const PostList = ({ selectedItem }: PostListProps) => {
     <PostListContainer ref={containerRef}>
       {posts.map((post, index) => (
         <Post key={index}>
-          <a href="community/1">
-            <p>{post.title}</p>
-            <p>{post.content}</p>
+          <Link
+            href={{
+              pathname: `/community/${index}`,
+              query: { post: JSON.stringify(post) },
+            }}
+            as={`/community/${index}`}
+          >
+            <a>
+              <p>{post.title}</p>
+              <p>{post.content}</p>
 
-            {post.images.length ? (
-              <ImageContainer>
-                <Image src={post.images[0]} alt="첨부한 사진" width="100" height="80" />
-              </ImageContainer>
-            ) : (
-              ''
-            )}
-          </a>
+              {post.images.length ? (
+                <ImageContainer>
+                  <Image src={post.images[0]} alt="첨부한 사진" width="100" height="80" />
+                </ImageContainer>
+              ) : (
+                ''
+              )}
+            </a>
+          </Link>
+
           <MetaContainer>
             <PostMetaInfo
               nickname={post.userId}

@@ -48,7 +48,7 @@ export const FixedBottomButton = ({
   return (
     <>
       {isValid ? (
-        <StyledFixedBottomButton type={buttonType} onClick={onButtonEvent()}>
+        <StyledFixedBottomButton type={buttonType} onClick={() => onButtonEvent()}>
           {buttonTitle}
         </StyledFixedBottomButton>
       ) : (
@@ -86,20 +86,15 @@ export const TopButton = ({ containerRef }: TopButtonProps) => {
   const button = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    if (!containerRef || !button) return;
     const HandleScroll = throttle(() => {
       if (!button.current) return;
       button.current.style.display = containerRef?.current.scrollTop > 100 ? 'block' : 'none';
     }, 300);
 
     const GoToTop = () => containerRef.current.scroll({ top: 0, behavior: 'smooth' });
-
     containerRef.current.addEventListener('scroll', HandleScroll);
     button.current?.addEventListener('click', GoToTop);
-
-    return () => {
-      containerRef.current.removeEventListener('scroll', HandleScroll);
-      button.current?.removeEventListener('click', GoToTop);
-    };
   }, []);
 
   return (
