@@ -8,9 +8,10 @@ import setting from '@assets/common/setting-white.svg';
 import styled from '@emotion/styled';
 
 export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) => {
+  const id = 1234;
   const edit = {
     // 강사로 로그인됐을 경우에만,
-    link: '[id]/edit',
+    link: `${id}/edit`,
     src: setting,
     alt: '수정페이지로 이동하기',
     height: 30,
