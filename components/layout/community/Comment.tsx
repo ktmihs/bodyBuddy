@@ -1,7 +1,9 @@
 import { PostMetaInfo } from '@components/common/meta';
+import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import ButtonGroup from '../../common/buttongroup';
+import { useState } from 'react';
+import EditorGroup from '../../common/buttongroup';
 
 const WriteComment = styled.form`
   padding-left: 20px;
@@ -14,6 +16,7 @@ const WriteComment = styled.form`
     border-color: ${({ theme }) => theme.lineGray};
     resize: none;
   }
+
   button {
     width: 50px;
     height: 30px;
@@ -23,6 +26,63 @@ const WriteComment = styled.form`
     border: none;
     align-self: flex-end;
     cursor: pointer;
+  }
+`;
+
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  .updateComment {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+
+    h4 {
+      padding: 5%;
+      font-size: 14px;
+      font-weight: bold;
+      border-bottom: 1px solid ${({ theme }) => theme.lightGray};
+      margin-bottom: 15px;
+    }
+    textarea {
+      line-height: 1.4;
+      padding: 2%;
+      resize: none;
+      width: 80%;
+      height: 100px;
+    }
+    div {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      display: flex;
+    }
+    button {
+      border: none;
+      width: 50%;
+      height: 45px;
+      &:nth-of-type(1) {
+        background-color: #f6f6f6;
+        color: ${({ theme }) => theme.purple};
+      }
+      &:nth-of-type(2) {
+        background-color: ${({ theme }) => theme.purple};
+        color: white;
+      }
+    }
   }
 `;
 
@@ -55,6 +115,7 @@ const Commentor = styled.div`
   }
 
   p {
+    width: 90%;
     margin-left: 20px;
     line-height: 1.3;
     padding-bottom: 1%;
@@ -66,6 +127,7 @@ const Commentor = styled.div`
     div:nth-of-type(n + 2) {
       width: 30%;
     }
+    a,
     button {
       line-height: 1.6;
     }
@@ -73,90 +135,105 @@ const Commentor = styled.div`
 `;
 
 const Comments = () => {
+  const userId = '밍망디';
+  const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
+  const [isEditingMode, onChangeEditingMode] = useState<boolean>(false);
+
+  const comments = [
+    {
+      id: '1',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '염분기 없는 닭가슴살이면 ㄱㅊ',
+      creationDate: '2022-07-03T00:00:10.792Z',
+      userId: '그만먹고싶닭',
+    },
+    {
+      id: '2',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '감사합니다!',
+      creationDate: '2022-07-03T02:00:10.792Z',
+      userId: '밍망디',
+    },
+    {
+      id: '3',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!',
+      creationDate: '2022-07-03T06:36:10.792Z',
+      userId: '상여자',
+    },
+    {
+      id: '4',
+      communityId: 'ZuDYupb7g2UYVDfSKOIH',
+      content: '답글 남겨 주신 모든 분들 감사합니다!',
+      creationDate: '2022-07-03T06:37:10.792Z',
+      userId: '밍망디',
+    },
+  ];
+
   return (
     <CommenGroup>
       <div role="none"></div>
       <h3>댓글</h3>
-      <Commentor>
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
-          />
-        </ImageContainer>
-        <PostMetaInfo
-          nickname="길에서 숨쉰 채 발견"
-          time={new Date()}
-          className="comment"
-          displayByDate={false}
-        ></PostMetaInfo>
+      {comments.map((comment, index) => (
+        <Commentor className={userId === comment.userId ? 'myComment' : ''} key={index}>
+          <ImageContainer>
+            <Image
+              className="profile"
+              src="/assets/common/profile.svg"
+              alt="프로필"
+              width="30"
+              height="30"
+            />
+          </ImageContainer>
+          <PostMetaInfo
+            nickname={comment.userId}
+            dateTime={new Date(comment.creationDate)}
+            className="comment"
+          ></PostMetaInfo>
+          {userId === comment.userId ? (
+            <EditorGroup
+              className="comment"
+              selectedItem="1"
+              onChangeEditingMode={onChangeEditingMode}
+              onChangeDeleteMode={onChangeDeleteMode}
+            />
+          ) : (
+            ''
+          )}
+          <p>{comment.content}</p>
+        </Commentor>
+      ))}
 
-        <p>염분기 없는 닭가슴살이면 ㄱㅊ</p>
-      </Commentor>
-      <Commentor className="myComment">
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
+      {isDeleteMode ? (
+        <ModalContainer>
+          <RightButtonModal
+            modalContent="댓글을 삭제하시겠습니까?"
+            rightButtonContent="댓글 삭제"
+            onClickedRightBtn={() => console.log('완료!')}
+            isModalState={isDeleteMode}
+            onChangeSetState={onChangeDeleteMode}
           />
-        </ImageContainer>
-        <PostMetaInfo
-          nickname="밍망디"
-          time={new Date()}
-          className="comment"
-          displayByDate={false}
-        ></PostMetaInfo>
-        <ButtonGroup className="edit" />
-        <WriteComment>
-          <textarea placeholder="댓글을 작성하세요" />
-        </WriteComment>
-      </Commentor>
-      <Commentor>
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
-          />
-        </ImageContainer>
-        <PostMetaInfo
-          nickname="그만먹고싶닭"
-          time={new Date()}
-          className="comment"
-          displayByDate={false}
-        ></PostMetaInfo>
-        <p>한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!</p>
-      </Commentor>
-      <Commentor className="myComment">
-        <ImageContainer>
-          <Image
-            className="profile"
-            src="/assets/common/profile.svg"
-            alt="프로필"
-            width="30"
-            height="30"
-          />
-        </ImageContainer>
-        <PostMetaInfo
-          nickname="밍망디"
-          time={new Date()}
-          className="comment"
-          displayByDate={false}
-        ></PostMetaInfo>
-        <ButtonGroup className="comment" />
-        <p>답글 남겨 주신 모든 분들 감사합니다!</p>
-      </Commentor>
+        </ModalContainer>
+      ) : (
+        ''
+      )}
+      {isEditingMode ? (
+        <ModalContainer>
+          <div className="updateComment">
+            <h4>댓글 수정</h4>
+            <textarea placeholder="한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!" />
+            <div className="buttonGroup">
+              <button onClick={() => onChangeEditingMode(false)}>취소</button>
+              <button onClick={() => onChangeEditingMode(false)}>작성 완료</button>
+            </div>
+          </div>
+        </ModalContainer>
+      ) : (
+        ''
+      )}
+
       <WriteComment>
         <textarea placeholder="댓글을 작성하세요" />
-        <button>게시</button>
       </WriteComment>
     </CommenGroup>
   );

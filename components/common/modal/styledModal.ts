@@ -49,6 +49,7 @@ export const StyledRightLinkModal = styled.div`
 export const StyledRightButtonModal = styled.div`
   z-index: 100;
   position: absolute;
+  top: 40%;
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
