@@ -1,5 +1,4 @@
 import { ItemGroup } from '@components/common/itemgroup';
-import { TopButton } from '@components/common/button';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styled from '@emotion/styled';
@@ -61,7 +60,6 @@ const Community: NextPage = () => {
           <span>글쓰기</span>
         </a>
       </PostButton>
-      <TopButton />
     </CommunityPage>
   );
 };

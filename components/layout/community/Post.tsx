@@ -1,11 +1,17 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { CommentCount, PostMetaInfo } from '@components/common/meta';
+import { TopButton } from '@components/common/button';
+import { useRef } from 'react';
 
 interface PostListProps {
   selectedItem: string;
 }
 
+const PostListContainer = styled.div`
+  height: 800px;
+  overflow: auto;
+`;
 const Post = styled.article`
   position: relative;
   height: 100px;
@@ -65,6 +71,7 @@ const MetaContainer = styled.div`
 `;
 
 const PostList = ({ selectedItem }: PostListProps) => {
+  const containerRef = useRef(null);
   const posts = [
     {
       content: '야무지게 먹어야징',
@@ -73,7 +80,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: [],
       title: '치팅메뉴 추천받아요!',
       totalComments: 2,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '울면근손실',
     },
     {
       content:
@@ -83,7 +90,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: ['/assets/community/blank.svg'],
       title: '트레이너가 이상해요',
       totalComments: 5,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '그만먹고싶닭',
     },
     {
       content: '정상인가요?ㅜㅜ',
@@ -92,7 +99,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: ['/assets/community/blank.svg'],
       title: '데드리프트 할 때 허리가 아파요',
       totalComments: 3,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '작심삼일',
     },
     {
       content: '사정상 양도합니다',
@@ -101,7 +108,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: ['/assets/community/blank.svg'],
       title: 'PT 이용권 10회 팝니다',
       totalComments: 0,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '당근당근',
     },
     {
       content:
@@ -111,7 +118,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: ['/assets/community/blank.svg'],
       title: '트레이너가 이상해요',
       totalComments: 5,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '밍망디',
     },
 
     {
@@ -121,7 +128,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: ['/assets/community/blank.svg'],
       title: 'PT 이용권 10회 팝니다',
       totalComments: 0,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '울면근손실',
     },
     {
       content: 'ㅠㅠ',
@@ -130,7 +137,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: [],
       title: ' 수영하다 기절한 SSUL',
       totalComments: 3,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '밍망디',
     },
     {
       content: '죽겠어요 원래 이런가요... 덕분에 저는 다리를 잃었고',
@@ -139,7 +146,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: [],
       title: '트레이너가 하체만 시켜요',
       totalComments: 3,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '밍망디',
     },
     {
       content: '요만한건데',
@@ -148,11 +155,11 @@ const PostList = ({ selectedItem }: PostListProps) => {
       images: ['/assets/community/blank.svg'],
       title: '트쌤한테 먹을거 줘도 돼?',
       totalComments: 4,
-      userId: 'ReBwBbk6bhMIcJWPmJCU',
+      userId: '밍망디',
     },
   ];
   return (
-    <div>
+    <PostListContainer ref={containerRef}>
       {posts.map((post, index) => (
         <Post key={index}>
           <a href="community/1">
@@ -169,7 +176,7 @@ const PostList = ({ selectedItem }: PostListProps) => {
           </a>
           <MetaContainer>
             <PostMetaInfo
-              nickname="울면근손실"
+              nickname={post.userId}
               dateTime={new Date(post.creationDate)}
               className="list"
             />
@@ -177,7 +184,8 @@ const PostList = ({ selectedItem }: PostListProps) => {
           </MetaContainer>
         </Post>
       ))}
-    </div>
+      <TopButton containerRef={containerRef} />
+    </PostListContainer>
   );
 };
 

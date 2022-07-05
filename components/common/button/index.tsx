@@ -82,22 +82,22 @@ export const SocialLinkButton = ({
   );
 };
 
-export const TopButton = () => {
+export const TopButton = ({ containerRef }: TopButtonProps) => {
   const button = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const HandleScroll = throttle(() => {
       if (!button.current) return;
-      button.current.style.display = window.pageYOffset > 100 ? 'block' : 'none';
+      button.current.style.display = containerRef?.current.scrollTop > 100 ? 'block' : 'none';
     }, 300);
 
-    const GoToTop = () => window.scroll({ top: 0, behavior: 'smooth' });
+    const GoToTop = () => containerRef.current.scroll({ top: 0, behavior: 'smooth' });
 
-    window.addEventListener('scroll', HandleScroll);
+    containerRef.current.addEventListener('scroll', HandleScroll);
     button.current?.addEventListener('click', GoToTop);
 
     return () => {
-      window.removeEventListener('scroll', HandleScroll);
+      containerRef.current.removeEventListener('scroll', HandleScroll);
       button.current?.removeEventListener('click', GoToTop);
     };
   }, []);
