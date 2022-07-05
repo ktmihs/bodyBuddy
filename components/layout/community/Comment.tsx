@@ -12,6 +12,7 @@ const WriteComment = styled.form`
   flex-direction: column;
   textarea {
     width: calc(100% - 50px);
+    height: 50px;
     padding: 2% 5% 10% 2%;
     border-color: ${({ theme }) => theme.lineGray};
     resize: none;
@@ -108,7 +109,7 @@ const Commentor = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 5px 10px;
-  margin: 3% 0;
+  padding: 10px 0;
 
   div:nth-of-type(2) {
     align-items: center;
@@ -134,41 +135,58 @@ const Commentor = styled.div`
   }
 `;
 
-const Comments = () => {
+const Comments = ({ comments, setComments }) => {
   const userId = '밍망디';
+  const [newComment, setNewComment] = useState<string>('');
+  const [updatedComment, setUpdatedComment] = useState<string>('');
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const [isEditingMode, onChangeEditingMode] = useState<boolean>(false);
 
-  const comments = [
-    {
-      id: '1',
-      communityId: 'ZuDYupb7g2UYVDfSKOIH',
-      content: '염분기 없는 닭가슴살이면 ㄱㅊ',
-      creationDate: '2022-07-03T00:00:10.792Z',
-      userId: '그만먹고싶닭',
-    },
-    {
-      id: '2',
-      communityId: 'ZuDYupb7g2UYVDfSKOIH',
-      content: '감사합니다!',
-      creationDate: '2022-07-03T02:00:10.792Z',
-      userId: '밍망디',
-    },
-    {
-      id: '3',
-      communityId: 'ZuDYupb7g2UYVDfSKOIH',
-      content: '한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!',
-      creationDate: '2022-07-03T06:36:10.792Z',
-      userId: '상여자',
-    },
-    {
-      id: '4',
-      communityId: 'ZuDYupb7g2UYVDfSKOIH',
-      content: '답글 남겨 주신 모든 분들 감사합니다!',
-      creationDate: '2022-07-03T06:37:10.792Z',
-      userId: '밍망디',
-    },
-  ];
+  const handleInputChange = ({ target }): void => {
+    target.className === 'post' ? setNewComment(target.value) : setUpdatedComment(target.value);
+  };
+
+  const fetchMyComment = () => {
+    const item = sessionStorage.getItem('selected');
+    return comments.filter(({ id }) => id === item).map(({ content }) => content);
+  };
+
+  const updateComment = () => {
+    const item = sessionStorage.getItem('selected');
+    // 서버로 comment update 요청
+    setComments(
+      comments.map((comment) =>
+        comment.id === item ? { ...comment, content: updatedComment } : comment
+      )
+    );
+    onChangeEditingMode(false);
+    sessionStorage.removeItem('selected');
+  };
+
+  const deleteComment = () => {
+    const item = sessionStorage.getItem('selected');
+    // 서버로 comment delete 요청
+    setComments(comments.filter(({ id }) => id !== item));
+    onChangeDeleteMode(false);
+    sessionStorage.removeItem('selected');
+  };
+
+  const uploadComment = (e): void => {
+    e.preventDefault();
+    if (!newComment) return;
+    // 서버로 commnet post 요청
+    setComments([
+      ...comments,
+      {
+        id: '11',
+        communityId: 'ZuDYupb7g2UYVDfSKOIH',
+        content: newComment,
+        creationDate: new Date(),
+        userId: '육회랑연어랑',
+      },
+    ]);
+    setNewComment('');
+  };
 
   return (
     <CommenGroup>
@@ -193,7 +211,7 @@ const Comments = () => {
           {userId === comment.userId ? (
             <EditorGroup
               className="comment"
-              selectedItem="1"
+              selectedItem={comment.id}
               onChangeEditingMode={onChangeEditingMode}
               onChangeDeleteMode={onChangeDeleteMode}
             />
@@ -209,7 +227,7 @@ const Comments = () => {
           <RightButtonModal
             modalContent="댓글을 삭제하시겠습니까?"
             rightButtonContent="댓글 삭제"
-            onClickedRightBtn={() => console.log('완료!')}
+            onClickedRightBtn={deleteComment}
             isModalState={isDeleteMode}
             onChangeSetState={onChangeDeleteMode}
           />
@@ -221,10 +239,14 @@ const Comments = () => {
         <ModalContainer>
           <div className="updateComment">
             <h4>댓글 수정</h4>
-            <textarea placeholder="한번 선물했더니 그 다음부턴 헬스장에서 마주칠 때마다 인사해 주더라고요!" />
+            <textarea
+              className="update"
+              onChange={handleInputChange}
+              defaultValue={fetchMyComment()}
+            />
             <div className="buttonGroup">
               <button onClick={() => onChangeEditingMode(false)}>취소</button>
-              <button onClick={() => onChangeEditingMode(false)}>작성 완료</button>
+              <button onClick={updateComment}>작성 완료</button>
             </div>
           </div>
         </ModalContainer>
@@ -232,8 +254,14 @@ const Comments = () => {
         ''
       )}
 
-      <WriteComment>
-        <textarea placeholder="댓글을 작성하세요" />
+      <WriteComment onSubmit={uploadComment}>
+        <textarea
+          className="post"
+          onChange={handleInputChange}
+          value={newComment}
+          placeholder="댓글을 작성하세요"
+        />
+        <button>등록</button>
       </WriteComment>
     </CommenGroup>
   );
