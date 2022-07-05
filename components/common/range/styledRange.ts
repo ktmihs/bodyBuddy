@@ -266,3 +266,10 @@ export const SliderLabel = styled.div`
   color: #828282;
   line-height: 31px;
 `;
+
+export const RangeLabel = styled.p`
+  font-weight: 800;
+  font-size: 12px;
+  text-align: right;
+  color: ${(props) => props.theme.purple};
+`;
