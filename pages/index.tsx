@@ -26,6 +26,8 @@ const Home: NextPage = () => {
     gender: '',
     field: [],
     purpose: [],
+    price: [],
+    career: [],
   });
 
   const trainerList = [
@@ -314,6 +316,7 @@ const Home: NextPage = () => {
 
   const Index = styled.div`
     background: #ececec;
+    overflow-x: hidden;
   `;
 
   const Header = styled.header`

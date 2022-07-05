@@ -1,36 +1,34 @@
+import { debounce } from 'lodash';
 import Slider from 'rc-slider';
-import { useState } from 'react';
-import { RangeWrapper, SliderLabel } from './styledRange';
+import { useMemo } from 'react';
+import { RangeWrapper, SliderLabel, RangeLabel } from './styledRange';
 
-export const CustomRange = ({ type, range, onChangeSetRange }: RangeProps) => {
-  const [test, setTest] = useState<number[] | number>(range);
-
-  const handleChange = (value: number[] | number) => {
-    setTest(value);
-    // value && onChangeSetRange(value);
-  };
+export const CustomRange = ({ type, range, onChangeSetRange, min, max }: RangeProps) => {
+  const debouncedSearch = useMemo(() => debounce((test) => onChangeSetRange(test), 300), [range]);
 
   return (
-    <RangeWrapper>
-      <Slider
-        range
-        min={0}
-        max={typeof range === 'object' ? range[1] : 10}
-        defaultValue={range}
-        value={test}
-        onChange={handleChange}
-      />
-      {type === 'price' ? (
+    <>
+      <RangeLabel>
+        {range[0]} ~ {range[1]} {type}
+      </RangeLabel>
+      <RangeWrapper>
+        <Slider
+          range
+          min={min}
+          max={max}
+          defaultValue={range}
+          value={range}
+          onChange={debouncedSearch}
+        />
         <SliderLabel>
-          <span>{typeof range === 'object' ? range[0] : 0}만원</span>
-          <span>{typeof range === 'object' ? range[0] : 100}만원</span>
+          <span>
+            {range[0]} {type}
+          </span>
+          <span>
+            {range[1]} {type}
+          </span>
         </SliderLabel>
-      ) : (
-        <SliderLabel>
-          <span>{typeof range === 'object' ? range[0] : 0}년</span>
-          <span>{typeof range === 'object' ? range[0] : 10}년</span>
-        </SliderLabel>
-      )}
-    </RangeWrapper>
+      </RangeWrapper>
+    </>
   );
 };
