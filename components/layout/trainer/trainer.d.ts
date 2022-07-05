@@ -29,3 +29,9 @@ interface EditProps {
   images: string[];
   gymImage: string;
 }
+
+interface TrainerModalProps {
+  images: string[];
+  initialslider: number;
+  onClickSetModal: Dispatch<SetStateAction<boolean>>;
+}
