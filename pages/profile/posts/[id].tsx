@@ -17,6 +17,11 @@ const ServiceGroup = styled.div`
     font-size: 13px;
     color: ${({ theme }) => theme.black};
   }
+  span:nth-of-type(2) {
+    span {
+      margin-left: 5px;
+    }
+  }
 `;
 
 const PostList = () => {

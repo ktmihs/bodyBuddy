@@ -1,12 +1,14 @@
 import RatingGroup from '@components/common/rating';
 import { TitleBar } from '@components/common/title';
-import { NextPage } from 'next/types';
-import { RightButtonModal } from '@components/common/modal';
 import { Select } from '@components/common/select';
-import { service } from '@data';
-import { useState } from 'react';
+import { FixedBottomButton } from '@components/common/button';
+import { NextPage } from 'next/types';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
+import { field, service } from '@data';
+import { debounce } from 'lodash';
+import { useRouter } from 'next/router';
 
 const ServiceGroup = styled.div`
   border-top: 1px solid ${({ theme }) => theme.lightGray};
@@ -20,6 +22,11 @@ const ServiceGroup = styled.div`
   span {
     font-size: 13px;
     color: ${({ theme }) => theme.black};
+  }
+  span:nth-of-type(2) {
+    span {
+      margin-left: 5px;
+    }
   }
 `;
 
@@ -52,6 +59,8 @@ const TrainerInfo = styled.div`
     margin: 0 10px 0 10px;
   }
   p {
+    width: 200px;
+    font-size: 13px;
     margin-top: 15px;
     line-height: 1.2;
     color: #5a5858;
@@ -75,6 +84,7 @@ const MainText = styled.div`
     background-color: #f2f2f2;
   }
   span:nth-of-type(1) {
+    font-size: 13px;
     position: absolute;
     line-height: 1.6;
     bottom: 0;
@@ -103,40 +113,69 @@ const Option = styled.div`
   }
 `;
 
-const SubmitButton = styled.button`
-  width: 300px;
-  height: 50px;
-  margin-left: 50%;
-  margin-bottom: 20px;
-  transform: translateX(-50%);
-  border-radius: 10px;
-  background-color: ${({ theme }) => theme.purple};
-  border-style: none;
-  color: white;
-  cursor: pointer;
-`;
-
 const Review: NextPage = () => {
   const [category, setCategory] = useState('상담');
-  const right = { link: '/profile', src: '/assets/common/closeButton.svg', alt: '뒤로가기' };
-  const [isModalState, onChangeSetState] = useState<boolean>(true);
+  const router = useRouter();
+  let { edited } = router.query;
+  //  let { trainerInfo } = router.query;
+  edited = edited ? JSON.parse(edited) : null;
+
+  const mainText = useRef(null);
+  const rating = useRef(null);
+  const isPrivateReview = useRef(null);
+  const hint = useRef(null);
+  const [isValid, changeValidState] = useState(edited ? true : false);
+
+  const right = { link: '/chat/list', src: '/assets/common/closeButton.svg', alt: '뒤로가기' };
+
+  const trainerInfo = {
+    name: '최세민',
+    trainerId: '1',
+    fieldId: '0',
+    image: '/assets/common/trainer.jpg',
+    introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
+  };
+
+  const handleRating = (e) => {
+    if (e.target.name !== 'rating') return;
+    rating.current = e.target;
+    rating.current.checked = true;
+  };
+
+  const handleTextChange = debounce(() => {
+    hint.current.style.display = mainText.current.value.length >= 10 ? 'none' : ' block';
+    mainText.current.value.length >= 10 ? changeValidState(true) : changeValidState(false);
+  }, 300);
+
+  const uploadPost = () => {
+    const newData = {
+      category,
+      content: mainText.current.value,
+      creationDate: edited ? edited.creationDate : new Date(),
+      isActivation: isPrivateReview.current.checked,
+      rating: rating.current ? +rating.current.value : 1,
+      trainerId: trainerInfo.trainerId,
+      userId: '1',
+    };
+    console.log(newData);
+    window.location.href = '/profile/1';
+  };
+
   return (
     <section>
       <h2 className="srOnly">후기 작성</h2>
       <TitleBar right={right} />
       <TrainerProfile>
         <Image src="/assets/common/trainer.jpg" width={100} height={100}></Image>
+
         <TrainerInfo>
-          <span>PT</span>
-          <span>최세민 트레이너</span>
-          <p>
-            다이어트, 매번 어려우셨나요? <br />
-            이번엔 쉬운 길을 선택하세요
-          </p>
+          <span>{field[+trainerInfo.fieldId]}</span>
+          <span>{edited ? edited.name : trainerInfo.name}</span>
+          <p>{edited ? edited.introduction : trainerInfo.introduction}</p>
         </TrainerInfo>
       </TrainerProfile>
       <TrainerRating>
-        <RatingGroup isEditingMode={true} width={15} height={15} />
+        <RatingGroup isEditingMode={true} onChangeRating={handleRating} width={15} height={15} />
       </TrainerRating>
       <ServiceGroup>
         <span>분류</span>
@@ -152,25 +191,33 @@ const Review: NextPage = () => {
           <legend className="srOnly">후기</legend>
           <MainText>
             <textarea
+              ref={mainText}
+              onChange={handleTextChange}
+              defaultValue={edited ? edited.content : ''}
               placeholder="후기에 대해 상세히 남겨주세요. :) &#13;&#10;정성스러운 후기는 다른 회원 및 트레이너에게 도움이 됩니다!"
             ></textarea>
-            <span className="hint">최소 글자 10자</span>
+            <span ref={hint} onChange={handleTextChange} className="hint">
+              최소 글자 10자
+            </span>
           </MainText>
           <Option>
-            <input type="checkbox" id="isPrivateReview" name="isPrivateReview" />
+            <input
+              ref={isPrivateReview}
+              checked={edited ? edited.isActivation : ''}
+              type="checkbox"
+              id="isPrivateReview"
+            />
             <label htmlFor="isPrivateReview"></label>
             <label htmlFor="isPrivateReview">트레이너에게만 보이기</label>
           </Option>
-          <SubmitButton>후기 작성 완료</SubmitButton>
         </fieldset>
       </form>
-      {/* <RightButtonModal
-        modalContent="후기 작성을 완료하시겠습니까?"
-        rightButtonContent="후기 작성 완료"
-        onClickedRightBtn={() => console.log('완료!')}
-        isModalState={isModalState}
-        onChangeSetState={onChangeSetState}
-      /> */}
+      <FixedBottomButton
+        isValid={isValid}
+        buttonType="button"
+        onButtonEvent={uploadPost}
+        buttonTitle={'작성 완료'}
+      />
     </section>
   );
 };
