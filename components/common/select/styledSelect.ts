@@ -12,7 +12,7 @@ export const StyledSelect = styled.button<{ width: number }>`
   background: transparent;
   display: flex;
   justify-content: space-between;
-  padding-left: 0 10px;
+  padding: 0 10px;
   align-items: center;
   font-size: 12px;
   color: ${({ theme }) => theme.purple};
