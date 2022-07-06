@@ -22,11 +22,11 @@ const TrainerEdit = () => {
   };
 
   const Withdraw = styled.div`
-    position: absolute;
+    position: relative;
     width: 73px;
     height: 22px;
     left: 290px;
-    top: 38px;
+    top: -63px;
     background: #ffffff;
     border: 1px solid #b0b0b0;
     color: #b0b0b0;
