@@ -12,7 +12,7 @@ import {
 
 import NaverLogo from '@assets/signUp/naver.svg';
 import KakaoLogo from '@assets/signUp/kakao.svg';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { throttle } from 'lodash';
 
 export const GradientButton = ({ link, buttonTitle, bottomPercent }: GradientButtonProps) => {
@@ -45,10 +45,14 @@ export const FixedBottomButton = ({
   buttonType,
   onButtonEvent,
 }: IsValidButtonProps) => {
+  const onFixedButton = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    onButtonEvent();
+  };
   return (
     <>
       {isValid ? (
-        <StyledFixedBottomButton type={buttonType} onClick={() => onButtonEvent()}>
+        <StyledFixedBottomButton type={buttonType} onClick={onFixedButton}>
           {buttonTitle}
         </StyledFixedBottomButton>
       ) : (

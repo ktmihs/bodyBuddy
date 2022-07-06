@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, where, query } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, where, query, addDoc } from 'firebase/firestore/lite';
+import { usertype } from './firebase.type';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -13,13 +14,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const userRef = collection(db, 'user');
+const userCollection = collection(db, 'user');
 
+// 회원가입
 export const checkIsNicknameDuplicated = async (nickname: string) => {
   try {
     let user = '';
 
-    const q = query(userRef, where('nickname', '==', nickname));
+    const q = query(userCollection, where('nickname', '==', nickname));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       user = doc.id;
@@ -30,6 +32,20 @@ export const checkIsNicknameDuplicated = async (nickname: string) => {
     }
 
     return false;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const signUpMember = async ({ nickname, email, gender, city, district }: usertype) => {
+  try {
+    await addDoc(collection(db, 'user'), {
+      nickname,
+      email,
+      gender,
+      city,
+      district,
+    });
   } catch (e) {
     console.log(e);
   }
