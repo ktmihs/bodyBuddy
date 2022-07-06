@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 
-import { FixedBottomLinkButton } from '@components/common/button';
-import { Select } from '@components/common/select';
+import { CityAndDistrictSelect, Select } from '@components/common/select';
 import StepHeader from '@components/layout/signUp/StepHeader';
 import { city, district } from '@data';
 
-import correct from '@assets/signUp/correct.svg';
-import incorrect from '@assets/signUp/incorrect.svg';
+import { signUpMember } from 'api/firebase';
+import { FixedBottomButton } from '@components/common/button';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
-import { checkIsNicknameDuplicated } from 'api/firebase';
+import { CheckIsValidNickname } from '@components/common/input';
+import Router from 'next/router';
 
 const StyledStep = styled.div`
   margin: 40px 0 0 21px;
@@ -60,49 +59,29 @@ const StyledStep = styled.div`
       border: 1px solid ${({ theme }) => theme.lineGray};
     }
   }
-
-  .interestedArea {
-    .interestedArea-select {
-      display: flex;
-
-      span:first-of-type {
-        margin-right: 10px;
-      }
-    }
-  }
 `;
 
 const Step1 = () => {
   const [cityInfo, setCityInfo] = useState('시/도');
   const [districtInfo, setDistrictInfo] = useState('군/구');
-  const [nickname, setNickname] = useState(false);
-  const [isduplicated, setIsDuplicated] = useState(false);
-  // const userInfo = useSelector((state: RootState) => state.userInfo);
+  const [checkNickname, setCheckNickname] = useState(false);
+  const [nickname, setNickname] = useState('');
+  const userInfo = useSelector((state: RootState) => state.userInfo.value);
 
-  const onChangeNickName = (e: React.SyntheticEvent) => {
-    if (!(e.target instanceof HTMLInputElement)) return;
-    const nickname = e.target.value;
-    if (nickname.length < 1 || nickname.length >= 5) setNickname(false);
-    else {
-      const reg = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩\s]/g;
-      if (reg.test(nickname)) {
-        // 특수문자 있는 경우
-        setNickname(false);
-      } else {
-        setNickname(true);
-        checkDuplicated(nickname);
-      }
-    }
-  };
+  useEffect(() => {
+    if (!userInfo.email) Router.push('/');
+  }, []);
 
-  const checkDuplicated = async (nickname: string) => {
+  const submitMemberInfo = async () => {
     try {
-      const result = await checkIsNicknameDuplicated(nickname);
-      if (!result) {
-        setIsDuplicated(true);
-      } else {
-        setIsDuplicated(false);
-      }
+      await signUpMember({
+        nickname: nickname,
+        email: userInfo.email,
+        gender: userInfo.gender,
+        city: cityInfo,
+        district: districtInfo,
+      });
+      Router.push('/signUp/member/complete');
     } catch (e) {
       console.log(e);
     }
@@ -118,47 +97,28 @@ const Step1 = () => {
       <StyledStep>
         <div className="nickname">
           <label>닉네임</label>
-          {nickname && isduplicated ? (
-            <span className="correct-nickname">좋은 닉네임이에요!</span>
-          ) : (
-            <></>
-          )}
-          {nickname ? (
-            <></>
-          ) : (
-            <span className="incorrect-nickname">닉네임은 특수문자 제외 5자 이내에요.</span>
-          )}
-          {nickname && !isduplicated ? (
-            <span className="duplicate-nickname">중복된 닉네임이 있습니다!</span>
-          ) : (
-            <></>
-          )}
-
-          <div className="nickname-img">
-            <Image src={correct} alt="옳음" width={'17px'} height={'17px'} />
-          </div>
-          <input onChange={onChangeNickName} type="text" placeholder="특수 문자 제외 5자 이내" />
+          <CheckIsValidNickname
+            nickname={nickname}
+            onSetNickname={setNickname}
+            isCheckNickname={setCheckNickname}
+          />
         </div>
         <div className="interestedArea">
           <label>관심 지역</label>
-          <div className="interestedArea-select">
-            <Select
-              currentSelectedData={cityInfo}
-              onSetCurrentSelected={setCityInfo}
-              selectData={city}
-              selectWidth={100}
-            />
-            <Select
-              currentSelectedData={districtInfo}
-              onSetCurrentSelected={setDistrictInfo}
-              selectData={
-                districtInfo === '군/구' ? ['시/도를 선택해주세요'] : district[districtInfo]
-              }
-              selectWidth={150}
-            />
-          </div>
+          <CityAndDistrictSelect
+            cityInfo={cityInfo}
+            districtInfo={districtInfo}
+            onSetCityInfo={setCityInfo}
+            onSetDistrictInfo={setDistrictInfo}
+          />
         </div>
       </StyledStep>
+      <FixedBottomButton
+        isValid={checkNickname && cityInfo !== '시/도' && districtInfo !== '군/구' ? true : false}
+        buttonType={'button'}
+        buttonTitle="회원가입 완료"
+        onButtonEvent={submitMemberInfo}
+      />
     </form>
   );
 };
