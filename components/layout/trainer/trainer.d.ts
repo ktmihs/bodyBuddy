@@ -8,13 +8,19 @@ interface HeaderProps {
   onClickSetLiked: (boolean) => void;
 }
 
+interface ImageViewerProps {
+  images: string[];
+  handleClick?: (e: MouseEvent<HTMLDivElement>) => void;
+  len: number;
+}
+
 interface reviewProps {
   id: number;
   userId: number;
   creationDate: Date;
   rating: number;
   trainerId: number;
-  image: string;
+  image: string[];
   category: string;
   content: string;
   isActivation: boolean;
