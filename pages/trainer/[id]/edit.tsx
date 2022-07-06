@@ -1,13 +1,40 @@
+import { FixedBottomLinkButton } from '@components/common/button';
 import { TitleBar } from '@components/common/title';
 import { Edit } from '@components/layout/trainer/edit';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const TrainerEdit = () => {
+  // trainer 정보 받아와서 초기값 저장
   const id = 1;
-
-  const gymImage = '/assets/common/profile.svg';
+  const field = 'PT';
+  const purpose = '다이어트';
   const images = ['/assets/common/profile.svg', '/assets/common/profile.svg'];
+  if (images.length < 3) for (let i = 0; i < 3 - images.length; i++) images.push('');
+  const gymImage = '/assets/common/profile.svg';
+
+  const [newField, setNewField] = useState(field || '');
+  const [newPurpose, setNewPurpose] = useState(purpose || '');
+  const [profileUrl, setProfileUrl] = useState<string>(images[0]);
+  const [imagesUrl, setImagesUrl] = useState<string[]>(images);
+  const [gymUrl, setGymUrl] = useState<string[]>([gymImage || '']);
+
+  const trainerState = {
+    field: newField,
+    purpose: newPurpose,
+    profileUrl: profileUrl,
+    imagesUrl: imagesUrl,
+    gymUrl: gymUrl,
+  };
+
+  const trainerSetState = {
+    setField: setNewField,
+    setPurpose: setNewPurpose,
+    setProfileUrl: setProfileUrl,
+    setImagesUrl: setImagesUrl,
+    setGymUrl: setGymUrl,
+  };
 
   const left = {
     link: `/trainer/${id}`,
@@ -44,7 +71,8 @@ const TrainerEdit = () => {
       <Link href={`/profile/${id}/withdraw`}>
         <Withdraw>회원탈퇴</Withdraw>
       </Link>
-      <Edit field={'필라테스'} purpose={'체력 증진'} images={images} gymImage={gymImage} />
+      <Edit trainerState={trainerState} trainerSetState={trainerSetState} />
+      <FixedBottomLinkButton isValid link={`/trainer/${id}`} buttonTitle={'변경 사항 저장'} />
     </>
   );
 };
