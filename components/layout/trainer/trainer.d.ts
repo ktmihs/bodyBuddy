@@ -23,11 +23,25 @@ interface BodyProps {
   images: string[];
 }
 
-interface EditProps {
+interface TrainerProps {
   field: string;
   purpose: string;
-  images: string[];
-  gymImage: string;
+  profileUrl: string;
+  imagesUrl: string[];
+  gymUrl: string[];
+}
+
+interface TrainerSetProps {
+  setField: Dispatch<SetStateAction<string>>;
+  setPurpose: Dispatch<SetStateAction<string>>;
+  setProfileUrl: Dispatch<SetStateAction<string>>;
+  setImagesUrl: Dispatch<SetStateAction<string[]>>;
+  setGymUrl: Dispatch<SetStateAction<string[]>>;
+}
+
+interface EditProps {
+  trainerState: TrainerProps;
+  trainerSetState: TrainerSetProps;
 }
 
 interface TrainerModalProps {
