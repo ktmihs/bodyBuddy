@@ -48,7 +48,10 @@ const TrainerEdit = () => {
     alt: '회원탈퇴',
   };
 
-  const handleButtonClick = () => {};
+  const handleButtonClick = () => {
+    // 트레이너 정보 수정하기
+    window.location.href = `/trainer/${id}`;
+  };
 
   const Withdraw = styled.div`
     position: relative;
