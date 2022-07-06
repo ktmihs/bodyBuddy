@@ -1,4 +1,8 @@
 interface HeaderProps {
+  trainer: {
+    id: number;
+    online: boolean;
+  };
   state: string;
   liked: boolean;
   onClickSetLiked: (boolean) => void;

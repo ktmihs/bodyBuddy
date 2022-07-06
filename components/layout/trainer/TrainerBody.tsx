@@ -49,6 +49,10 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
     cursor: pointer;
   `;
 
+  const NoReview = styled.div`
+    padding: 20px 0;
+  `;
+
   return (
     <>
       {modal && (
@@ -73,7 +77,7 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
                 </li>
               ))
             ) : (
-              <div>작성된 후기가 없습니다.</div>
+              <NoReview>작성된 후기가 없습니다.</NoReview>
             )}
           </ul>
         </BodySection>
