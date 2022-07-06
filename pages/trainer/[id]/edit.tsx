@@ -1,4 +1,4 @@
-import { FixedBottomLinkButton } from '@components/common/button';
+import { FixedBottomButton } from '@components/common/button';
 import { TitleBar } from '@components/common/title';
 import { Edit } from '@components/layout/trainer/edit';
 import styled from '@emotion/styled';
@@ -48,6 +48,8 @@ const TrainerEdit = () => {
     alt: '회원탈퇴',
   };
 
+  const handleButtonClick = () => {};
+
   const Withdraw = styled.div`
     position: relative;
     width: 73px;
@@ -72,7 +74,12 @@ const TrainerEdit = () => {
         <Withdraw>회원탈퇴</Withdraw>
       </Link>
       <Edit trainerState={trainerState} trainerSetState={trainerSetState} />
-      <FixedBottomLinkButton isValid link={`/trainer/${id}`} buttonTitle={'변경 사항 저장'} />
+      <FixedBottomButton
+        isValid
+        onButtonEvent={handleButtonClick}
+        buttonType={'button'}
+        buttonTitle={'변경 사항 저장'}
+      />
     </>
   );
 };
