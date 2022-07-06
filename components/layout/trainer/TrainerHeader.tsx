@@ -54,6 +54,7 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
   `;
 
   const TrainerIntro = styled.p`
+    position: relative;
     color: #fff;
     font-size: 17px;
     line-height: 21px;
@@ -63,8 +64,8 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
     &::before {
       content: url('/assets/trainer/trainer-intro.svg');
       position: absolute;
-      top: 60px;
-      left: 24px;
+      top: -55px;
+      left: 0px;
     }
   `;
 
