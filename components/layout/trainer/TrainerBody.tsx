@@ -1,10 +1,14 @@
 import Image from 'next/image';
-import profile from '@assets/common/profile.svg';
 import styled from '@emotion/styled';
 import { TrainerImages } from './TrainerImages';
 import { MouseEvent, useState } from 'react';
+import RatingGroup from '@components/common/rating';
+import { ImageViewer } from './ImageViewer';
+import Link from 'next/link';
 
 export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) => {
+  const id = 123456789; // 로그인 된 유저 아이디 받아오기
+
   const [modal, setModal] = useState(false);
   const [initialslider, setInitialslider] = useState<number>(0);
 
@@ -13,7 +17,10 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
     setInitialslider(+e.currentTarget.id);
   };
 
+  const handleDeleteReview = () => {};
+
   const BodySection = styled.section`
+    position: relative;
     margin: 10px 20px;
 
     h2 {
@@ -23,30 +30,87 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
       color: #858ff1;
       margin-bottom: 10px;
     }
+  `;
 
-    ul {
-      list-style: disc;
-      padding: 0 20px 5px 20px;
+  const Careers = styled.ul`
+    list-style: disc;
+    padding: 0 20px 5px 20px;
 
-      li {
-        font-size: 14px;
-        line-height: 20px;
-      }
+    li {
+      font-size: 14px;
+      line-height: 20px;
     }
   `;
 
-  const ImageContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+  const TotalReviews = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom: 1px solid #ededed;
+    padding-bottom: 5px;
+    width: 100%;
+
+    p {
+      float: right;
+      width: fit-content;
+      cursor: pointer;
+      padding: 2px;
+      font-size: 11px;
+      color: #9c9c9c;
+    }
   `;
 
-  const ImageWrapper = styled.div`
+  const ReviewContainer = styled.section`
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0 10px 0;
+    border-bottom: 1px solid #ededed;
+  `;
+
+  const ReviewHeader = styled.div`
+    box-sizing: border-box;
     width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    background-color: #d9d9d9;
+    display: flex;
+    flex-flow: column nowrap;
+    padding-top: 5px;
+    gap: 10px;
+
+    p {
+      font-weight: 700;
+      font-size: 8px;
+      line-height: 10px;
+      text-align: center;
+      color: #5a5858;
+    }
+  `;
+
+  const ReviewBody = styled.div`
+    text-align: right;
+    width: 100%;
+
+    p {
+      text-align: left;
+      margin: 5px 0;
+      font-size: 10px;
+      line-height: 14px;
+      color: #626161;
+    }
+  `;
+
+  const NoReview = styled.div`
+    padding: 20px 0;
+  `;
+
+  const DeleteReview = styled.div`
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    font-size: 9px;
+    color: #9c9c9c;
     cursor: pointer;
+    padding: 2px;
   `;
 
   return (
@@ -57,23 +121,62 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
       <main>
         <BodySection>
           <h2>자격 및 수상 경력</h2>
-          <ul>
+          <Careers>
             {careers.map((career, index) => (
               <li key={index}>{career}</li>
             ))}
-          </ul>
+          </Careers>
         </BodySection>
         <BodySection>
           <h2>후기</h2>
           <ul>
             {reviews.length ? (
-              reviews.map((review, index) => (
-                <li key={index}>
-                  <div>{review.content}</div>
-                </li>
-              ))
+              <>
+                <TotalReviews>
+                  <Link href={`reviews/${reviews[0].trainerId}`}>
+                    <p>더보기</p>
+                  </Link>
+                </TotalReviews>
+                {reviews.map((review, index) => {
+                  // review.userId로 유저 정보 받아오기
+                  const profile = ''; // images[0]
+                  const nickname = '루시안';
+
+                  return (
+                    <li key={index}>
+                      <ReviewContainer>
+                        <ReviewHeader>
+                          <Image
+                            src={profile || '/assets/common/profile.svg'}
+                            width={50}
+                            height={50}
+                          />
+                          <p>{nickname}</p>
+                        </ReviewHeader>
+                        <ReviewBody>
+                          <RatingGroup
+                            isEditingMode={false}
+                            star={review.rating}
+                            width={11}
+                            height={11}
+                          />
+                          <div>
+                            <p>{review.content}</p>
+                            {review.image.length ? <ImageViewer images={images} len={60} /> : <></>}
+                          </div>
+                          {review.userId === id ? (
+                            <DeleteReview onClick={handleDeleteReview}>삭제</DeleteReview>
+                          ) : (
+                            <></>
+                          )}
+                        </ReviewBody>
+                      </ReviewContainer>
+                    </li>
+                  );
+                })}
+              </>
             ) : (
-              <div>작성된 후기가 없습니다.</div>
+              <NoReview>작성된 후기가 없습니다.</NoReview>
             )}
           </ul>
         </BodySection>
@@ -84,17 +187,7 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
         </BodySection>
         <BodySection>
           <h2>사진</h2>
-          <ImageContainer>
-            {images.length ? (
-              images.map((image, index) => (
-                <ImageWrapper key={index} id={String(index)} onClick={handleClick}>
-                  <Image src={image} alt={'강사 사진'} width={100} height={100} />
-                </ImageWrapper>
-              ))
-            ) : (
-              <Image src={profile} alt={'이미지 없음'} width={100} height={100} />
-            )}
-          </ImageContainer>
+          <ImageViewer images={images} handleClick={handleClick} len={100} />
         </BodySection>
       </main>
     </>

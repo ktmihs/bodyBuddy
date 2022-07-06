@@ -1,7 +1,17 @@
 interface HeaderProps {
+  trainer: {
+    id: number;
+    online: boolean;
+  };
   state: string;
   liked: boolean;
   onClickSetLiked: (boolean) => void;
+}
+
+interface ImageViewerProps {
+  images: string[];
+  handleClick?: (e: MouseEvent<HTMLDivElement>) => void;
+  len: number;
 }
 
 interface reviewProps {
@@ -10,7 +20,7 @@ interface reviewProps {
   creationDate: Date;
   rating: number;
   trainerId: number;
-  image: string;
+  image: string[];
   category: string;
   content: string;
   isActivation: boolean;

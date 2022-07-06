@@ -7,16 +7,16 @@ import love from '@assets/trainer/love.svg';
 import setting from '@assets/common/setting-white.svg';
 import styled from '@emotion/styled';
 
-export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) => {
-  const id = 1234;
+export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: HeaderProps) => {
+  const { id, online } = trainer;
   const edit = {
-    // 강사로 로그인됐을 경우에만,
     link: `${id}/edit`,
     src: setting,
     alt: '수정페이지로 이동하기',
     height: 30,
     right: 30,
   };
+
   const likedObj = {
     liked: love,
     unLiked: loveBlank,
@@ -54,6 +54,7 @@ export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) =>
   `;
 
   const TrainerIntro = styled.p`
+    position: relative;
     color: #fff;
     font-size: 17px;
     line-height: 21px;
@@ -63,8 +64,8 @@ export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) =>
     &::before {
       content: url('/assets/trainer/trainer-intro.svg');
       position: absolute;
-      top: 60px;
-      left: 24px;
+      top: -55px;
+      left: 0px;
     }
   `;
 
@@ -177,12 +178,18 @@ export const TrainerHeader = ({ state, liked, onClickSetLiked }: HeaderProps) =>
               <span>다이어트</span>
             </FieldAndPurpose>
             {state === 'user' ? (
-              <div>
-                <Button>상담 하기</Button>
-              </div>
+              online ? (
+                <div>
+                  <Button>상담 하기</Button>
+                </div>
+              ) : (
+                <OnlineState>
+                  현재 <div>Off</div> 상태입니다.
+                </OnlineState>
+              )
             ) : (
               <OnlineState>
-                현재 <div>Off</div> 상태입니다.
+                현재 <div>{online ? 'On' : 'Off'}</div> 상태입니다.
               </OnlineState>
             )}
           </TrainerInfo>
