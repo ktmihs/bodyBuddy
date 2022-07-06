@@ -10,7 +10,9 @@ import { useState } from 'react';
 export const Edit = ({ field, purpose, images, gymImage }: EditProps) => {
   const [newField, setNewFieled] = useState(field);
   const [newPurpose, setNewPurpose] = useState(purpose);
-  const [profile, setProfile] = useState<string>(images[0] || '');
+  const [profileUrl, setProfileUrl] = useState<string>(images[0] || '');
+  const [imageUrl, setImageUrl] = useState<string[]>(['', '', '']);
+  const [gymUrl, setGymUrl] = useState<string[]>([gymImage || '']);
 
   const id = 1;
 
@@ -46,55 +48,57 @@ export const Edit = ({ field, purpose, images, gymImage }: EditProps) => {
   `;
 
   return (
-    <TrainerEdit>
-      <section>
-        <h2 className="srOnly">썸네일</h2>
-        <ProfileUploader profile={profile} setProfile={setProfile} />
-      </section>
-      <section>
-        <h2>상세 정보</h2>
+    <>
+      <TrainerEdit>
         <section>
-          <h3>종목 및 분야</h3>
-          <SelectBoxes>
-            <Select
-              currentSelectedData={newField}
-              selectData={healthEvents}
-              selectWidth={140}
-              onSetCurrentSelected={setNewFieled}
-            />
-            <Select
-              currentSelectedData={newPurpose}
-              selectData={healthPurpose}
-              selectWidth={140}
-              onSetCurrentSelected={setNewPurpose}
-            />
-          </SelectBoxes>
+          <h2 className="srOnly">썸네일</h2>
+          <ProfileUploader profile={profileUrl} setProfile={setProfileUrl} />
         </section>
         <section>
-          <h3>프로필 사진</h3>
-          <p>트레이너 님을 대표할 수 있는 사진을 업로드 해주세요 :)</p>
-          <ImageUploader />
+          <h2>상세 정보</h2>
+          <section>
+            <h3>종목 및 분야</h3>
+            <SelectBoxes>
+              <Select
+                currentSelectedData={newField}
+                selectData={healthEvents}
+                selectWidth={140}
+                onSetCurrentSelected={setNewFieled}
+              />
+              <Select
+                currentSelectedData={newPurpose}
+                selectData={healthPurpose}
+                selectWidth={140}
+                onSetCurrentSelected={setNewPurpose}
+              />
+            </SelectBoxes>
+          </section>
+          <section>
+            <h3>프로필 사진</h3>
+            <p>트레이너 님을 대표할 수 있는 사진을 업로드 해주세요 :)</p>
+            <ImageUploader url={imageUrl} setImageUrl={setImageUrl} />
+          </section>
         </section>
-      </section>
-      <section>
-        <h2>트레이닝장 정보</h2>
         <section>
-          <h3>트레이닝장 사진</h3>
-          <ImageUploader />
+          <h2>트레이닝장 정보</h2>
+          <section>
+            <h3>트레이닝장 사진</h3>
+            <ImageUploader url={gymUrl} setImageUrl={setGymUrl} />
+          </section>
+          <section>
+            <h3>트레이닝장 위치</h3>
+            <div>
+              <div>검색엔진</div>
+              <div>트레이닝장 위치</div>
+              {/* <KakaoMap /> */}
+            </div>
+          </section>
         </section>
         <section>
-          <h3>트레이닝장 위치</h3>
-          <div>
-            <div>검색엔진</div>
-            <div>트레이닝장 위치</div>
-            {/* <KakaoMap /> */}
-          </div>
+          <h2>경력 정보</h2>
         </section>
-      </section>
-      <section>
-        <h2>경력 정보</h2>
-      </section>
+      </TrainerEdit>
       <FixedBottomLinkButton isValid link={`/trainer/${id}`} buttonTitle={'변경 사항 저장'} />
-    </TrainerEdit>
+    </>
   );
 };
