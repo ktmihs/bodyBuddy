@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
 
+export const StyledBack = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+`;
 export const StyledSelectWrapper = styled.span`
   position: relative;
 `;
@@ -26,17 +33,29 @@ export const StyledSelectUl = styled.ul<{ width: number }>`
   background-color: #f8f8f8;
   box-sizing: border-box;
   width: ${({ width }) => width}px;
-  height: 100px;
+  max-height: 100px;
   overflow: auto;
-  padding: 2px 10px;
   font-size: 12px;
   border: 1px solid #b0b0b0;
   border-radius: 5px;
   position: absolute;
 
   li {
-    padding: 10px 0;
+    padding: 10px 7px;
     border-bottom: 1px solid ${({ theme }) => theme.lineGray};
     cursor: pointer;
+  }
+
+  li:hover {
+    background-color: ${({ theme }) => theme.purple};
+    color: white;
+  }
+`;
+
+export const StyledCityDistrictSelect = styled.div`
+  display: flex;
+
+  span:first-of-type {
+    margin-right: 10px;
   }
 `;
