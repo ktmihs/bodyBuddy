@@ -6,8 +6,8 @@ import Link from 'next/link';
 const TrainerEdit = () => {
   const id = 1;
 
-  const gymImage = '/assets/common/profile/svg';
-  const images = ['/assets/common/profile/svg', '/assets/common/profile/svg'];
+  const gymImage = '/assets/common/profile.svg';
+  const images = ['/assets/common/profile.svg', '/assets/common/profile.svg'];
 
   const left = {
     link: `/trainer/${id}`,
