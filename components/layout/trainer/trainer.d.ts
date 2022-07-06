@@ -1,7 +1,17 @@
 interface HeaderProps {
+  trainer: {
+    id: number;
+    online: boolean;
+  };
   state: string;
   liked: boolean;
   onClickSetLiked: (boolean) => void;
+}
+
+interface ImageViewerProps {
+  images: string[];
+  handleClick?: (e: MouseEvent<HTMLDivElement>) => void;
+  len: number;
 }
 
 interface reviewProps {
@@ -10,7 +20,7 @@ interface reviewProps {
   creationDate: Date;
   rating: number;
   trainerId: number;
-  image: string;
+  image: string[];
   category: string;
   content: string;
   isActivation: boolean;
@@ -23,11 +33,25 @@ interface BodyProps {
   images: string[];
 }
 
-interface EditProps {
+interface TrainerProps {
   field: string;
   purpose: string;
-  images: string[];
-  gymImage: string;
+  profileUrl: string;
+  imagesUrl: string[];
+  gymUrl: string[];
+}
+
+interface TrainerSetProps {
+  setField: Dispatch<SetStateAction<string>>;
+  setPurpose: Dispatch<SetStateAction<string>>;
+  setProfileUrl: Dispatch<SetStateAction<string>>;
+  setImagesUrl: Dispatch<SetStateAction<string[]>>;
+  setGymUrl: Dispatch<SetStateAction<string[]>>;
+}
+
+interface EditProps {
+  trainerState: TrainerProps;
+  trainerSetState: TrainerSetProps;
 }
 
 interface TrainerModalProps {

@@ -1,13 +1,19 @@
-import { FixedBottomLinkButton } from '@components/common/button';
+import { FixedBottomButton } from '@components/common/button';
 import { ItemGroup } from '@components/common/itemgroup';
 import { TitleBar } from '@components/common/title';
 import { ImageUploader } from '@components/common/uploader';
 import type { NextPage } from 'next';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { debounce } from 'lodash';
+import { field } from '@data';
+import { useRouter } from 'next/router';
 
 const PostingForm = styled.form`
   margin: 0 5%;
+  button {
+    left: 0;
+  }
 `;
 
 const PostingTitle = styled.input`
@@ -34,7 +40,45 @@ const MainText = styled.div`
 `;
 
 const Posting: NextPage = () => {
+  const router = useRouter();
+  let { edited } = router.query;
+  edited = edited ? JSON.parse(edited) : null;
+
+  const userId = '그만먹고싶닭';
+
   const [selectedItem, changeSelectedItem] = useState('0');
+  const [isValid, changeValidState] = useState(edited ? true : false);
+
+  const title = useRef(null);
+  const mainText = useRef(null);
+
+  const initalizeUrl = () =>
+    ['', '', ''].map((blank, index) =>
+      edited && edited.images && edited.images[index] ? edited.images[index] : blank
+    );
+
+  const [url, setImageUrl] = useState<string[]>(initalizeUrl());
+
+  const uploadPost = () => {
+    const newPost = {
+      content: mainText.current.value,
+      creationDate: edited ? edited.creationDate : new Date(),
+      fieldId: selectedItem,
+      images: url,
+      title: title.current.value,
+      totalComments: 0,
+      userId: userId,
+    };
+    // 서버로 post/update 요청
+    window.location.href('/community');
+  };
+
+  const handleTextChange = debounce(() => {
+    mainText.current.value && title.current.value
+      ? changeValidState(true)
+      : changeValidState(false);
+  }, 300);
+
   const left = { link: '/community', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
   return (
     <section>
@@ -44,14 +88,30 @@ const Posting: NextPage = () => {
       <PostingForm>
         <fieldset>
           <legend className="srOnly">작성 중인 게시물</legend>
-          <PostingTitle maxLength={14}></PostingTitle>
+          <PostingTitle
+            name="title"
+            defaultValue={edited ? edited.title : ''}
+            ref={title}
+            onChange={handleTextChange}
+            maxLength={14}
+          ></PostingTitle>
           <MainText>
-            <textarea></textarea>
-            <ImageUploader />
+            <textarea
+              name="mainText"
+              defaultValue={edited ? edited.content : ''}
+              ref={mainText}
+              onChange={handleTextChange}
+            ></textarea>
+            <ImageUploader url={url} setImageUrl={setImageUrl} />
           </MainText>
         </fieldset>
+        <FixedBottomButton
+          isValid={isValid}
+          buttonType="button"
+          onButtonEvent={uploadPost}
+          buttonTitle={'작성 완료'}
+        />
       </PostingForm>
-      <FixedBottomLinkButton isValid={true} link={'/community'} buttonTitle={'작성 완료'} />
     </section>
   );
 };
