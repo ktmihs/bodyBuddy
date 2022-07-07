@@ -162,7 +162,7 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
                           />
                           <div>
                             <p>{review.content}</p>
-                            {review.image.length ? <ImageViewer images={images} len={60} /> : <></>}
+                            {/* {review.image.length ? <ImageViewer images={images} len={60} /> : <></>} */}
                           </div>
                           {review.userId === id ? (
                             <DeleteReview onClick={handleDeleteReview}>삭제</DeleteReview>
