@@ -14,7 +14,7 @@ import Link from 'next/link';
 const Home: NextPage = () => {
   // 로그인 여부
   const hasLogin = true;
-  const name = '박혜빈';
+  const name = '손흥민';
   let getOptions;
 
   useEffect(() => {
