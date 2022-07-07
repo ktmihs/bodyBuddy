@@ -15,9 +15,22 @@ const Home: NextPage = () => {
   // 로그인 여부
   const hasLogin = true;
   const name = '손흥민';
+  let getOptions;
 
   useEffect(() => {
     if (!hasLogin) document.location.href = '/onBoarding';
+    const options = sessionStorage?.getItem('options');
+    getOptions = options && JSON.parse(options);
+    getOptions &&
+      setOptions({
+        city: getOptions.city,
+        district: getOptions.district,
+        gender: getOptions.gender,
+        field: getOptions.field,
+        purpose: getOptions.purpose,
+        price: getOptions.price,
+        career: getOptions.career,
+      });
   }, []);
 
   const [options, setOptions] = useState({

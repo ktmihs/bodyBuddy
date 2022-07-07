@@ -17,7 +17,13 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
     setInitialslider(+e.currentTarget.id);
   };
 
-  const handleDeleteReview = () => {};
+  const handleDeleteReview = () => {
+    console.log('delete');
+  };
+
+  const handleEditReview = () => {
+    console.log('edit');
+  };
 
   const BodySection = styled.section`
     position: relative;
@@ -92,10 +98,21 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
 
     p {
       text-align: left;
-      margin: 5px 0;
+      margin: 10px 0 5px 5px;
       font-size: 10px;
       line-height: 14px;
       color: #626161;
+    }
+  `;
+
+  const SecretMode = styled.div`
+    text-align: center;
+    padding-top: 18px;
+
+    & > p {
+      margin: 7px 0;
+      text-align: center;
+      color: #8f8d8d;
     }
   `;
 
@@ -103,7 +120,23 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
     padding: 20px 0;
   `;
 
-  const DeleteReview = styled.div`
+  const EditReview = styled.span`
+    position: absolute;
+    bottom: 10px;
+    right: 18px;
+    font-size: 9px;
+    color: #9c9c9c;
+    cursor: pointer;
+    padding: 2px;
+
+    &::after {
+      content: '|';
+      padding: 0 5px;
+      cursor: default;
+    }
+  `;
+
+  const DeleteReview = styled.span`
     position: absolute;
     bottom: 10px;
     right: 0;
@@ -153,23 +186,40 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
                           />
                           <p>{nickname}</p>
                         </ReviewHeader>
-                        <ReviewBody>
-                          <RatingGroup
-                            isEditingMode={false}
-                            star={review.rating}
-                            width={11}
-                            height={11}
-                          />
-                          <div>
-                            <p>{review.content}</p>
-                            {review.image.length ? <ImageViewer images={images} len={60} /> : <></>}
-                          </div>
-                          {review.userId === id ? (
-                            <DeleteReview onClick={handleDeleteReview}>삭제</DeleteReview>
-                          ) : (
-                            <></>
-                          )}
-                        </ReviewBody>
+                        {review.isActivation || review.userId === id ? (
+                          <ReviewBody>
+                            <RatingGroup
+                              isEditingMode={false}
+                              star={review.rating}
+                              width={11}
+                              height={11}
+                            />
+                            <div>
+                              <p>{review.content}</p>
+                              {/* {review.image.length ? <ImageViewer images={images} len={60} /> : <></>} */}
+                            </div>
+                            {review.userId === id ? (
+                              <div>
+                                <EditReview onClick={handleEditReview}>수정</EditReview>
+                                <DeleteReview onClick={handleDeleteReview}>삭제</DeleteReview>
+                              </div>
+                            ) : (
+                              <></>
+                            )}
+                          </ReviewBody>
+                        ) : (
+                          <ReviewBody>
+                            <SecretMode>
+                              <Image
+                                src={'/assets/common/padlock.svg'}
+                                alt={'비밀글'}
+                                width={18}
+                                height={18}
+                              />
+                              <p>트레이너에게만 공개된 후기입니다.</p>
+                            </SecretMode>
+                          </ReviewBody>
+                        )}
                       </ReviewContainer>
                     </li>
                   );
