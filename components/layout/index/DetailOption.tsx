@@ -147,6 +147,7 @@ const DetailOption = ({ options, handleSetOptions, onChangeSetState }: ModalProp
     };
 
     handleSetOptions(optionList);
+    sessionStorage.setItem('options', JSON.stringify(optionList));
     onChangeSetState();
   };
 
