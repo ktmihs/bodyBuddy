@@ -11,6 +11,7 @@ import { store } from 'redux/store';
 declare global {
   interface Window {
     kakao: any;
+    naver: any;
   }
 }
 
