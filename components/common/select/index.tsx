@@ -52,9 +52,9 @@ export const Select = ({
             <Image src={selectTriangle} alt="옵션 열기" width="15px" height="15px" />
           )}
         </StyledSelect>
-        {isListOpen && !isDisabled ? (
+        {isListOpen && !isDisabled && selectData?.length ? (
           <StyledSelectUl width={selectWidth}>
-            {selectData.map((data) => (
+            {selectData?.map((data) => (
               <li key={data} data-id={data} onClick={onClickCurrentSelected}>
                 {data}
               </li>
@@ -74,13 +74,17 @@ export const CityAndDistrictSelect = ({
   districtInfo,
   onSetDistrictInfo,
 }: CityDistrictSelectProps) => {
+  useEffect(() => {
+    onSetDistrictInfo('군/구');
+  }, [cityInfo]);
+
   return (
     <StyledCityDistrictSelect>
       <Select
         currentSelectedData={cityInfo}
         onSetCurrentSelected={onSetCityInfo}
         selectData={city}
-        selectWidth={100}
+        selectWidth={140}
       />
       <Select
         currentSelectedData={districtInfo}
