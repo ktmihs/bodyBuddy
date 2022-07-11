@@ -1,3 +1,4 @@
+import { CareerUploader } from '@components/common/career';
 import { KakaoMap } from '@components/common/map';
 import { ProfileUploader } from '@components/common/profile';
 import { Select } from '@components/common/select';
@@ -6,8 +7,9 @@ import { healthEvents, healthPurpose } from '@data';
 import styled from '@emotion/styled';
 
 export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
-  const { field, purpose, profileUrl, imagesUrl, gymUrl } = trainerState;
-  const { setField, setPurpose, setProfileUrl, setImagesUrl, setGymUrl } = trainerSetState;
+  const { field, purpose, profileUrl, imagesUrl, gymUrl, careers } = trainerState;
+  const { setField, setPurpose, setProfileUrl, setImagesUrl, setGymUrl, setCareers } =
+    trainerSetState;
 
   const TrainerEdit = styled.main`
     margin: 10px 20px;
@@ -88,6 +90,7 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
       </section>
       <section>
         <h2>경력 정보</h2>
+        <CareerUploader careers={careers} setCareers={setCareers} />
       </section>
     </TrainerEdit>
   );
