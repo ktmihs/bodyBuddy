@@ -5,6 +5,8 @@ import profile from '@assets/common/profile.svg';
 import setting from '@assets/common/setting-black.svg';
 import right from '@assets/common/right-black.svg';
 import styled from '@emotion/styled';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 
 const StyledProfile = styled.div`
   padding-top: 40px;
@@ -122,6 +124,9 @@ const StyledProfile = styled.div`
 `;
 
 const Profile = () => {
+  const userInfo = useSelector((state: RootState) => state.userInfo.value);
+
+  console.log(userInfo);
   return (
     <StyledProfile>
       <section className="profile">
@@ -136,8 +141,8 @@ const Profile = () => {
         <div className="profile-info">
           <Image src={profile} alt="프로필 이미지" width="123px" height="127px" />
           <div>
-            <span>루시안</span>
-            <span>sianpark54@gmail.com</span>
+            <span>{userInfo.name}</span>
+            <span>{userInfo.email}</span>
           </div>
         </div>
         <a className="logout">로그아웃</a>
