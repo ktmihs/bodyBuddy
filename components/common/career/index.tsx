@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
-import { AddCareer, Career, Approval, Uploader } from './styledCareer';
+import { AddCareer, Career, Approval, Uploader, UploaderMessage } from './styledCareer';
 
 export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
   const [newCareer, setNewCareer] = useState<CareerProps>({
@@ -61,7 +61,7 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
               ) : (
                 <Approval color={BLUE}>심사중</Approval>
               )}
-              <button data-id={career.id} onClick={deleteCareer}>
+              <button type="button" data-id={career.id} onClick={deleteCareer}>
                 X
               </button>
             </Career>
@@ -69,7 +69,9 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
         ) : (
           <></>
         )}
-        <p>상단 경력 및 수상에 해당하는 자격 및 수상 인증을 업로드해주세요.</p>
+        <UploaderMessage>
+          상단 경력 및 수상에 해당하는 자격 및 수상 인증을 업로드해주세요.
+        </UploaderMessage>
         <Uploader className={newCareer.image ? 'uploaded' : ''}>
           <div className="careerImageWapper">
             {newCareer.image ? (
@@ -103,7 +105,7 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
             />
           </div>
         </Uploader>
-        <AddCareer type="button" color={BLUE} onClick={handleAddCareer}>
+        <AddCareer type="submit" color={BLUE} onClick={handleAddCareer}>
           추가
         </AddCareer>
       </fieldset>

@@ -102,5 +102,14 @@ export const AddCareer = styled.button`
   font-size: 10px;
   color: #fff;
   border-radius: 5px;
-  margin: 5px 0;
+  margin: 7px 0 15px 0;
+`;
+
+export const UploaderMessage = styled.p`
+  text-align: center;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 36px;
+  margin-top: 12px;
+  color: #818181 !important;
 `;
