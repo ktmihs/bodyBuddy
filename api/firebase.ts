@@ -54,6 +54,7 @@ export const signUpMember = async ({
       district,
       signUpway,
       isWithdrawal: false,
+      thumbnail: '',
     });
   } catch (e) {
     console.log(e);
