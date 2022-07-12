@@ -13,12 +13,34 @@ const TrainerEdit = () => {
   const images = ['/assets/common/profile.svg', '/assets/common/profile.svg'];
   if (images.length < 3) for (let i = 0; i < 3 - images.length; i++) images.push('');
   const gymImage = '/assets/common/profile.svg';
+  const career = [
+    {
+      id: '1234',
+      content:
+        '숨쉬는 경력은 경력이 아닌가요??숨쉬는 경력은 경력이 아닌가요??숨쉬는 경력은 경력이 아닌가요??',
+      image: '/assets/common/star.svg',
+      isApproval: false,
+    },
+    {
+      id: '1235',
+      content: '숨쉬는 경력은 경력이 아닌가요',
+      image: '/assets/common/star.svg',
+      isApproval: true,
+    },
+    {
+      id: '1236',
+      content: '숨쉬는 경력은 경력이 아닌가요',
+      image: '/assets/common/star.svg',
+      isApproval: false,
+    },
+  ];
 
   const [newField, setNewField] = useState(field || '');
   const [newPurpose, setNewPurpose] = useState(purpose || '');
   const [profileUrl, setProfileUrl] = useState<string>(images[0]);
   const [imagesUrl, setImagesUrl] = useState<string[]>(images);
   const [gymUrl, setGymUrl] = useState<string[]>([gymImage || '']);
+  const [careers, setCareers] = useState<CareerProps[]>(career || []);
 
   const trainerState = {
     field: newField,
@@ -26,6 +48,7 @@ const TrainerEdit = () => {
     profileUrl: profileUrl,
     imagesUrl: imagesUrl,
     gymUrl: gymUrl,
+    careers: careers,
   };
 
   const trainerSetState = {
@@ -34,6 +57,7 @@ const TrainerEdit = () => {
     setProfileUrl: setProfileUrl,
     setImagesUrl: setImagesUrl,
     setGymUrl: setGymUrl,
+    setCareers: setCareers,
   };
 
   const left = {
