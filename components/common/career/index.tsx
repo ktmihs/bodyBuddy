@@ -61,7 +61,7 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
               ) : (
                 <Approval color={BLUE}>심사중</Approval>
               )}
-              <button data-id={career.id} onClick={deleteCareer}>
+              <button type="button" data-id={career.id} onClick={deleteCareer}>
                 X
               </button>
             </Career>
@@ -103,7 +103,7 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
             />
           </div>
         </Uploader>
-        <AddCareer type="button" color={BLUE} onClick={handleAddCareer}>
+        <AddCareer type="submit" color={BLUE} onClick={handleAddCareer}>
           추가
         </AddCareer>
       </fieldset>
