@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, where, query, addDoc } from 'firebase/firestore/lite';
-import { usertype } from './firebase.type';
+import { postingType, usertype } from './firebase.type';
+import { getStorage, ref, uploadString } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -13,8 +14,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage();
 
 const userCollection = collection(db, 'user');
+const communityCollection = collection(db, 'community');
 
 // 회원가입
 export const checkIsNicknameDuplicated = async (nickname: string) => {
@@ -55,6 +58,25 @@ export const signUpMember = async ({
       signUpway,
       isWithdrawal: false,
     });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addComuunityPosting = async (posting: postingType) => {
+  try {
+    const imagesKey: string[] = [];
+    posting.images
+      .filter((image) => image)
+      .forEach((image) => {
+        const name = `image${Date.now()}.jpg`;
+        uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
+          console.log('Uploaded a base64 string!');
+        });
+        imagesKey.push(name);
+      });
+
+    addDoc(collection(db, 'community'), { ...posting, images: imagesKey });
   } catch (e) {
     console.log(e);
   }

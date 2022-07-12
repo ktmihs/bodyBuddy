@@ -7,7 +7,8 @@ import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import { field } from '@data';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import { addComuunityPosting } from 'api/firebase';
 
 const PostingForm = styled.form`
   margin: 0 5%;
@@ -59,18 +60,23 @@ const Posting: NextPage = () => {
 
   const [url, setImageUrl] = useState<string[]>(initalizeUrl());
 
-  const uploadPost = () => {
+  const uploadPost = async () => {
     const newPost = {
       content: mainText.current.value,
       creationDate: edited ? edited.creationDate : new Date(),
-      fieldId: selectedItem,
+      fieldId: field[+selectedItem],
       images: url,
       title: title.current.value,
       totalComments: 0,
       userId: userId,
     };
     // 서버로 post/update 요청
-    window.location.href('/community');
+    try {
+      await addComuunityPosting(newPost);
+      Router.push('/community');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleTextChange = debounce(() => {
