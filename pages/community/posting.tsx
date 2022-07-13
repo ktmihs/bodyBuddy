@@ -60,7 +60,7 @@ const Posting: NextPage = () => {
 
   const [url, setImageUrl] = useState<string[]>(initalizeUrl());
 
-  const uploadPost = async () => {
+  const uploadPost = () => {
     const newPost = {
       content: mainText.current.value,
       creationDate: edited ? edited.creationDate : new Date(),
@@ -72,8 +72,9 @@ const Posting: NextPage = () => {
     };
     // 서버로 post/update 요청
     try {
-      await addComuunityPosting(newPost);
-      Router.push('/community');
+      Promise.resolve(addComuunityPosting(newPost)).then(() => {
+        Router.push('/community');
+      });
     } catch (e) {
       console.log(e);
     }
@@ -99,7 +100,7 @@ const Posting: NextPage = () => {
             defaultValue={edited ? edited.title : ''}
             ref={title}
             onChange={handleTextChange}
-            maxLength={14}
+            maxLength={16}
           ></PostingTitle>
           <MainText>
             <textarea

@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, where, query, addDoc } from 'firebase/firestore/lite';
 import { postingType, usertype } from './firebase.type';
-import { getStorage, ref, uploadString } from 'firebase/storage';
+import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -63,20 +63,38 @@ export const signUpMember = async ({
   }
 };
 
+export const getComuunityPosting = async (field: string) => {
+  try {
+    const q = query(communityCollection, where('fieldId', '==', field));
+    const querySnapshot = await getDocs(q);
+    const res = [];
+    querySnapshot.forEach(async (doc) => {
+      let data = doc.data();
+      data = {
+        ...data,
+        creationDate: data.creationDate.toDate(),
+      };
+      res.push(data);
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const addComuunityPosting = async (posting: postingType) => {
   try {
-    const imagesKey: string[] = [];
-    posting.images
+    const promises = posting.images
       .filter((image) => image)
-      .forEach((image) => {
+      .map((image) => {
         const name = `image${Date.now()}.jpg`;
-        uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
-          console.log('Uploaded a base64 string!');
+        return uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
+          return getDownloadURL(ref(storage, name));
         });
-        imagesKey.push(name);
       });
-
-    addDoc(collection(db, 'community'), { ...posting, images: imagesKey });
+    Promise.all(promises).then((result) => {
+      addDoc(collection(db, 'community'), { ...posting, images: result });
+    });
   } catch (e) {
     console.log(e);
   }
