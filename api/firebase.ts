@@ -71,12 +71,13 @@ export const getComuunityPosting = async (field: string) => {
     querySnapshot.forEach(async (doc) => {
       let data = doc.data();
       data = {
+        id: doc.id,
         ...data,
         creationDate: data.creationDate.toDate(),
       };
       res.push(data);
     });
-    return res;
+    return res.sort((a, b) => b.creationDate - a.creationDate);
   } catch (e) {
     console.log(e);
   }
