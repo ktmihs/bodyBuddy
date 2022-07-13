@@ -40,6 +40,7 @@ interface TrainerProps {
   imagesUrl: string[];
   gymUrl: string[];
   careers: CareerProps[];
+  cost: string;
 }
 
 interface TrainerSetProps {
@@ -49,6 +50,7 @@ interface TrainerSetProps {
   setImagesUrl: Dispatch<SetStateAction<string[]>>;
   setGymUrl: Dispatch<SetStateAction<string[]>>;
   setCareers: Dispatch<SetStateAction<CareerProps[]>>;
+  setCost: Dispatch<SetStateAction<string>>;
 }
 
 interface EditProps {
