@@ -10,6 +10,7 @@ import OptionList from '@components/layout/index/Option';
 import TrainerItem from '@components/layout/index/TrainerItem';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import NoContent from '@components/common/noContent';
 
 const Home: NextPage = () => {
   // 로그인 여부
@@ -404,6 +405,13 @@ const Home: NextPage = () => {
     padding: 10px 0 10px 15px;
   `;
 
+  const NoContentWrapper = styled.div`
+    position: relative;
+    width: 390px;
+    height: 480px;
+    background-color: #ffffff;
+  `;
+
   return hasLogin ? (
     <>
       {isModalState && (
@@ -441,9 +449,13 @@ const Home: NextPage = () => {
             </OptionWrapper>
           </Option>
           <TrainerList>
-            {trainerList.map((trainer: any) => (
-              <TrainerItem key={trainer.id} trainer={trainer} />
-            ))}
+            {trainerList.length ? (
+              trainerList.map((trainer: any) => <TrainerItem key={trainer.id} trainer={trainer} />)
+            ) : (
+              <NoContentWrapper>
+                <NoContent title={'트레이너가 없습니다'} subTitle={'옵션을 다시 선택해주세요'} />
+              </NoContentWrapper>
+            )}
           </TrainerList>
         </Main>
         <TopButton containerRef={containerRef} />
