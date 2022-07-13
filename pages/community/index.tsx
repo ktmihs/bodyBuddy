@@ -2,8 +2,10 @@ import { ItemGroup } from '@components/common/itemgroup';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostList from '@components/layout/community/Post';
+import { field } from '@data';
+import { getComuunityPosting } from 'api/firebase';
 
 const CommunityPage = styled.section`
   &:nth-of-type(1) {
@@ -48,12 +50,21 @@ const PostButton = styled.div`
 
 const Community: NextPage = () => {
   const [selectedItem, changeSelectedItem] = useState('0');
+  const [postList, setPostList] = useState([]);
+
+  useEffect(() => {
+    const promise = getComuunityPosting(field[+selectedItem]);
+    promise.then((result) => {
+      result = result?.map((data) => ({ ...data, creationDate: data.creationDate + '' }));
+      setPostList(result);
+    });
+  }, [selectedItem]);
 
   return (
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
       <ItemGroup changeSelectedItem={changeSelectedItem} />
-      <PostList selectedItem={selectedItem} />
+      <PostList postList={postList} setPostList={setPostList} selectedItem={selectedItem} />
       <PostButton>
         <a href="community/posting">
           <Image src="/assets/community/pencil.svg" alt="글쓰기" width={15} height={15}></Image>
