@@ -1,9 +1,9 @@
+import { EditorGroup } from '@components/common/buttongroup';
 import { PostMetaInfo } from '@components/common/meta';
 import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
-import EditorGroup from '../../common/buttongroup';
 
 const WriteComment = styled.form`
   margin-top: 15px;

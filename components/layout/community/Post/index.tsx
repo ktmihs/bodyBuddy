@@ -5,23 +5,6 @@ import { TopButton } from '@components/common/button';
 import { useRef } from 'react';
 import Link from 'next/link';
 
-interface post {
-  id: string;
-  title: string;
-  images: string[];
-  totalComments: number;
-  userId: string;
-  content: string;
-  fieldId: string;
-  creationDate: string;
-}
-
-interface PostListProps {
-  postList: post;
-  setPostList: Dispatch<SetStateAction<object[]>>;
-  selectedItem: string;
-}
-
 const PostListContainer = styled.div`
   height: 800px;
   overflow: auto;
@@ -89,14 +72,13 @@ const PostList = ({ postList, setPostList, selectedItem }: PostListProps) => {
 
   return (
     <PostListContainer ref={containerRef}>
-      {postList.map((post, index) => (
-        <Post key={index}>
+      {postList.map((post) => (
+        <Post key={post.id}>
           <Link
             href={{
-              pathname: `/community/${index}`,
-              query: { post: JSON.stringify(post) },
+              pathname: `/community/${post.id}`,
             }}
-            as={`/community/${index}`}
+            as={`/community/${post.id}`}
           >
             <a>
               <p>{post.title}</p>

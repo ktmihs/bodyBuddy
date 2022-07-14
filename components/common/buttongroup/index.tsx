@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ButtonContainer } from './styledButtonGroup';
 
-const EditorGroup = ({
+export const EditorGroup = ({
   selectedItem,
   className,
   EditorURL,
@@ -41,5 +41,3 @@ const EditorGroup = ({
     </ButtonContainer>
   );
 };
-
-export default EditorGroup;

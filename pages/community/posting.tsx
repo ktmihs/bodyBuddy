@@ -8,7 +8,7 @@ import { useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import { field } from '@data';
 import Router, { useRouter } from 'next/router';
-import { addComuunityPosting } from 'api/firebase';
+import { addCommunityPosting } from 'api/firebase';
 
 const PostingForm = styled.form`
   margin: 0 5%;
@@ -72,7 +72,7 @@ const Posting: NextPage = () => {
     };
     // 서버로 post/update 요청
     try {
-      Promise.resolve(addComuunityPosting(newPost)).then(() => {
+      Promise.resolve(addCommunityPosting(newPost)).then(() => {
         Router.push('/community');
       });
     } catch (e) {
