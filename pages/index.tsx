@@ -110,7 +110,7 @@ const Home: NextPage = () => {
       isOnline: true,
     },
     {
-      id: '456789126',
+      id: 'w8RHva8urMTaq1XDNZY9',
       name: '최세민4',
       phoneNumber: '01012345678',
       images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
@@ -269,7 +269,6 @@ const Home: NextPage = () => {
     getOptions = options && JSON.parse(options);
     if (getOptions) {
       const { city, district, gender, field, purpose, price, career } = getOptions;
-      console.log(city, district, gender, field, purpose, price, career);
       setOptions({
         city: city,
         district: district,

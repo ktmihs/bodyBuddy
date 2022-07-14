@@ -6,8 +6,10 @@ import RatingGroup from '@components/common/rating';
 import { ImageViewer } from './ImageViewer';
 import Link from 'next/link';
 
-export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) => {
+export const TrainerBody = ({ trainer, reviews }: BodyProps) => {
   const id = 123456789; // 로그인 된 유저 아이디 받아오기
+
+  const { id: trainerId, careers, address, images } = trainer;
 
   const [modal, setModal] = useState(false);
   const [initialslider, setInitialslider] = useState<number>(0);
@@ -155,9 +157,7 @@ export const TrainerBody = ({ careers, reviews, address, images }: BodyProps) =>
         <BodySection>
           <h2>자격 및 수상 경력</h2>
           <Careers>
-            {careers.map((career, index) => (
-              <li key={index}>{career}</li>
-            ))}
+            {careers && careers.map((career, index) => <li key={index}>{career.content}</li>)}
           </Careers>
         </BodySection>
         <BodySection>

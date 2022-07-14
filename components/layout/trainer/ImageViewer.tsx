@@ -19,7 +19,7 @@ export const ImageViewer = ({ images, handleClick, len }: ImageViewerProps) => {
 
   return (
     <ImageContainer>
-      {images.length ? (
+      {images && images.length ? (
         images.map((image: string, index: number) => (
           <ImageWrapper key={index} id={String(index)} onClick={handleClick}>
             <Image src={image} alt={'강사 사진'} width={len} height={len} />
