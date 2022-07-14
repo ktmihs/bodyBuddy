@@ -25,7 +25,8 @@
       "@components/*":["components/*"],
       "@assets/*":["public/assets/*"],
       "@styles/*":["styles/*"],
-      "@data":["data"]
+      "@data":["data"],
+      "@api/*": ["api/*"]
     }
 
   },

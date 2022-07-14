@@ -1,6 +1,15 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, where, query, addDoc } from 'firebase/firestore/lite';
-import { usertype } from './firebase.type';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  where,
+  query,
+  addDoc,
+  orderBy,
+} from 'firebase/firestore/lite';
+import { postingType, usertype, MakeQueryParam } from './firebase.type';
+import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -13,8 +22,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage();
 
 const userCollection = collection(db, 'user');
+const communityCollection = collection(db, 'community');
+export const chatCollection = collection(db, 'chat');
+
+export const makeQuery = ({ id, option, outerCollection, innerCollection }: MakeQueryParam) =>
+  query(collection(db, `${outerCollection}/${id}/${innerCollection}`), orderBy(option));
 
 // 회원가입
 export const checkIsNicknameDuplicated = async (nickname: string) => {
@@ -55,6 +70,44 @@ export const signUpMember = async ({
       signUpway,
       isWithdrawal: false,
       thumbnail: '',
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getComuunityPosting = async (field: string) => {
+  try {
+    const q = query(communityCollection, where('fieldId', '==', field));
+    const querySnapshot = await getDocs(q);
+    const res = [];
+    querySnapshot.forEach(async (doc) => {
+      let data = doc.data();
+      data = {
+        id: doc.id,
+        ...data,
+        creationDate: data.creationDate.toDate(),
+      };
+      res.push(data);
+    });
+    return res.sort((a, b) => b.creationDate - a.creationDate);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addComuunityPosting = async (posting: postingType) => {
+  try {
+    const promises = posting.images
+      .filter((image) => image)
+      .map((image) => {
+        const name = `image${Date.now()}.jpg`;
+        return uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
+          return getDownloadURL(ref(storage, name));
+        });
+      });
+    Promise.all(promises).then((result) => {
+      addDoc(collection(db, 'community'), { ...posting, images: result });
     });
   } catch (e) {
     console.log(e);
