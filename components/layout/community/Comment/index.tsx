@@ -137,7 +137,7 @@ const Commentor = styled.div`
 `;
 
 const Comments = ({ comments, setComments }) => {
-  const userId = '밍망디';
+  const userNickname = '밍지뀨';
   const newComment = useRef(null);
   const updatedComment = useRef(null);
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
@@ -190,7 +190,7 @@ const Comments = ({ comments, setComments }) => {
       <div role="none"></div>
       <h3>댓글</h3>
       {comments.map((comment, index) => (
-        <Commentor className={userId === comment.userId ? 'myComment' : ''} key={index}>
+        <Commentor className={userNickname === comment.nickname ? 'myComment' : ''} key={index}>
           <ImageContainer>
             <Image
               className="profile"
@@ -201,11 +201,11 @@ const Comments = ({ comments, setComments }) => {
             />
           </ImageContainer>
           <PostMetaInfo
-            nickname={comment.userId}
+            nickname={comment.nickname}
             dateTime={new Date(comment.creationDate)}
             className="comment"
           ></PostMetaInfo>
-          {userId === comment.userId ? (
+          {userNickname === comment.nickname ? (
             <EditorGroup
               className="comment"
               selectedItem={comment.id}

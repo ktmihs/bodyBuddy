@@ -7,6 +7,8 @@ import {
   query,
   addDoc,
   orderBy,
+  doc,
+  getDoc,
 } from 'firebase/firestore/lite';
 import { postingType, usertype, MakeQueryParam } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -26,6 +28,7 @@ const storage = getStorage();
 
 const userCollection = collection(db, 'user');
 const communityCollection = collection(db, 'community');
+const commentsCollection = collection(db, 'comments');
 export const chatCollection = collection(db, 'chat');
 
 export const makeQuery = ({ id, option, outerCollection, innerCollection }: MakeQueryParam) =>
@@ -75,27 +78,82 @@ export const signUpMember = async ({
   }
 };
 
-export const getComuunityPosting = async (field: string) => {
+export const fetchUserNickname = async (id: string) => {
   try {
-    const q = query(communityCollection, where('fieldId', '==', field));
-    const querySnapshot = await getDocs(q);
-    const res = [];
-    querySnapshot.forEach(async (doc) => {
-      let data = doc.data();
-      data = {
-        id: doc.id,
-        ...data,
-        creationDate: data.creationDate.toDate(),
-      };
-      res.push(data);
-    });
-    return res.sort((a, b) => b.creationDate - a.creationDate);
+    const docRef = doc(db, 'user', id);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    return data.nickname;
   } catch (e) {
     console.log(e);
   }
 };
 
-export const addComuunityPosting = async (posting: postingType) => {
+export const fetchPostingsByField = async (field: string) => {
+  try {
+    const q = query(communityCollection, where('fieldId', '==', field));
+    const querySnapshot = await getDocs(q);
+
+    const promises = querySnapshot.docs.map((doc) => {
+      let data = doc.data();
+      return fetchUserNickname(data.userId).then((result) => {
+        data = {
+          id: doc.id,
+          nickname: result,
+          ...data,
+          creationDate: data.creationDate.toDate(),
+        };
+        return data;
+      });
+    });
+    return Promise.all(promises).then((result) => result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchPostingDetailById = async (postId: string) => {
+  try {
+    const docRef = doc(db, 'community', postId);
+    const docSnap = await getDoc(docRef);
+    let data = docSnap.data();
+    data = {
+      ...data,
+      nickname: await fetchUserNickname(data.userId),
+      creationDate: data.creationDate.toDate() + '',
+    };
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchCommentsById = async (postId: string) => {
+  try {
+    const q = query(commentsCollection, where('communityId', '==', postId));
+    const querySnapshot = await getDocs(q);
+
+    const promises = querySnapshot.docs.map((doc) => {
+      let data = doc.data();
+      return fetchUserNickname(data.userId).then((result) => {
+        data = {
+          id: doc.id,
+          nickname: result,
+          ...data,
+          creationDate: data.creationDate.toDate() + '',
+        };
+        return data;
+      });
+    });
+    return Promise.all(promises).then((result) =>
+      result.sort((a, b) => b.creationDate - a.creationDate)
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addCommunityPosting = async (posting: postingType) => {
   try {
     const promises = posting.images
       .filter((image) => image)

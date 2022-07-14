@@ -84,7 +84,7 @@ const PostList = ({ postList, setPostList, selectedItem }: PostListProps) => {
               <p>{post.title}</p>
               <p>{post.content}</p>
 
-              {post.images.length ? (
+              {post.images?.length ? (
                 <ImageContainer>
                   <Image src={post.images[0]} alt="첨부한 사진" width="100" height="80" />
                 </ImageContainer>
@@ -96,7 +96,7 @@ const PostList = ({ postList, setPostList, selectedItem }: PostListProps) => {
 
           <MetaContainer>
             <PostMetaInfo
-              nickname={post.userId}
+              nickname={post.nickname}
               dateTime={new Date(post.creationDate)}
               className="list"
             />

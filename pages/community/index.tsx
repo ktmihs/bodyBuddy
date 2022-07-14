@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import PostList from '@components/layout/community/Post';
 import { field } from '@data';
-import { getComuunityPosting } from 'api/firebase';
+import { fetchPostingsByField } from '@api/firebase';
 
 const CommunityPage = styled.section`
   &:nth-of-type(1) {
@@ -53,7 +53,7 @@ const Community: NextPage = () => {
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const promise = getComuunityPosting(field[+selectedItem]);
+    const promise = fetchPostingsByField(field[+selectedItem]);
     promise.then((result) => {
       result = result?.map((data) => ({ ...data, creationDate: data.creationDate + '' }));
       setPostList(result);
