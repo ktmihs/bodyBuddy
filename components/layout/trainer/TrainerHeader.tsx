@@ -8,7 +8,7 @@ import setting from '@assets/common/setting-white.svg';
 import styled from '@emotion/styled';
 
 export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: HeaderProps) => {
-  const { id, online } = trainer;
+  const { id, introduction, isOnline, name, field, purpose, images } = trainer;
   const edit = {
     link: `${id}/edit`,
     src: setting,
@@ -163,22 +163,24 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
             <TitleBar right={edit} />
           )}
         </div>
-        <TrainerIntro>
-          다이어트, 매번 어려우셨나요?
-          <br /> 이번엔 쉬운 길을 선택하세요.
-        </TrainerIntro>
+        <TrainerIntro>{introduction}</TrainerIntro>
         <TrainerProfile>
           <ImageWrapper>
-            <Image src={trainerImg ? trainerImg : profile} alt="강사" width={150} height={150} />
+            <Image
+              src={images && images.length ? images[0] : profile}
+              alt="강사"
+              width={150}
+              height={150}
+            />
           </ImageWrapper>
           <TrainerInfo>
-            <TrainerName>최세민 트레이너</TrainerName>
+            <TrainerName>{name} 트레이너</TrainerName>
             <FieldAndPurpose>
-              <span>PT</span>
-              <span>다이어트</span>
+              <span>{field}</span>
+              <span>{purpose}</span>
             </FieldAndPurpose>
             {state === 'user' ? (
-              online ? (
+              isOnline ? (
                 <div>
                   <Button>상담 하기</Button>
                 </div>
@@ -189,7 +191,7 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
               )
             ) : (
               <OnlineState>
-                현재 <div>{online ? 'On' : 'Off'}</div> 상태입니다.
+                현재 <div>{isOnline ? 'On' : 'Off'}</div> 상태입니다.
               </OnlineState>
             )}
           </TrainerInfo>
