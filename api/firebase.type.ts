@@ -1,4 +1,4 @@
-export interface usertype {
+interface usertype {
   nickname?: string;
   name?: string;
   email: string;
@@ -8,7 +8,7 @@ export interface usertype {
   signUpway: string;
 }
 
-export interface postingType {
+interface postingType {
   content: string;
   creationDate: Date;
   fieldId: string;
@@ -17,3 +17,12 @@ export interface postingType {
   totalComments: number;
   userId: string;
 }
+
+interface MakeQueryParam {
+  id: string | string[] | undefined;
+  option?: any;
+  outerCollection: string;
+  innerCollection: string;
+}
+
+export type { usertype, postingType, MakeQueryParam };
