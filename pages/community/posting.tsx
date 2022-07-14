@@ -7,7 +7,8 @@ import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import { field } from '@data';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import { addComuunityPosting } from 'api/firebase';
 
 const PostingForm = styled.form`
   margin: 0 5%;
@@ -63,14 +64,20 @@ const Posting: NextPage = () => {
     const newPost = {
       content: mainText.current.value,
       creationDate: edited ? edited.creationDate : new Date(),
-      fieldId: selectedItem,
+      fieldId: field[+selectedItem],
       images: url,
       title: title.current.value,
       totalComments: 0,
       userId: userId,
     };
     // 서버로 post/update 요청
-    window.location.href('/community');
+    try {
+      Promise.resolve(addComuunityPosting(newPost)).then(() => {
+        Router.push('/community');
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleTextChange = debounce(() => {
@@ -93,7 +100,7 @@ const Posting: NextPage = () => {
             defaultValue={edited ? edited.title : ''}
             ref={title}
             onChange={handleTextChange}
-            maxLength={14}
+            maxLength={16}
           ></PostingTitle>
           <MainText>
             <textarea

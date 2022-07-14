@@ -4,11 +4,16 @@ import { StyledImageUploader } from './styledUploader';
 export const ImageUploader = ({ url, setImageUrl }: ImageUploaderProps) => {
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
-    const tempUrl = URL.createObjectURL(e.target.files[0]);
+    const reader = new FileReader();
     const selectedImage = e.currentTarget.dataset?.id;
-    setImageUrl(
-      url.map((source, index) => (selectedImage && index === +selectedImage ? tempUrl : source))
-    );
+    reader.readAsDataURL(e.target.files[0]);
+    reader.addEventListener('load', ({ target }) => {
+      setImageUrl(
+        url.map((source, index) =>
+          selectedImage && index === +selectedImage ? target?.result : source
+        )
+      );
+    });
   };
 
   const removeImage = (e: React.SyntheticEvent<HTMLButtonElement>) => {
