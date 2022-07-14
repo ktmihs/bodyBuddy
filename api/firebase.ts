@@ -1,6 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, where, query, addDoc } from 'firebase/firestore/lite';
-import { postingType, usertype } from './firebase.type';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  where,
+  query,
+  addDoc,
+  orderBy,
+} from 'firebase/firestore/lite';
+import { postingType, usertype, MakeQueryParam } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -18,6 +26,10 @@ const storage = getStorage();
 
 const userCollection = collection(db, 'user');
 const communityCollection = collection(db, 'community');
+export const chatCollection = collection(db, 'chat');
+
+export const makeQuery = ({ id, option, outerCollection, innerCollection }: MakeQueryParam) =>
+  query(collection(db, `${outerCollection}/${id}/${innerCollection}`), orderBy(option));
 
 // 회원가입
 export const checkIsNicknameDuplicated = async (nickname: string) => {
