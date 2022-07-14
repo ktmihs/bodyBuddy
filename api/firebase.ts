@@ -6,6 +6,7 @@ import {
   where,
   query,
   addDoc,
+  documentId,
   orderBy,
 } from 'firebase/firestore/lite';
 import { postingType, usertype, MakeQueryParam } from './firebase.type';
@@ -26,6 +27,7 @@ const storage = getStorage();
 
 const userCollection = collection(db, 'user');
 const communityCollection = collection(db, 'community');
+const trainerCollection = collection(db, 'trainer');
 export const chatCollection = collection(db, 'chat');
 
 export const makeQuery = ({ id, option, outerCollection, innerCollection }: MakeQueryParam) =>
@@ -109,6 +111,16 @@ export const addComuunityPosting = async (posting: postingType) => {
     Promise.all(promises).then((result) => {
       addDoc(collection(db, 'community'), { ...posting, images: result });
     });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getTrainerData = async (id: string) => {
+  try {
+    const q = query(trainerCollection, where(documentId(), '==', id));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((x) => ({ ...x.data(), id: id }));
   } catch (e) {
     console.log(e);
   }

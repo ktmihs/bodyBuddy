@@ -34,6 +34,7 @@ const TrainerEdit = () => {
       isApproval: false,
     },
   ];
+  const getCost = '10000';
 
   const [newField, setNewField] = useState(field || '');
   const [newPurpose, setNewPurpose] = useState(purpose || '');
@@ -41,6 +42,7 @@ const TrainerEdit = () => {
   const [imagesUrl, setImagesUrl] = useState<string[]>(images);
   const [gymUrl, setGymUrl] = useState<string[]>([gymImage || '']);
   const [careers, setCareers] = useState<CareerProps[]>(career || []);
+  const [cost, setCost] = useState<string>(getCost || '10000');
 
   const trainerState = {
     field: newField,
@@ -49,6 +51,7 @@ const TrainerEdit = () => {
     imagesUrl: imagesUrl,
     gymUrl: gymUrl,
     careers: careers,
+    cost: cost,
   };
 
   const trainerSetState = {
@@ -58,6 +61,7 @@ const TrainerEdit = () => {
     setImagesUrl: setImagesUrl,
     setGymUrl: setGymUrl,
     setCareers: setCareers,
+    setCost: setCost,
   };
 
   const left = {
