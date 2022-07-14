@@ -1,5 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, where, query, addDoc } from 'firebase/firestore/lite';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  where,
+  query,
+  addDoc,
+  documentId,
+} from 'firebase/firestore/lite';
 import { postingType, usertype } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
@@ -18,6 +26,7 @@ const storage = getStorage();
 
 const userCollection = collection(db, 'user');
 const communityCollection = collection(db, 'community');
+const trainerCollection = collection(db, 'trainer');
 
 // 회원가입
 export const checkIsNicknameDuplicated = async (nickname: string) => {
@@ -96,6 +105,16 @@ export const addComuunityPosting = async (posting: postingType) => {
     Promise.all(promises).then((result) => {
       addDoc(collection(db, 'community'), { ...posting, images: result });
     });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getTrainerData = async (id: string) => {
+  try {
+    const q = query(trainerCollection, where(documentId(), '==', id));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((x) => ({ ...x.data(), id: id }));
   } catch (e) {
     console.log(e);
   }
