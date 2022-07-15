@@ -1,4 +1,4 @@
-import { ItemGroup } from '@components/common/itemgroup';
+import { ItemGroup } from '@components/layout/community/ItemGroup';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styled from '@emotion/styled';
