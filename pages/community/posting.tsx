@@ -1,5 +1,5 @@
 import { FixedBottomButton } from '@components/common/button';
-import { ItemGroup } from '@components/common/itemgroup';
+import { ItemGroup } from '@components/layout/community/ItemGroup';
 import { TitleBar } from '@components/common/title';
 import { ImageUploader } from '@components/common/uploader';
 import type { NextPage } from 'next';
@@ -7,8 +7,8 @@ import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import { field } from '@data';
-import Router, { useRouter } from 'next/router';
-import { addCommunityPosting } from 'api/firebase';
+import Router from 'next/router';
+import { addCommunityPosting, updateCommunityPosting } from 'api/firebase';
 
 const PostingForm = styled.form`
   margin: 0 5%;
@@ -40,12 +40,9 @@ const MainText = styled.div`
   }
 `;
 
-const Posting: NextPage = () => {
-  const router = useRouter();
-  let { edited } = router.query;
-  edited = edited ? JSON.parse(edited) : null;
-
-  const userId = '그만먹고싶닭';
+const Posting: NextPage = ({ data }) => {
+  const edited = data ? JSON.parse(data) : '';
+  const userId = 'mqcMcOXqvJwGR20waScC';
 
   const [selectedItem, changeSelectedItem] = useState('0');
   const [isValid, changeValidState] = useState(edited ? true : false);
@@ -70,10 +67,12 @@ const Posting: NextPage = () => {
       totalComments: 0,
       userId: userId,
     };
-    // 서버로 post/update 요청
+
     try {
-      Promise.resolve(addCommunityPosting(newPost)).then(() => {
-        Router.push('/community');
+      Promise.resolve(
+        edited ? updateCommunityPosting(edited.id, newPost) : addCommunityPosting(newPost)
+      ).then(() => {
+        Router.push(`/community`);
       });
     } catch (e) {
       console.log(e);
@@ -86,7 +85,11 @@ const Posting: NextPage = () => {
       : changeValidState(false);
   }, 300);
 
-  const left = { link: '/community', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
+  const left = {
+    link: `/community${edited ? '/' + edited.id : ''}`,
+    src: '/assets/common/back-black.svg',
+    alt: '뒤로가기',
+  };
   return (
     <section>
       <h2 className="srOnly">게시물 작성하기</h2>
@@ -121,6 +124,15 @@ const Posting: NextPage = () => {
       </PostingForm>
     </section>
   );
+};
+
+export const getServerSideProps = async (context) => {
+  const { edited } = context.query;
+  return {
+    props: {
+      data: edited ? edited : '',
+    },
+  };
 };
 
 export default Posting;

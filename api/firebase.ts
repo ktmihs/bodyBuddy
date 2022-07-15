@@ -11,6 +11,7 @@ import {
   doc,
   getDoc,
   deleteDoc,
+  updateDoc,
 } from 'firebase/firestore/lite';
 import { postingType, usertype, MakeQueryParam } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -111,7 +112,7 @@ export const fetchPostingsByField = async (field: string) => {
       });
     });
     return Promise.all(promises).then((result) =>
-      result.sort((a, b) => b.creationDate - a.creationDate)
+      result.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
     );
   } catch (e) {
     console.log(e);
@@ -152,7 +153,7 @@ export const fetchCommentsById = async (postId: string) => {
       });
     });
     return Promise.all(promises).then((result) =>
-      result.sort((a, b) => b.creationDate - a.creationDate)
+      result.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
     );
   } catch (e) {
     console.log(e);
@@ -171,6 +172,26 @@ export const addCommunityPosting = async (posting: postingType) => {
       });
     Promise.all(promises).then((result) => {
       addDoc(collection(db, 'community'), { ...posting, images: result });
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateCommunityPosting = async (postId: string, posting: postingType) => {
+  try {
+    const promises = posting.images
+      .filter((image) => image)
+      .map((image) => {
+        if (!image.includes(',')) return image;
+        const name = `image${Date.now()}.jpg`;
+        return uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
+          return getDownloadURL(ref(storage, name));
+        });
+      });
+    Promise.all(promises).then((result) => {
+      const docRef = doc(db, 'community', postId);
+      updateDoc(docRef, { title: posting.title, content: posting.content, images: result });
     });
   } catch (e) {
     console.log(e);
