@@ -183,7 +183,7 @@ export const updateCommunityPosting = async (postId: string, posting: postingTyp
     const promises = posting.images
       .filter((image) => image)
       .map((image) => {
-        if (!image.includes(',')) return image;
+        if (image.includes('firebasestorage')) return image;
         const name = `image${Date.now()}.jpg`;
         return uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
           return getDownloadURL(ref(storage, name));
