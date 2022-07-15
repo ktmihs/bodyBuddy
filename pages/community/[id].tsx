@@ -119,7 +119,7 @@ const PostingDetail: NextPage = ({ data }) => {
             )}
             <CommentCount comment={comments.length}></CommentCount>
           </MainText>
-          <Comments comments={comments} setComments={setComments} />
+          <Comments postId={data.id} comments={comments} setComments={setComments} />
         </>
       ) : (
         <>
@@ -139,10 +139,10 @@ export const getServerSideProps = async (context) => {
 
   const data = fetchedPost
     ? {
-        id,
-        ...fetchedPost,
-        comments: comments ? comments : [],
-      }
+      id,
+      ...fetchedPost,
+      comments: comments ? comments : [],
+    }
     : '';
 
   return {

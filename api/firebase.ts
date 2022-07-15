@@ -13,7 +13,7 @@ import {
   deleteDoc,
   updateDoc,
 } from 'firebase/firestore/lite';
-import { postingType, usertype, MakeQueryParam } from './firebase.type';
+import { postingType, usertype, MakeQueryParam, commentType } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -94,18 +94,26 @@ export const fetchUserNickname = async (id: string) => {
   }
 };
 
+export const fetchPostingMetaInfo = async (postId: string) => {
+  try {
+    const q = query(commentsCollection, where('communityId', '==', postId));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.length;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const fetchPostingsByField = async (field: string) => {
   try {
     const q = query(communityCollection, where('fieldId', '==', field));
     const querySnapshot = await getDocs(q);
-
     const promises = querySnapshot.docs.map((doc) => {
       let data = doc.data();
       return fetchUserNickname(data.userId).then((result) => {
         data = {
-          id: doc.id,
-          nickname: result,
           ...data,
+          nickname: result,
           creationDate: data.creationDate.toDate() + '',
         };
         return data;
@@ -153,7 +161,7 @@ export const fetchCommentsById = async (postId: string) => {
       });
     });
     return Promise.all(promises).then((result) =>
-      result.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
+      result.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))
     );
   } catch (e) {
     console.log(e);
@@ -201,6 +209,32 @@ export const updateCommunityPosting = async (postId: string, posting: postingTyp
 export const deleteCommunityPosting = async (postId: string) => {
   try {
     await deleteDoc(doc(db, 'community', postId));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addCommunityComment = async (comment: commentType) => {
+  try {
+    addDoc(collection(db, 'comments'), comment);
+    return fetchUserNickname(comment.userId);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateCommunityComment = async (commentId: string, content: string) => {
+  try {
+    const docRef = doc(db, 'comments', commentId);
+    updateDoc(docRef, { content });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteCommunityComment = async (commentId: string) => {
+  try {
+    await deleteDoc(doc(db, 'comments', commentId));
   } catch (e) {
     console.log(e);
   }
