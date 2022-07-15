@@ -208,7 +208,6 @@ const Comments = ({ comments, setComments }) => {
           {userNickname === comment.nickname ? (
             <EditorGroup
               className="comment"
-              selectedItem={comment.id}
               onChangeEditingMode={onChangeEditingMode}
               onChangeDeleteMode={onChangeDeleteMode}
             />

@@ -133,7 +133,6 @@ const MyReview = () => {
               </RatingContainer>
               <EditorGroup
                 className="review"
-                selectedItem={review.id}
                 EditorURL="/review"
                 lastEdited={review}
                 onChangeDeleteMode={onChangeDeleteMode}
