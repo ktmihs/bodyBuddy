@@ -6,6 +6,7 @@ import {
   where,
   query,
   addDoc,
+  documentId,
   orderBy,
   doc,
   getDoc,
@@ -29,6 +30,7 @@ const storage = getStorage();
 const userCollection = collection(db, 'user');
 const communityCollection = collection(db, 'community');
 const commentsCollection = collection(db, 'comments');
+const trainerCollection = collection(db, 'trainer');
 export const chatCollection = collection(db, 'chat');
 
 export const makeQuery = ({ id, option, outerCollection, innerCollection }: MakeQueryParam) =>
@@ -72,6 +74,7 @@ export const signUpMember = async ({
       district,
       signUpway,
       isWithdrawal: false,
+      thumbnail: '',
     });
   } catch (e) {
     console.log(e);
@@ -166,6 +169,16 @@ export const addCommunityPosting = async (posting: postingType) => {
     Promise.all(promises).then((result) => {
       addDoc(collection(db, 'community'), { ...posting, images: result });
     });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getTrainerData = async (id: string) => {
+  try {
+    const q = query(trainerCollection, where(documentId(), '==', id));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((x) => ({ ...x.data(), id: id }));
   } catch (e) {
     console.log(e);
   }

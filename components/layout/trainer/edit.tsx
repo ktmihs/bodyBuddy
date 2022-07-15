@@ -1,4 +1,5 @@
 import { CareerUploader } from '@components/common/career';
+import { TrainingCost } from '@components/common/cost';
 import { KakaoMap } from '@components/common/map';
 import { ProfileUploader } from '@components/common/profile';
 import { Select } from '@components/common/select';
@@ -7,8 +8,8 @@ import { healthEvents, healthPurpose } from '@data';
 import styled from '@emotion/styled';
 
 export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
-  const { field, purpose, profileUrl, imagesUrl, gymUrl, careers } = trainerState;
-  const { setField, setPurpose, setProfileUrl, setImagesUrl, setGymUrl, setCareers } =
+  const { field, purpose, profileUrl, images, gym, careers, cost } = trainerState;
+  const { setField, setPurpose, setProfileUrl, setImagesUrl, setGymUrl, setCareers, setCost } =
     trainerSetState;
 
   const TrainerEdit = styled.main`
@@ -70,14 +71,14 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
         <section>
           <h3>프로필 사진</h3>
           <p>트레이너 님을 대표할 수 있는 사진을 업로드 해주세요 :)</p>
-          <ImageUploader url={imagesUrl} setImageUrl={setImagesUrl} />
+          <ImageUploader url={images} setImageUrl={setImagesUrl} />
         </section>
       </section>
       <section>
         <h2>트레이닝장 정보</h2>
         <section>
           <h3>트레이닝장 사진</h3>
-          <ImageUploader url={gymUrl} setImageUrl={setGymUrl} />
+          <ImageUploader url={gym} setImageUrl={setGymUrl} />
         </section>
         <section>
           <h3>트레이닝장 위치</h3>
@@ -87,6 +88,10 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
             {/* <KakaoMap /> */}
           </div>
         </section>
+      </section>
+      <section>
+        <h2>1:1 트레이닝 비용</h2>
+        <TrainingCost cost={cost} setCost={setCost} />
       </section>
       <section>
         <h2>경력 정보</h2>
