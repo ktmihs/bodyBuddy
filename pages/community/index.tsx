@@ -51,6 +51,7 @@ const PostButton = styled.div`
 const Community: NextPage = ({ data }) => {
   const [selectedItem, changeSelectedItem] = useState('0');
   const [postList, setPostList] = useState(data);
+
   useEffect(() => {
     const getPostList = (field: string) => {
       return fetchPostingsByField(field);
@@ -77,6 +78,7 @@ const Community: NextPage = ({ data }) => {
 
 export const getServerSideProps = async () => {
   const res = await fetchPostingsByField(field[0]);
+
   return {
     props: {
       data: res,

@@ -110,15 +110,25 @@ export const fetchPostingsByField = async (field: string) => {
     const querySnapshot = await getDocs(q);
     const promises = querySnapshot.docs.map((doc) => {
       let data = doc.data();
-      return fetchUserNickname(data.userId).then((result) => {
-        data = {
-          ...data,
-          nickname: result,
-          creationDate: data.creationDate.toDate() + '',
-        };
-        return data;
-      });
+      return fetchUserNickname(data.userId)
+        .then((result) => {
+          data = {
+            ...data,
+            nickname: result,
+          };
+        })
+        .then((_) => fetchPostingMetaInfo(doc.id))
+        .then((result) => {
+          data = {
+            ...data,
+            id: doc.id,
+            totalComments: result,
+            creationDate: data.creationDate.toDate() + '',
+          };
+          return data;
+        });
     });
+
     return Promise.all(promises).then((result) =>
       result.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
     );
