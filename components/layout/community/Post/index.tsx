@@ -67,7 +67,7 @@ const MetaContainer = styled.div`
   }
 `;
 
-const PostList = ({ postList, setPostList, selectedItem }: PostListProps) => {
+const PostList = ({ postList }: PostListProps) => {
   const containerRef = useRef(null);
 
   return (

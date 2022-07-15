@@ -48,15 +48,15 @@ const PostButton = styled.div`
   }
 `;
 
-const Community: NextPage = () => {
+const Community: NextPage = ({ data }) => {
   const [selectedItem, changeSelectedItem] = useState('0');
-  const [postList, setPostList] = useState([]);
-
+  const [postList, setPostList] = useState(data);
   useEffect(() => {
-    const promise = fetchPostingsByField(field[+selectedItem]);
-    promise.then((result) => {
-      result = result?.map((data) => ({ ...data, creationDate: data.creationDate + '' }));
-      setPostList(result);
+    const getPostList = (field: string) => {
+      return fetchPostingsByField(field);
+    };
+    Promise.resolve(getPostList(field[+selectedItem])).then((result) => {
+      setPostList([...result]);
     });
   }, [selectedItem]);
 
@@ -64,7 +64,7 @@ const Community: NextPage = () => {
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
       <ItemGroup changeSelectedItem={changeSelectedItem} />
-      <PostList postList={postList} setPostList={setPostList} selectedItem={selectedItem} />
+      <PostList postList={postList} setPostList={setPostList} />
       <PostButton>
         <a href="community/posting">
           <Image src="/assets/community/pencil.svg" alt="글쓰기" width={15} height={15}></Image>
@@ -73,6 +73,15 @@ const Community: NextPage = () => {
       </PostButton>
     </CommunityPage>
   );
+};
+
+export const getServerSideProps = async () => {
+  const res = await fetchPostingsByField(field[0]);
+  return {
+    props: {
+      data: res,
+    },
+  };
 };
 
 export default Community;

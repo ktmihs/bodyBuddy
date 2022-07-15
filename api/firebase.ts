@@ -104,12 +104,14 @@ export const fetchPostingsByField = async (field: string) => {
           id: doc.id,
           nickname: result,
           ...data,
-          creationDate: data.creationDate.toDate(),
+          creationDate: data.creationDate.toDate() + '',
         };
         return data;
       });
     });
-    return Promise.all(promises).then((result) => result);
+    return Promise.all(promises).then((result) =>
+      result.sort((a, b) => b.creationDate - a.creationDate)
+    );
   } catch (e) {
     console.log(e);
   }
