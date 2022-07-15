@@ -10,6 +10,7 @@ import {
   orderBy,
   doc,
   getDoc,
+  deleteDoc,
 } from 'firebase/firestore/lite';
 import { postingType, usertype, MakeQueryParam } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -171,6 +172,14 @@ export const addCommunityPosting = async (posting: postingType) => {
     Promise.all(promises).then((result) => {
       addDoc(collection(db, 'community'), { ...posting, images: result });
     });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteCommunityPosting = async (postId: string) => {
+  try {
+    await deleteDoc(doc(db, 'community', postId));
   } catch (e) {
     console.log(e);
   }

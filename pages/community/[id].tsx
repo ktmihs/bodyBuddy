@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react';
 import { RightButtonModal } from '@components/common/modal';
 import { EditorGroup } from '@components/common/buttongroup';
 import Router from 'next/router';
-import { fetchPostingDetailById, fetchCommentsById } from '@api/firebase';
+import { fetchPostingDetailById, fetchCommentsById, deleteCommunityPosting } from '@api/firebase';
 import NoContent from '@components/common/noContent';
 
 const UserProfile = styled.div`
@@ -57,14 +57,13 @@ const UploadImage = styled.div`
 `;
 
 const PostingDetail: NextPage = ({ data }) => {
-  const userNickname = '밍지뀨';
+  const userId = 'mqcMcOXqvJwGR20waScC';
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const [comments, setComments] = useState(data.comments);
 
   const deletePost = useCallback(() => {
-    sessionStorage.removeItem('selected');
-    // 서버로 post delete 요청
     onChangeDeleteMode(false);
+    deleteCommunityPosting(data.id);
     Router.push('/community');
   }, []);
 
@@ -82,10 +81,9 @@ const PostingDetail: NextPage = ({ data }) => {
               dateTime={new Date(data.creationDate)}
               className="post"
             ></PostMetaInfo>
-            {userNickname === data.nickname ? (
+            {userId === data.userId ? (
               <EditorGroup
                 className="post"
-                selectedItem={data.id}
                 EditorURL="/community/posting"
                 lastEdited={data}
                 onChangeDeleteMode={onChangeDeleteMode}
