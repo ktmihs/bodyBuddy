@@ -10,7 +10,5 @@ interface post {
 }
 
 interface PostListProps {
-  postList: post;
-  setPostList: Dispatch<SetStateAction<object[]>>;
-  selectedItem: string;
+  postList: post | post[];
 }

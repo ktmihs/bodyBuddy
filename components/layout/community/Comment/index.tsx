@@ -1,9 +1,10 @@
+import { addCommunityComment, deleteCommunityComment, updateCommunityComment } from '@api/firebase';
+import { EditorGroup } from '@components/common/buttongroup';
 import { PostMetaInfo } from '@components/common/meta';
 import { RightButtonModal } from '@components/common/modal';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
-import EditorGroup from '../../common/buttongroup';
+import { FormEvent, useRef, useState } from 'react';
 
 const WriteComment = styled.form`
   margin-top: 15px;
@@ -136,52 +137,55 @@ const Commentor = styled.div`
   }
 `;
 
-const Comments = ({ comments, setComments }) => {
-  const userId = '밍망디';
+const Comments = ({ postId, comments, setComments }) => {
+  const userId = 'mqcMcOXqvJwGR20waScC';
   const newComment = useRef(null);
   const updatedComment = useRef(null);
+
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const [isEditingMode, onChangeEditingMode] = useState<boolean>(false);
+  const [selectedComment, onChangeSelectedComment] = useState<string>('');
 
-  const fetchMyComment = () => {
-    const item = sessionStorage.getItem('selected');
-    return comments.filter(({ id }) => id === item).map(({ content }) => content);
+  const changeSelectedComment = (id) => {
+    onChangeSelectedComment(id);
+  };
+
+  const getMyComment = () => {
+    if (!selectedComment) return;
+    return comments.filter(({ id }) => id === selectedComment).map(({ content }) => content);
   };
 
   const updateComment = () => {
-    const item = sessionStorage.getItem('selected');
-    // 서버로 comment update 요청
+    if (!updatedComment.current.value || !selectedComment) return;
+    updateCommunityComment(selectedComment, updatedComment.current.value);
     setComments(
       comments.map((comment) =>
-        comment.id === item ? { ...comment, content: updatedComment.current.value } : comment
+        comment.id === selectedComment
+          ? { ...comment, content: updatedComment.current.value }
+          : comment
       )
     );
     onChangeEditingMode(false);
-    sessionStorage.removeItem('selected');
   };
 
   const deleteComment = () => {
-    const item = sessionStorage.getItem('selected');
-    // 서버로 comment delete 요청
-    setComments(comments.filter(({ id }) => id !== item));
+    if (!selectedComment) return;
+    deleteCommunityComment(selectedComment);
+    setComments(comments.filter(({ id }) => id !== selectedComment));
     onChangeDeleteMode(false);
-    sessionStorage.removeItem('selected');
   };
 
-  const uploadComment = (e): void => {
-    e.preventDefault();
+  const uploadComment = async (e: FormEvent<HTMLFormElement>) => {
     if (!newComment.current.value) return;
-    // 서버로 commnet post 요청
-    setComments([
-      ...comments,
-      {
-        id: '11',
-        communityId: 'ZuDYupb7g2UYVDfSKOIH',
-        content: newComment.current.value,
-        creationDate: new Date(),
-        userId: '육회랑연어랑',
-      },
-    ]);
+    e.preventDefault();
+    const newData = {
+      communityId: postId,
+      content: newComment.current.value,
+      creationDate: new Date(),
+      userId: userId,
+    };
+    const nickname = await addCommunityComment(newData);
+    setComments([...comments, { ...newData, nickname }]);
     newComment.current.value = '';
   };
 
@@ -189,8 +193,12 @@ const Comments = ({ comments, setComments }) => {
     <CommenGroup>
       <div role="none"></div>
       <h3>댓글</h3>
-      {comments.map((comment, index) => (
-        <Commentor className={userId === comment.userId ? 'myComment' : ''} key={index}>
+      {comments.map((comment) => (
+        <Commentor
+          key={comment.id}
+          className={userId === comment.userId ? 'myComment' : ''}
+          onClick={() => changeSelectedComment(comment.id)}
+        >
           <ImageContainer>
             <Image
               className="profile"
@@ -201,14 +209,13 @@ const Comments = ({ comments, setComments }) => {
             />
           </ImageContainer>
           <PostMetaInfo
-            nickname={comment.userId}
+            nickname={comment.nickname}
             dateTime={new Date(comment.creationDate)}
             className="comment"
           ></PostMetaInfo>
           {userId === comment.userId ? (
             <EditorGroup
               className="comment"
-              selectedItem={comment.id}
               onChangeEditingMode={onChangeEditingMode}
               onChangeDeleteMode={onChangeDeleteMode}
             />
@@ -236,7 +243,7 @@ const Comments = ({ comments, setComments }) => {
         <ModalContainer>
           <div className="updateComment">
             <h4>댓글 수정</h4>
-            <textarea className="update" ref={updatedComment} defaultValue={fetchMyComment()} />
+            <textarea className="update" ref={updatedComment} defaultValue={getMyComment()} />
             <div className="buttonGroup">
               <button onClick={() => onChangeEditingMode(false)}>취소</button>
               <button onClick={updateComment}>작성 완료</button>
