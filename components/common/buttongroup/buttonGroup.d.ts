@@ -26,7 +26,6 @@ interface trainer {
 }
 
 interface EditorGroupProps {
-  selectedItem: string;
   className: string;
   EditorURL?: string;
   lastEdited?: reveiw | post;

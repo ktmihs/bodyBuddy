@@ -1,19 +1,14 @@
 import Link from 'next/link';
 import { ButtonContainer } from './styledButtonGroup';
 
-const EditorGroup = ({
-  selectedItem,
+export const EditorGroup = ({
   className,
   EditorURL,
   lastEdited,
   onChangeEditingMode,
   onChangeDeleteMode,
 }: EditorGroupProps) => {
-  const onClickHandler = (onChangeState: (arg0: boolean) => void) => {
-    sessionStorage.setItem('selected', selectedItem);
-    onChangeState(true);
-  };
-
+  const onClickHandler = (onChangeState: (arg0: boolean) => void) => onChangeState(true);
   return (
     <ButtonContainer className={className}>
       {className !== 'comment' ? (
@@ -41,5 +36,3 @@ const EditorGroup = ({
     </ButtonContainer>
   );
 };
-
-export default EditorGroup;

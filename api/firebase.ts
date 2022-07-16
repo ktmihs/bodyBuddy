@@ -7,10 +7,13 @@ import {
   where,
   query,
   addDoc,
+  documentId,
   orderBy,
   getDoc,
+  deleteDoc,
+  updateDoc,
 } from 'firebase/firestore/lite';
-import { postingType, usertype, MakeQueryParam, reviewsType } from './firebase.type';
+import { postingType, usertype, MakeQueryParam, commentType } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -30,6 +33,7 @@ const userCollection = collection(db, 'user');
 const reviewsCollection = collection(db, 'reviews');
 const trainerCollection = collection(db, 'trainer');
 const communityCollection = collection(db, 'community');
+const commentsCollection = collection(db, 'comments');
 export const chatCollection = collection(db, 'chat');
 
 export const makeQuery = ({ id, option, outerCollection, innerCollection }: MakeQueryParam) =>
@@ -112,27 +116,102 @@ export const signUpMember = async ({
   }
 };
 
-export const getComuunityPosting = async (field: string) => {
+export const fetchUserNickname = async (id: string) => {
   try {
-    const q = query(communityCollection, where('fieldId', '==', field));
-    const querySnapshot = await getDocs(q);
-    const res = [];
-    querySnapshot.forEach(async (doc) => {
-      let data = doc.data();
-      data = {
-        id: doc.id,
-        ...data,
-        creationDate: data.creationDate.toDate(),
-      };
-      res.push(data);
-    });
-    return res.sort((a, b) => b.creationDate - a.creationDate);
+    const docRef = doc(db, 'user', id);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    return data.nickname;
   } catch (e) {
     console.log(e);
   }
 };
 
-export const addComuunityPosting = async (posting: postingType) => {
+export const fetchPostingMetaInfo = async (postId: string) => {
+  try {
+    const q = query(commentsCollection, where('communityId', '==', postId));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.length;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchPostingsByField = async (field: string) => {
+  try {
+    const q = query(communityCollection, where('fieldId', '==', field));
+    const querySnapshot = await getDocs(q);
+    const promises = querySnapshot.docs.map((doc) => {
+      let data = doc.data();
+      return fetchUserNickname(data.userId)
+        .then((result) => {
+          data = {
+            ...data,
+            nickname: result,
+          };
+        })
+        .then((_) => fetchPostingMetaInfo(doc.id))
+        .then((result) => {
+          data = {
+            ...data,
+            id: doc.id,
+            totalComments: result,
+            creationDate: data.creationDate.toDate() + '',
+          };
+          return data;
+        });
+    });
+
+    return Promise.all(promises).then((result) =>
+      result.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchPostingDetailById = async (postId: string) => {
+  try {
+    const docRef = doc(db, 'community', postId);
+    const docSnap = await getDoc(docRef);
+    let data = docSnap.data();
+    data = {
+      ...data,
+      nickname: await fetchUserNickname(data.userId),
+      creationDate: data.creationDate.toDate() + '',
+    };
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchCommentsById = async (postId: string) => {
+  try {
+    const q = query(commentsCollection, where('communityId', '==', postId));
+    const querySnapshot = await getDocs(q);
+
+    const promises = querySnapshot.docs.map((doc) => {
+      let data = doc.data();
+      return fetchUserNickname(data.userId).then((result) => {
+        data = {
+          id: doc.id,
+          nickname: result,
+          ...data,
+          creationDate: data.creationDate.toDate() + '',
+        };
+        return data;
+      });
+    });
+    return Promise.all(promises).then((result) =>
+      result.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addCommunityPosting = async (posting: postingType) => {
   try {
     const promises = posting.images
       .filter((image) => image)
@@ -178,6 +257,70 @@ export const getMemberReviewsByEmail = async () => {
         }
       })
     );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateCommunityPosting = async (postId: string, posting: postingType) => {
+  try {
+    const promises = posting.images
+      .filter((image) => image)
+      .map((image) => {
+        if (image.includes('firebasestorage')) return image;
+        const name = `image${Date.now()}.jpg`;
+        return uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
+          return getDownloadURL(ref(storage, name));
+        });
+      });
+    Promise.all(promises).then((result) => {
+      const docRef = doc(db, 'community', postId);
+      updateDoc(docRef, { title: posting.title, content: posting.content, images: result });
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteCommunityPosting = async (postId: string) => {
+  try {
+    await deleteDoc(doc(db, 'community', postId));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const addCommunityComment = async (comment: commentType) => {
+  try {
+    addDoc(collection(db, 'comments'), comment);
+    return fetchUserNickname(comment.userId);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateCommunityComment = async (commentId: string, content: string) => {
+  try {
+    const docRef = doc(db, 'comments', commentId);
+    updateDoc(docRef, { content });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteCommunityComment = async (commentId: string) => {
+  try {
+    await deleteDoc(doc(db, 'comments', commentId));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getTrainerData = async (id: string) => {
+  try {
+    const q = query(trainerCollection, where(documentId(), '==', id));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((x) => ({ ...x.data(), id: id }));
   } catch (e) {
     console.log(e);
   }

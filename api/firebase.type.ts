@@ -18,6 +18,13 @@ interface postingType {
   userId: string;
 }
 
+interface commentType {
+  communityId: string;
+  content: string;
+  creationDate: Date;
+  userId: string;
+}
+
 interface MakeQueryParam {
   id: string | string[] | undefined;
   option?: any;
@@ -33,4 +40,4 @@ interface reviewsType {
   trainerId: string;
   userId: string;
 }
-export type { usertype, postingType, MakeQueryParam, reviewsType };
+export type { usertype, postingType, commentType, MakeQueryParam, reviewsType };

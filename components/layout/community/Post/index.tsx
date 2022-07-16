@@ -5,23 +5,6 @@ import { TopButton } from '@components/common/button';
 import { useRef } from 'react';
 import Link from 'next/link';
 
-interface post {
-  id: string;
-  title: string;
-  images: string[];
-  totalComments: number;
-  userId: string;
-  content: string;
-  fieldId: string;
-  creationDate: string;
-}
-
-interface PostListProps {
-  postList: post;
-  setPostList: Dispatch<SetStateAction<object[]>>;
-  selectedItem: string;
-}
-
 const PostListContainer = styled.div`
   height: 800px;
   overflow: auto;
@@ -84,25 +67,24 @@ const MetaContainer = styled.div`
   }
 `;
 
-const PostList = ({ postList, setPostList, selectedItem }: PostListProps) => {
+const PostList = ({ postList }: PostListProps) => {
   const containerRef = useRef(null);
 
   return (
     <PostListContainer ref={containerRef}>
-      {postList.map((post, index) => (
-        <Post key={index}>
+      {postList.map((post) => (
+        <Post key={post.id}>
           <Link
             href={{
-              pathname: `/community/${index}`,
-              query: { post: JSON.stringify(post) },
+              pathname: `/community/${post.id}`,
             }}
-            as={`/community/${index}`}
+            as={`/community/${post.id}`}
           >
             <a>
               <p>{post.title}</p>
               <p>{post.content}</p>
 
-              {post.images.length ? (
+              {post.images?.length ? (
                 <ImageContainer>
                   <Image src={post.images[0]} alt="첨부한 사진" width="100" height="80" />
                 </ImageContainer>
@@ -114,7 +96,7 @@ const PostList = ({ postList, setPostList, selectedItem }: PostListProps) => {
 
           <MetaContainer>
             <PostMetaInfo
-              nickname={post.userId}
+              nickname={post.nickname}
               dateTime={new Date(post.creationDate)}
               className="list"
             />
