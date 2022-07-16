@@ -88,7 +88,7 @@ export const fetchUserNickname = async (id: string) => {
     const docRef = doc(db, 'user', id);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
-    return data?.nickname;
+    return data ? data.nickname : '알 수 없음';
   } catch (e) {
     console.log(e);
   }
