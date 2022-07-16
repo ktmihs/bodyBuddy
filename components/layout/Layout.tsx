@@ -2,7 +2,6 @@ import { Global, ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import SEO from '@components/layout/SEO';
-import Nav from '@components/common/nav';
 import { global } from '@styles/globals';
 import theme from '@styles/theme';
 import { Provider } from 'react-redux';

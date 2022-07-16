@@ -32,4 +32,12 @@ interface MakeQueryParam {
   innerCollection: string;
 }
 
-export type { usertype, postingType, commentType, MakeQueryParam };
+interface reviewsType {
+  category: string;
+  content: string;
+  rating: number;
+  isActivation: boolean;
+  trainerId: string;
+  userId: string;
+}
+export type { usertype, postingType, commentType, MakeQueryParam, reviewsType };
