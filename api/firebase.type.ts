@@ -25,4 +25,12 @@ interface MakeQueryParam {
   innerCollection: string;
 }
 
-export type { usertype, postingType, MakeQueryParam };
+interface reviewsType {
+  category: string;
+  content: string;
+  rating: number;
+  isActivation: boolean;
+  trainerId: string;
+  userId: string;
+}
+export type { usertype, postingType, MakeQueryParam, reviewsType };

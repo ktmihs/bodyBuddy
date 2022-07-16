@@ -7,6 +7,8 @@ import right from '@assets/common/right-black.svg';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import { useEffect, useState } from 'react';
+import { getMemberReviewsByEmail } from '@api/firebase';
 
 const StyledProfile = styled.div`
   padding-top: 40px;
@@ -60,12 +62,15 @@ const StyledProfile = styled.div`
     border: 1px solid ${({ theme }) => theme.lineGray};
     border-radius: 10px;
 
+    li:first-of-type {
+      border-top: 1px solid ${({ theme }) => theme.lineGray};
+    }
+
     .review-title {
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid ${({ theme }) => theme.lineGray};
 
       .review-count {
         color: ${({ theme }) => theme.purple};
@@ -123,10 +128,41 @@ const StyledProfile = styled.div`
   }
 `;
 
+interface trainerType {
+  name?: string;
+  images?: any;
+  purpose?: string;
+  field?: string;
+}
+
+interface reviewType {
+  category?: string;
+  content?: string;
+  isActivation?: boolean;
+  trainer: trainerType;
+  trainerId?: string;
+  userId?: string;
+  creationDate?: any;
+}
+
 const Profile = () => {
   const userInfo = useSelector((state: RootState) => state.userInfo.value);
+  const [reviewList, setReviewList] = useState<reviewType[] | undefined>([]);
 
-  console.log(userInfo);
+  const getReviews = async () => {
+    const list = await getMemberReviewsByEmail();
+    setReviewList(list);
+
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getReviews();
+  }, []);
+
   return (
     <StyledProfile>
       <section className="profile">
@@ -151,24 +187,37 @@ const Profile = () => {
       <ul className="review">
         <div className="review-title">
           <h3>
-            리뷰 <span className="review-count">3</span>
+            리뷰 <span className="review-count">{reviewList ? reviewList.length : 0}</span>
           </h3>
-          <Link href="/">
-            <a>
-              <Image src={right} alt="자세히" width="15px" height="15px" />
-            </a>
-          </Link>
+          {reviewList ? (
+            <Link href="/">
+              <a>
+                <Image src={right} alt="자세히" width="15px" height="15px" />
+              </a>
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
-        <li className="review-content">
-          <div className="img-wrapper">
-            <Image src={profile} />
-          </div>
-          <div className="trainer">
-            <span>최세민 트레이너</span>
-            <span>PT | 다이어트</span>
-          </div>
-          <div className="date">2022.06</div>
-        </li>
+        {reviewList?.slice(0, 2).map(({ trainerId, trainer, creationDate }) => (
+          <li className="review-content" key={`${trainerId}+${creationDate}`}>
+            <div className="img-wrapper">
+              <Image src={trainer.images[0]} width="60px" height="60px" />
+            </div>
+            <div className="trainer">
+              <span>{trainer.name} 트레이너</span>
+              <span>
+                {trainer.field} | {trainer.purpose}
+              </span>
+            </div>
+            <div className="date">
+              {creationDate.getFullYear()}.
+              {creationDate.getMonth() < 10
+                ? `0${creationDate.getMonth()}`
+                : creationDate.getMonth()}
+            </div>
+          </li>
+        ))}
       </ul>
       <div className="community">
         <h3>커뮤니티</h3>
