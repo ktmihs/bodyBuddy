@@ -131,18 +131,19 @@ const PostingDetail: NextPage = ({ data }) => {
   );
 };
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async (context: { params: { id: string } }) => {
   const { id } = context.params;
 
   const fetchedPost = await fetchPostingDetailById(id);
-  const comments = fetchedPost ? await fetchCommentsById(id) : [];
+  const res = fetchedPost ? await fetchCommentsById(id) : [];
+  const comments = res?.map((key) => ({ ...key, creationDate: key.creationDate + '' }));
 
   const data = fetchedPost
     ? {
-      id,
-      ...fetchedPost,
-      comments: comments ? comments : [],
-    }
+        id,
+        ...fetchedPost,
+        comments: comments ? comments : [],
+      }
     : '';
 
   return {

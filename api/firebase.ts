@@ -88,7 +88,7 @@ export const fetchUserNickname = async (id: string) => {
     const docRef = doc(db, 'user', id);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
-    return data.nickname;
+    return data?.nickname;
   } catch (e) {
     console.log(e);
   }
@@ -117,20 +117,20 @@ export const fetchPostingsByField = async (field: string) => {
             nickname: result,
           };
         })
-        .then((_) => fetchPostingMetaInfo(doc.id))
+        .then(() => fetchPostingMetaInfo(doc.id))
         .then((result) => {
           data = {
             ...data,
             id: doc.id,
             totalComments: result,
-            creationDate: data.creationDate.toDate() + '',
+            creationDate: data.creationDate.toDate(),
           };
           return data;
         });
     });
 
     return Promise.all(promises).then((result) =>
-      result.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
+      result.sort((a, b) => b.creationDate - a.creationDate)
     );
   } catch (e) {
     console.log(e);
@@ -144,8 +144,8 @@ export const fetchPostingDetailById = async (postId: string) => {
     let data = docSnap.data();
     data = {
       ...data,
-      nickname: await fetchUserNickname(data.userId),
-      creationDate: data.creationDate.toDate() + '',
+      nickname: await fetchUserNickname(data?.userId),
+      creationDate: data?.creationDate.toDate() + '',
     };
     return data;
   } catch (e) {
@@ -165,13 +165,13 @@ export const fetchCommentsById = async (postId: string) => {
           id: doc.id,
           nickname: result,
           ...data,
-          creationDate: data.creationDate.toDate() + '',
+          creationDate: data.creationDate.toDate(),
         };
         return data;
       });
     });
     return Promise.all(promises).then((result) =>
-      result.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))
+      result.sort((a, b) => a.creationDate - b.creationDate)
     );
   } catch (e) {
     console.log(e);
