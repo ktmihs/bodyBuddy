@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { field, service } from '@data';
 import { debounce } from 'lodash';
 import Router, { useRouter } from 'next/router';
-import { addReview } from '@api/firebase';
+import { addReview, updateReview } from '@api/firebase';
 
 const ServiceGroup = styled.div`
   border-top: 1px solid ${({ theme }) => theme.lightGray};
@@ -114,18 +114,15 @@ const Option = styled.div`
   }
 `;
 
-const Review: NextPage = () => {
+const Review: NextPage = ({ data }) => {
   const [category, setCategory] = useState('상담');
-  const router = useRouter();
-  let { edited } = router.query;
-  //  let { trainerInfo } = router.query;
-  edited = edited ? JSON.parse(edited) : null;
+  const edited = data ? JSON.parse(data) : '';
 
   const mainText = useRef<HTMLTextAreaElement>(null);
   const rating = useRef<HTMLInputElement | null>(null);
   const isPrivateReview = useRef<HTMLInputElement>(null);
   const hint = useRef(null);
-  const [isValid, changeValidState] = useState(edited ? true : false);
+  const [isValid, changeValidState] = useState(edited.creationDate ? true : false);
 
   const right = { link: '/chat/list', src: '/assets/common/closeButton.svg', alt: '뒤로가기' };
 
@@ -156,13 +153,14 @@ const Review: NextPage = () => {
     const newData: reviewProps = {
       category,
       content: mainText.current.value,
-      creationDate: edited ? new Date(edited.creationDate) : new Date(),
+      creationDate: edited.id ? new Date(edited.creationDate) : new Date(),
       isActivation: isPrivateReview.current ? isPrivateReview.current.checked : false,
       rating: rating.current ? +rating.current.value : 1,
       trainerId: trainerInfo.trainerId,
       userId: 'mqcMcOXqvJwGR20waScC',
     };
-    addReview(newData);
+
+    edited.id ? addReview(newData) : updateReview(edited.id, newData);
     Router.push('/profile');
   };
 
@@ -198,7 +196,7 @@ const Review: NextPage = () => {
             <textarea
               ref={mainText}
               onChange={handleTextChange}
-              defaultValue={edited ? edited.content : ''}
+              defaultValue={edited && edited.content ? edited.content : ''}
               placeholder="후기에 대해 상세히 남겨주세요. :) &#13;&#10;정성스러운 후기는 다른 회원 및 트레이너에게 도움이 됩니다!"
             ></textarea>
             <span ref={hint} onChange={handleTextChange} className="hint">
@@ -208,7 +206,7 @@ const Review: NextPage = () => {
           <Option>
             <input
               ref={isPrivateReview}
-              checked={edited ? edited.isActivation : ''}
+              defaultChecked={edited && edited.isActivation ? edited.isActivation : ''}
               type="checkbox"
               id="isPrivateReview"
             />
@@ -225,6 +223,15 @@ const Review: NextPage = () => {
       />
     </section>
   );
+};
+
+export const getServerSideProps = async (context: { query: { edited } }) => {
+  const { edited } = context.query;
+  return {
+    props: {
+      data: edited ? edited : '',
+    },
+  };
 };
 
 export default Review;

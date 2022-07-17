@@ -72,7 +72,8 @@ const TrainerInfo = styled.div`
 const MyReview = () => {
   const userId = '루시안';
   // review + trainer 테이블 결합
-  const mockdata = [
+
+  const review = [
     {
       id: '1',
       category: '상담',
@@ -83,10 +84,10 @@ const MyReview = () => {
       userId: '1',
       trainerId: '1',
       name: '최세민',
-      fieldId: '0',
-      images: '/assets/common/trainer.jpg',
+      fieldId: 'PT',
+      images: ['/assets/common/trainer.jpg'],
       introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
-      purposeId: '0',
+      purposeId: '다이어트',
     },
     {
       id: '2',
@@ -98,15 +99,15 @@ const MyReview = () => {
       userId: '1',
       trainerId: '2',
       name: '이채령',
-      fieldId: '0',
+      fieldId: '요가',
       introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
-      images: '/assets/common/trainer.jpg',
-      purposeId: '0',
+      images: ['/assets/common/trainer.jpg'],
+      purposeId: '다이어트',
     },
   ];
 
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
-  const [reviews, setReviews] = useState(mockdata);
+  const [reviews, setReviews] = useState(review);
 
   const deleteReview = () => {
     const item = sessionStorage.getItem('selected');
@@ -142,7 +143,7 @@ const MyReview = () => {
               <TrainerInfo>
                 <span>{review.name} 트레이너</span>
                 <span>
-                  {field[+review.fieldId]} | {healthPurpose[+review.purposeId]}
+                  {review.fieldId} | {review.purposeId}
                 </span>
               </TrainerInfo>
               <Image src={review.images} alt="프로필" width="100" height="100" />

@@ -8,27 +8,25 @@ interface post {
   userId: string;
 }
 
-interface review {
-  content: string;
-  creationDate: Date;
-  isActivation: boolean;
-  rating: number;
-  userId: string;
-  trainerInfo: trainer;
-}
-
-interface trainer {
+interface editorProps {
+  id?: string;
+  content?: string;
+  creationDate?: Date;
+  isActivation?: boolean;
+  rating?: number;
+  userId?: string;
   trainerId: string;
-  image: string;
+  image: string[];
   name: string;
   fieldId: string;
   introduction: string;
+  purposeId: string;
 }
 
 interface EditorGroupProps {
   className: string;
   EditorURL?: string;
-  lastEdited?: reveiw | post;
+  lastEdited: editorProps;
   onChangeEditingMode?: Dispatch<SetStateAction<boolean>>;
   onChangeDeleteMode: Dispatch<SetStateAction<boolean>>;
 }
