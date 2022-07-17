@@ -26,7 +26,7 @@ interface editorProps {
 interface EditorGroupProps {
   className: string;
   EditorURL?: string;
-  lastEdited: editorProps;
+  lastEdited: editorProps | post;
   onChangeEditingMode?: Dispatch<SetStateAction<boolean>>;
   onChangeDeleteMode: Dispatch<SetStateAction<boolean>>;
 }

@@ -5,8 +5,8 @@ import { RightButtonModal } from '@components/common/modal';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import NoContent from '@components/common/noContent';
-import { healthPurpose, field } from '@data';
 import { EditorGroup } from '@components/common/buttongroup';
+import { deleteReview } from '@api/firebase';
 
 const ReviewGroup = styled.div`
   margin-left: 20px;
@@ -71,7 +71,6 @@ const TrainerInfo = styled.div`
 
 const MyReview = () => {
   const userId = '루시안';
-  // review + trainer 테이블 결합
 
   const review = [
     {
@@ -109,19 +108,23 @@ const MyReview = () => {
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const [reviews, setReviews] = useState(review);
 
-  const deleteReview = () => {
-    const item = sessionStorage.getItem('selected');
-    // 서버로 review delete 요청
-    setReviews(reviews.filter(({ id }) => id !== item));
+  const [selectedReview, onChangeSelectedReview] = useState<string>('');
+
+  const changeSelectedReview = (id: string) => {
+    onChangeSelectedReview(id);
+  };
+
+  const deleteMyReview = () => {
+    deleteReview(selectedReview);
+    setReviews(reviews.filter(({ id }) => id !== selectedReview));
     onChangeDeleteMode(false);
-    sessionStorage.removeItem('selected');
   };
 
   return (
     <ReviewGroup className="reviewList">
       {reviews.length ? (
         reviews.map((review, index) => (
-          <Reveiw key={index}>
+          <Reveiw key={index} onClick={() => changeSelectedReview(review.id)}>
             <div>
               <Image src="/assets/common/profile.svg" alt="프로필" width="30" height="30" />
               <RatingContainer>
@@ -162,7 +165,7 @@ const MyReview = () => {
         <RightButtonModal
           modalContent="후기를 삭제하시겠습니까?"
           rightButtonContent="후가 삭제"
-          onClickedRightBtn={deleteReview}
+          onClickedRightBtn={deleteMyReview}
           isModalState={isDeleteMode}
           onChangeSetState={onChangeDeleteMode}
         />
