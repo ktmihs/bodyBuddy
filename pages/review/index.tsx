@@ -8,7 +8,8 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 import { field, service } from '@data';
 import { debounce } from 'lodash';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import { addReview, updateReview } from '@api/firebase';
 
 const ServiceGroup = styled.div`
   border-top: 1px solid ${({ theme }) => theme.lightGray};
@@ -113,18 +114,15 @@ const Option = styled.div`
   }
 `;
 
-const Review: NextPage = () => {
+const Review: NextPage = ({ data }) => {
   const [category, setCategory] = useState('상담');
-  const router = useRouter();
-  let { edited } = router.query;
-  //  let { trainerInfo } = router.query;
-  edited = edited ? JSON.parse(edited) : null;
+  const edited = data ? JSON.parse(data) : '';
 
-  const mainText = useRef(null);
-  const rating = useRef(null);
-  const isPrivateReview = useRef(null);
+  const mainText = useRef<HTMLTextAreaElement>(null);
+  const rating = useRef<HTMLInputElement | null>(null);
+  const isPrivateReview = useRef<HTMLInputElement>(null);
   const hint = useRef(null);
-  const [isValid, changeValidState] = useState(edited ? true : false);
+  const [isValid, changeValidState] = useState(edited.creationDate ? true : false);
 
   const right = { link: '/chat/list', src: '/assets/common/closeButton.svg', alt: '뒤로가기' };
 
@@ -136,29 +134,34 @@ const Review: NextPage = () => {
     introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
   };
 
-  const handleRating = (e) => {
-    if (e.target.name !== 'rating') return;
-    rating.current = e.target;
-    rating.current.checked = true;
+  const handleRating = (e: { target: HTMLInputElement | null }) => {
+    if (!e.target || e.target.name !== 'rating') return;
+    if (rating.current && 'checked' in rating.current) {
+      rating.current.checked = true;
+      rating.current = e.target;
+    }
   };
 
   const handleTextChange = debounce(() => {
+    if (!mainText || !mainText.current || !hint.current) return;
     hint.current.style.display = mainText.current.value.length >= 10 ? 'none' : ' block';
     mainText.current.value.length >= 10 ? changeValidState(true) : changeValidState(false);
   }, 300);
 
   const uploadPost = () => {
-    const newData = {
+    if (!mainText || !mainText.current) return;
+    const newData: reviewProps = {
       category,
       content: mainText.current.value,
-      creationDate: edited ? edited.creationDate : new Date(),
-      isActivation: isPrivateReview.current.checked,
+      creationDate: edited.id ? new Date(edited.creationDate) : new Date(),
+      isActivation: isPrivateReview.current ? isPrivateReview.current.checked : false,
       rating: rating.current ? +rating.current.value : 1,
       trainerId: trainerInfo.trainerId,
-      userId: '1',
+      userId: 'mqcMcOXqvJwGR20waScC',
     };
-    console.log(newData);
-    window.location.href = '/profile/1';
+
+    edited.id ? addReview(newData) : updateReview(edited.id, newData);
+    Router.push('/profile');
   };
 
   return (
@@ -193,7 +196,7 @@ const Review: NextPage = () => {
             <textarea
               ref={mainText}
               onChange={handleTextChange}
-              defaultValue={edited ? edited.content : ''}
+              defaultValue={edited && edited.content ? edited.content : ''}
               placeholder="후기에 대해 상세히 남겨주세요. :) &#13;&#10;정성스러운 후기는 다른 회원 및 트레이너에게 도움이 됩니다!"
             ></textarea>
             <span ref={hint} onChange={handleTextChange} className="hint">
@@ -203,7 +206,7 @@ const Review: NextPage = () => {
           <Option>
             <input
               ref={isPrivateReview}
-              checked={edited ? edited.isActivation : ''}
+              defaultChecked={edited && edited.isActivation ? edited.isActivation : ''}
               type="checkbox"
               id="isPrivateReview"
             />
@@ -220,6 +223,15 @@ const Review: NextPage = () => {
       />
     </section>
   );
+};
+
+export const getServerSideProps = async (context: { query: { edited } }) => {
+  const { edited } = context.query;
+  return {
+    props: {
+      data: edited ? edited : '',
+    },
+  };
 };
 
 export default Review;

@@ -12,12 +12,10 @@ interface ImageViewerProps {
 }
 
 interface reviewProps {
-  id: number;
-  userId: number;
   creationDate: Date;
+  userId: string;
   rating: number;
-  trainerId: number;
-  image: string[];
+  trainerId: string;
   category: string;
   content: string;
   isActivation: boolean;

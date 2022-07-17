@@ -5,8 +5,8 @@ import { RightButtonModal } from '@components/common/modal';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import NoContent from '@components/common/noContent';
-import { healthPurpose, field } from '@data';
-import EditorGroup from '@components/common/buttongroup';
+import { EditorGroup } from '@components/common/buttongroup';
+import { deleteReview } from '@api/firebase';
 
 const ReviewGroup = styled.div`
   margin-left: 20px;
@@ -71,8 +71,8 @@ const TrainerInfo = styled.div`
 
 const MyReview = () => {
   const userId = '루시안';
-  // review + trainer 테이블 결합
-  const mockdata = [
+
+  const review = [
     {
       id: '1',
       category: '상담',
@@ -83,10 +83,10 @@ const MyReview = () => {
       userId: '1',
       trainerId: '1',
       name: '최세민',
-      fieldId: '0',
-      images: '/assets/common/trainer.jpg',
+      fieldId: 'PT',
+      images: ['/assets/common/trainer.jpg'],
       introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
-      purposeId: '0',
+      purposeId: '다이어트',
     },
     {
       id: '2',
@@ -98,29 +98,33 @@ const MyReview = () => {
       userId: '1',
       trainerId: '2',
       name: '이채령',
-      fieldId: '0',
+      fieldId: '요가',
       introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
-      images: '/assets/common/trainer.jpg',
-      purposeId: '0',
+      images: ['/assets/common/trainer.jpg'],
+      purposeId: '다이어트',
     },
   ];
 
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
-  const [reviews, setReviews] = useState(mockdata);
+  const [reviews, setReviews] = useState(review);
 
-  const deleteReview = () => {
-    const item = sessionStorage.getItem('selected');
-    // 서버로 review delete 요청
-    setReviews(reviews.filter(({ id }) => id !== item));
+  const [selectedReview, onChangeSelectedReview] = useState<string>('');
+
+  const changeSelectedReview = (id: string) => {
+    onChangeSelectedReview(id);
+  };
+
+  const deleteMyReview = () => {
+    deleteReview(selectedReview);
+    setReviews(reviews.filter(({ id }) => id !== selectedReview));
     onChangeDeleteMode(false);
-    sessionStorage.removeItem('selected');
   };
 
   return (
     <ReviewGroup className="reviewList">
       {reviews.length ? (
         reviews.map((review, index) => (
-          <Reveiw key={index}>
+          <Reveiw key={index} onClick={() => changeSelectedReview(review.id)}>
             <div>
               <Image src="/assets/common/profile.svg" alt="프로필" width="30" height="30" />
               <RatingContainer>
@@ -142,10 +146,10 @@ const MyReview = () => {
               <TrainerInfo>
                 <span>{review.name} 트레이너</span>
                 <span>
-                  {field[+review.fieldId]} | {healthPurpose[+review.purposeId]}
+                  {review.fieldId} | {review.purposeId}
                 </span>
               </TrainerInfo>
-              <Image src={review.images} alt="프로필" width="100" height="100" />
+              <Image src={review.images[0]} alt="프로필" width="100" height="100" />
               <p>{review.content}</p>
             </MainText>
           </Reveiw>
@@ -161,7 +165,7 @@ const MyReview = () => {
         <RightButtonModal
           modalContent="후기를 삭제하시겠습니까?"
           rightButtonContent="후가 삭제"
-          onClickedRightBtn={deleteReview}
+          onClickedRightBtn={deleteMyReview}
           isModalState={isDeleteMode}
           onChangeSetState={onChangeDeleteMode}
         />

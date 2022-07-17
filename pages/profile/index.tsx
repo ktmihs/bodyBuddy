@@ -190,7 +190,7 @@ const Profile = () => {
             리뷰 <span className="review-count">{reviewList ? reviewList.length : 0}</span>
           </h3>
           {reviewList ? (
-            <Link href="/">
+            <Link href="/profile/posts">
               <a>
                 <Image src={right} alt="자세히" width="15px" height="15px" />
               </a>
