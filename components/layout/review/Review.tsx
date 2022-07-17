@@ -6,7 +6,7 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import NoContent from '@components/common/noContent';
 import { healthPurpose, field } from '@data';
-import EditorGroup from '@components/common/buttongroup';
+import { EditorGroup } from '@components/common/buttongroup';
 
 const ReviewGroup = styled.div`
   margin-left: 20px;

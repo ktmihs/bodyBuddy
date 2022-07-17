@@ -237,6 +237,28 @@ export const addReview = async (review: reviewProps) => {
   }
 };
 
+export const deleteReview = async (reviewId: string) => {
+  try {
+    await deleteDoc(doc(db, 'reviews', reviewId));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateReview = async (reviewId: string, review: reviewProps) => {
+  try {
+    const docRef = doc(db, 'reviews', reviewId);
+    updateDoc(docRef, {
+      content: review.content,
+      isActivation: review.isActivation,
+      category: review.category,
+      rating: review.rating,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 // 리뷰 가져오기 (일반 회원 프로필 페이지)
 export const getMemberReviewsByEmail = async () => {
   try {
@@ -247,7 +269,8 @@ export const getMemberReviewsByEmail = async () => {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-      reviewList.push(doc.data());
+      const data = { id: doc.id, ...doc.data() };
+      reviewList.push(data);
     });
 
     return await Promise.all(
