@@ -10,6 +10,7 @@ import { field, service } from '@data';
 import { debounce } from 'lodash';
 import Router, { useRouter } from 'next/router';
 import { addReview, updateReview } from '@api/firebase';
+import NoContent from '@components/common/noContent';
 
 const ServiceGroup = styled.div`
   border-top: 1px solid ${({ theme }) => theme.lightGray};
@@ -124,15 +125,8 @@ const Review: NextPage = ({ data }) => {
   const hint = useRef(null);
   const [isValid, changeValidState] = useState(edited.creationDate ? true : false);
 
+  const left = { link: '/chat/list', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
   const right = { link: '/chat/list', src: '/assets/common/closeButton.svg', alt: '뒤로가기' };
-
-  const trainerInfo = {
-    name: '최세민',
-    trainerId: '1',
-    fieldId: '0',
-    image: '/assets/common/trainer.jpg',
-    introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
-  };
 
   const handleRating = (e: { target: HTMLInputElement | null }) => {
     if (!e.target || e.target.name !== 'rating') return;
@@ -156,7 +150,7 @@ const Review: NextPage = ({ data }) => {
       creationDate: edited.id ? new Date(edited.creationDate) : new Date(),
       isActivation: isPrivateReview.current ? isPrivateReview.current.checked : false,
       rating: rating.current ? +rating.current.value : 1,
-      trainerId: trainerInfo.trainerId,
+      trainerId: edited.trainerId,
       userId: 'mqcMcOXqvJwGR20waScC',
     };
 
@@ -167,65 +161,82 @@ const Review: NextPage = ({ data }) => {
   return (
     <section>
       <h2 className="srOnly">후기 작성</h2>
-      <TitleBar right={right} />
-      <TrainerProfile>
-        <Image src="/assets/common/trainer.jpg" width={100} height={100}></Image>
-
-        <TrainerInfo>
-          <span>{field[+trainerInfo.fieldId]}</span>
-          <span>{edited ? edited.name : trainerInfo.name}</span>
-          <p>{edited ? edited.introduction : trainerInfo.introduction}</p>
-        </TrainerInfo>
-      </TrainerProfile>
-      <TrainerRating>
-        <RatingGroup isEditingMode={true} onChangeRating={handleRating} width={15} height={15} />
-      </TrainerRating>
-      <ServiceGroup>
-        <span>분류</span>
-        <Select
-          currentSelectedData={category}
-          onSetCurrentSelected={setCategory}
-          selectData={service}
-          selectWidth={100}
-        />
-      </ServiceGroup>
-      <form>
-        <fieldset>
-          <legend className="srOnly">후기</legend>
-          <MainText>
-            <textarea
-              ref={mainText}
-              onChange={handleTextChange}
-              defaultValue={edited && edited.content ? edited.content : ''}
-              placeholder="후기에 대해 상세히 남겨주세요. :) &#13;&#10;정성스러운 후기는 다른 회원 및 트레이너에게 도움이 됩니다!"
-            ></textarea>
-            <span ref={hint} onChange={handleTextChange} className="hint">
-              최소 글자 10자
-            </span>
-          </MainText>
-          <Option>
-            <input
-              ref={isPrivateReview}
-              defaultChecked={edited && edited.isActivation ? edited.isActivation : ''}
-              type="checkbox"
-              id="isPrivateReview"
+      {edited.trainerId ? (
+        <>
+          <TitleBar right={right} />
+          <TrainerProfile>
+            <Image
+              src={edited.images ? edited.images[0] : '/assets/community/blank.svg'}
+              width={100}
+              height={100}
+            ></Image>
+            <TrainerInfo>
+              <span>{edited.fieldId}</span>
+              <span>{edited.name}</span>
+              <p>{edited.introduction}</p>
+            </TrainerInfo>
+          </TrainerProfile>
+          <TrainerRating>
+            <RatingGroup
+              isEditingMode={true}
+              onChangeRating={handleRating}
+              width={15}
+              height={15}
             />
-            <label htmlFor="isPrivateReview"></label>
-            <label htmlFor="isPrivateReview">트레이너에게만 보이기</label>
-          </Option>
-        </fieldset>
-      </form>
-      <FixedBottomButton
-        isValid={isValid}
-        buttonType="button"
-        onButtonEvent={uploadPost}
-        buttonTitle={'작성 완료'}
-      />
+          </TrainerRating>
+          <ServiceGroup>
+            <span>분류</span>
+            <Select
+              currentSelectedData={category}
+              onSetCurrentSelected={setCategory}
+              selectData={service}
+              selectWidth={100}
+            />
+          </ServiceGroup>
+          <form>
+            <fieldset>
+              <legend className="srOnly">후기</legend>
+              <MainText>
+                <textarea
+                  ref={mainText}
+                  onChange={handleTextChange}
+                  defaultValue={edited && edited.content ? edited.content : ''}
+                  placeholder="후기에 대해 상세히 남겨주세요. :) &#13;&#10;정성스러운 후기는 다른 회원 및 트레이너에게 도움이 됩니다!"
+                ></textarea>
+                <span ref={hint} onChange={handleTextChange} className="hint">
+                  최소 글자 10자
+                </span>
+              </MainText>
+              <Option>
+                <input
+                  ref={isPrivateReview}
+                  defaultChecked={edited && edited.isActivation ? edited.isActivation : ''}
+                  type="checkbox"
+                  id="isPrivateReview"
+                />
+                <label htmlFor="isPrivateReview"></label>
+                <label htmlFor="isPrivateReview">트레이너에게만 보이기</label>
+              </Option>
+            </fieldset>
+          </form>
+          <FixedBottomButton
+            isValid={isValid}
+            buttonType="button"
+            onButtonEvent={uploadPost}
+            buttonTitle={'작성 완료'}
+          />
+        </>
+      ) : (
+        <>
+          <TitleBar left={left} centerTitle={'돌아가기'} />
+          <NoContent title="이런!" subTitle="잘못된 경로예요" />
+        </>
+      )}
     </section>
   );
 };
 
-export const getServerSideProps = async (context: { query: { edited } }) => {
+export const getServerSideProps = async (context: { query: { edited: editorProps } }) => {
   const { edited } = context.query;
   return {
     props: {
