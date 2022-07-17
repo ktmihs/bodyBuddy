@@ -4,6 +4,7 @@ import { ImageUploader } from '@components/common/uploader';
 import StepHeader from '@components/layout/signUp/StepHeader';
 import { healthEvents, healthPurpose } from '@data';
 import styled from '@emotion/styled';
+import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { trainerSignUpstep1 } from 'redux/trainerSlice';
@@ -130,7 +131,10 @@ const Step1 = () => {
       introduction: comment,
       images: profileImg,
     };
+
     dispatch(trainerSignUpstep1(payload));
+
+    Router.push('/signUp/trainer/step2');
   };
 
   const onChangeInput = (e: React.SyntheticEvent) => {

@@ -68,6 +68,23 @@ export const SocialLinkButton = ({
   purpose,
   absoluteBottomPercent,
 }: SocialLinkButtonProps) => {
+  const initializeNaverLogin = () => {
+    const naver = (window as any).naver;
+    // let naverLogin: any;
+
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
+      callbackUrl: '/oauth/naver',
+      isPopup: true,
+      loginButton: { color: 'green', type: 3, height: '40' },
+    });
+    naverLogin.init();
+  };
+
+  useEffect(() => {
+    initializeNaverLogin();
+  }, []);
+
   return (
     <StyledSocialButton bottom={absoluteBottomPercent}>
       <Link href={KakaoLink}>
@@ -76,12 +93,13 @@ export const SocialLinkButton = ({
           <span>카카오로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</span>
         </a>
       </Link>
-      <Link href={NaverLink}>
-        <a className="naver">
-          <Image src={NaverLogo} alt="네이버 로고" />
-          <span>네이버로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</span>
-        </a>
-      </Link>
+
+      <div id="naverIdLogin"></div>
+      {/* <Image src={NaverLogo} alt="네이버 로고" width="30px" height="30px" />
+      <span>네이버로 {purpose === 'signIn' ? '로그인하기' : '시작하기'}</span> */}
+      {/* <Link href={NaverLink}>
+        <a className="naver"></a>
+  </Link>*/}
     </StyledSocialButton>
   );
 };

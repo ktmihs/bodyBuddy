@@ -65,7 +65,7 @@ const Step1 = () => {
   const [districtInfo, setDistrictInfo] = useState('군/구');
   const [checkNickname, setCheckNickname] = useState(false);
   const [nickname, setNickname] = useState('');
-  const userInfo = useSelector((state: RootState) => state.userInfo.value);
+  const userInfo = useSelector((state: RootState) => state.userSlice.value);
 
   useEffect(() => {
     if (!userInfo.email) Router.push('/');
