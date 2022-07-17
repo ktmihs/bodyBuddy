@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import {
+  doc,
   getFirestore,
   collection,
   getDocs,
@@ -8,7 +9,6 @@ import {
   addDoc,
   documentId,
   orderBy,
-  doc,
   getDoc,
   deleteDoc,
   updateDoc,
@@ -30,15 +30,47 @@ const db = getFirestore(app);
 const storage = getStorage();
 
 const userCollection = collection(db, 'user');
+const reviewsCollection = collection(db, 'reviews');
+const trainerCollection = collection(db, 'trainer');
 const communityCollection = collection(db, 'community');
 const commentsCollection = collection(db, 'comments');
-const trainerCollection = collection(db, 'trainer');
 export const chatCollection = collection(db, 'chat');
 
 export const makeQuery = ({ id, option, outerCollection, innerCollection }: MakeQueryParam) =>
   query(collection(db, `${outerCollection}/${id}/${innerCollection}`), orderBy(option));
 
-// 회원가입
+// 공통 - 이메일로 유저 정보가져오기
+export const getUserInfoByEmail = async (email: string) => {
+  try {
+    let userCollectionId;
+    let userInfo;
+
+    const q = query(userCollection, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      userCollectionId = doc.id;
+      userInfo = doc.data();
+    });
+
+    return { id: userCollectionId, data: userInfo };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 공통 - 트레이너 정보 가져오기
+export const getTrainerInfoById = async (id: string) => {
+  try {
+    const docRef = doc(db, 'trainer', id);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.data();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 회원가입 - 닉네임 검사
 export const checkIsNicknameDuplicated = async (nickname: string) => {
   try {
     let user = '';
@@ -59,6 +91,7 @@ export const checkIsNicknameDuplicated = async (nickname: string) => {
   }
 };
 
+// 회원가입 - 일반 회원가입
 export const signUpMember = async ({
   nickname,
   email,
@@ -191,6 +224,39 @@ export const addCommunityPosting = async (posting: postingType) => {
     Promise.all(promises).then((result) => {
       addDoc(collection(db, 'community'), { ...posting, images: result });
     });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 리뷰 가져오기 (일반 회원 프로필 페이지)
+export const getMemberReviewsByEmail = async () => {
+  try {
+    const reviewList: any[] = [];
+
+    const { id } = await getUserInfoByEmail('alswlkku@gmail.com');
+    const q = query(reviewsCollection, where('userId', '==', id));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      reviewList.push(doc.data());
+    });
+
+    return await Promise.all(
+      reviewList?.map(async (reviewInfo) => {
+        try {
+          const { trainerId, creationDate } = reviewInfo;
+          const trainerInfo = await getTrainerInfoById(trainerId);
+          return {
+            ...reviewInfo,
+            creationDate: creationDate.toDate(),
+            trainer: { ...trainerInfo },
+          };
+        } catch (e) {
+          console.log(e);
+        }
+      })
+    );
   } catch (e) {
     console.log(e);
   }

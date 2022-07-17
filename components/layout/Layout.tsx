@@ -2,11 +2,11 @@ import { Global, ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import SEO from '@components/layout/SEO';
-import Nav from '@components/common/nav';
 import { global } from '@styles/globals';
 import theme from '@styles/theme';
 import { Provider } from 'react-redux';
-import { store } from 'redux/store';
+import { persistor, store } from 'redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 declare global {
   interface Window {
@@ -47,11 +47,13 @@ export default function Layout({ children }: { children: JSX.Element }) {
       <SEO />
       <Global styles={global} />
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <StyledLayout>
-            <Content>{children}</Content>
-          </StyledLayout>
-        </ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <StyledLayout>
+              <Content>{children}</Content>
+            </StyledLayout>
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </>
   );
