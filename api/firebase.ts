@@ -229,6 +229,14 @@ export const addCommunityPosting = async (posting: postingType) => {
   }
 };
 
+export const addReview = async (review: reviewProps) => {
+  try {
+    addDoc(collection(db, 'reviews'), review);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 // 리뷰 가져오기 (일반 회원 프로필 페이지)
 export const getMemberReviewsByEmail = async () => {
   try {

@@ -8,7 +8,8 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 import { field, service } from '@data';
 import { debounce } from 'lodash';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import { addReview } from '@api/firebase';
 
 const ServiceGroup = styled.div`
   border-top: 1px solid ${({ theme }) => theme.lightGray};
@@ -120,9 +121,9 @@ const Review: NextPage = () => {
   //  let { trainerInfo } = router.query;
   edited = edited ? JSON.parse(edited) : null;
 
-  const mainText = useRef(null);
-  const rating = useRef(null);
-  const isPrivateReview = useRef(null);
+  const mainText = useRef<HTMLTextAreaElement>(null);
+  const rating = useRef<HTMLInputElement | null>(null);
+  const isPrivateReview = useRef<HTMLInputElement>(null);
   const hint = useRef(null);
   const [isValid, changeValidState] = useState(edited ? true : false);
 
@@ -136,29 +137,33 @@ const Review: NextPage = () => {
     introduction: '다이어트, 매번 어려우셨나요? 이번엔 쉬운 길을 선택하세요',
   };
 
-  const handleRating = (e) => {
-    if (e.target.name !== 'rating') return;
-    rating.current = e.target;
-    rating.current.checked = true;
+  const handleRating = (e: { target: HTMLInputElement | null }) => {
+    if (!e.target || e.target.name !== 'rating') return;
+    if (rating.current && 'checked' in rating.current) {
+      rating.current.checked = true;
+      rating.current = e.target;
+    }
   };
 
   const handleTextChange = debounce(() => {
+    if (!mainText || !mainText.current || !hint.current) return;
     hint.current.style.display = mainText.current.value.length >= 10 ? 'none' : ' block';
     mainText.current.value.length >= 10 ? changeValidState(true) : changeValidState(false);
   }, 300);
 
   const uploadPost = () => {
-    const newData = {
+    if (!mainText || !mainText.current) return;
+    const newData: reviewProps = {
       category,
       content: mainText.current.value,
-      creationDate: edited ? edited.creationDate : new Date(),
-      isActivation: isPrivateReview.current.checked,
+      creationDate: edited ? new Date(edited.creationDate) : new Date(),
+      isActivation: isPrivateReview.current ? isPrivateReview.current.checked : false,
       rating: rating.current ? +rating.current.value : 1,
       trainerId: trainerInfo.trainerId,
-      userId: '1',
+      userId: 'mqcMcOXqvJwGR20waScC',
     };
-    console.log(newData);
-    window.location.href = '/profile/1';
+    addReview(newData);
+    Router.push('/profile');
   };
 
   return (
