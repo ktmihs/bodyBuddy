@@ -146,7 +146,7 @@ interface reviewType {
 }
 
 const Profile = () => {
-  const userInfo = useSelector((state: RootState) => state.userInfo.value);
+  const userInfo = useSelector((state: RootState) => state.userSlice.value);
   const [reviewList, setReviewList] = useState<reviewType[] | undefined>([]);
 
   const getReviews = async () => {
