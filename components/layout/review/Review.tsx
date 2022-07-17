@@ -146,7 +146,7 @@ const MyReview = () => {
                   {review.fieldId} | {review.purposeId}
                 </span>
               </TrainerInfo>
-              <Image src={review.images} alt="프로필" width="100" height="100" />
+              <Image src={review.images[0]} alt="프로필" width="100" height="100" />
               <p>{review.content}</p>
             </MainText>
           </Reveiw>
