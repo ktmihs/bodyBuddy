@@ -1,8 +1,9 @@
 interface post {
+  id: string;
   content: string;
-  creationDate: Date;
+  creationDate: string;
   fieldId: string;
-  images: string | string[];
+  images: string[];
   title: string;
   totalComments: number;
   userId: string;
@@ -11,12 +12,12 @@ interface post {
 interface editorProps {
   id?: string;
   content?: string;
-  creationDate?: Date;
+  creationDate?: string;
   isActivation?: boolean;
   rating?: number;
   userId?: string;
   trainerId: string;
-  image: string[];
+  images: string[];
   name: string;
   fieldId: string;
   introduction: string;

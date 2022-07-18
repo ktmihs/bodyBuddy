@@ -48,16 +48,16 @@ const PostButton = styled.div`
   }
 `;
 
-const Community: NextPage = ({ data }) => {
+const Community: NextPage = ({ data }: any) => {
   const [selectedItem, changeSelectedItem] = useState('0');
-  const [postList, setPostList] = useState(data);
+  const [postList, setPostList] = useState<post[]>(data);
 
   useEffect(() => {
     const getPostList = (field: string) => {
       return fetchPostingsByField(field);
     };
     Promise.resolve(getPostList(field[+selectedItem])).then((result) => {
-      setPostList([...result]);
+      setPostList(result as post[]);
     });
   }, [selectedItem]);
 
@@ -65,7 +65,7 @@ const Community: NextPage = ({ data }) => {
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
       <ItemGroup changeSelectedItem={changeSelectedItem} />
-      <PostList postList={postList} setPostList={setPostList} />
+      <PostList postList={postList} />
       <PostButton>
         <a href="community/posting">
           <Image src="/assets/community/pencil.svg" alt="글쓰기" width={15} height={15}></Image>

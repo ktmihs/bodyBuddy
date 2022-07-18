@@ -6,9 +6,9 @@ import { NextPage } from 'next/types';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
-import { field, service } from '@data';
+import { service } from '@data';
 import { debounce } from 'lodash';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import { addReview, updateReview } from '@api/firebase';
 import NoContent from '@components/common/noContent';
 
@@ -115,14 +115,15 @@ const Option = styled.div`
   }
 `;
 
-const Review: NextPage = ({ data }) => {
+const Review: NextPage = ({ data }: any) => {
   const [category, setCategory] = useState('상담');
   const edited = data ? JSON.parse(data) : '';
 
   const mainText = useRef<HTMLTextAreaElement>(null);
   const rating = useRef<HTMLInputElement | null>(null);
   const isPrivateReview = useRef<HTMLInputElement>(null);
-  const hint = useRef(null);
+  const hint = useRef<HTMLSpanElement>(null);
+
   const [isValid, changeValidState] = useState(edited.creationDate ? true : false);
 
   const left = { link: '/chat/list', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
