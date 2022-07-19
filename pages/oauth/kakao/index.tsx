@@ -58,6 +58,7 @@ const KakaoLogin = () => {
         // 회원 데이터가 없는 경우
         const payload = {
           email: data.userInfo.email,
+          name: data.userInfo.nickname,
           gender: data.userInfo.gender === 'female' ? false : true,
           signUpway: 'kakao',
         };
