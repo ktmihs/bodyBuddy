@@ -1,4 +1,4 @@
-import { getTrainerData } from '@api/firebase';
+import { getTrainerData, updateTrainerData } from '@api/firebase';
 import { FixedBottomButton } from '@components/common/button';
 import { TitleBar } from '@components/common/title';
 import { Edit } from '@components/layout/trainer/edit';
@@ -11,11 +11,11 @@ const TrainerEdit = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  const [newField, setNewField] = useState<string>();
-  const [newPurpose, setNewPurpose] = useState<string>();
-  const [address, setNewAddress] = useState<string>();
-  const [introdution, setIntrodution] = useState<string>();
-  const [isOnine, setIsOnine] = useState<boolean>();
+  const [field, setField] = useState<string>();
+  const [purpose, setPurpose] = useState<string>();
+  const [address, setAddress] = useState<string>();
+  const [introduction, setIntroduction] = useState<string>();
+  const [isOnline, setIsOnline] = useState<boolean>();
   const [profileUrl, setProfileUrl] = useState<string[]>();
   const [imagesUrl, setImagesUrl] = useState<string[]>();
   const [gymUrl, setGymUrl] = useState<string[]>();
@@ -43,8 +43,11 @@ const TrainerEdit = () => {
           // 받아온 이미지가 3개 보다 작을 경우, 빈문자열 넣어줌
           for (let i = 0; i < 3 - images.length; i++) images.push('');
 
-          setNewField(field);
-          setNewPurpose(purpose);
+          setField(field);
+          setPurpose(purpose);
+          setAddress(address);
+          setIntroduction(introduction);
+          setIsOnline(isOnline);
           setProfileUrl(images[0]);
           setImagesUrl(images);
           setGymUrl([gymImage]);
@@ -56,18 +59,24 @@ const TrainerEdit = () => {
   }, [id]);
 
   const trainerState = {
-    field: newField,
-    purpose: newPurpose,
+    field: field,
+    purpose: purpose,
     profileUrl: profileUrl,
     imagesUrl: imagesUrl,
     gymUrl: gymUrl,
     careers: careers,
     cost: cost,
+    address: address,
+    introduction: introduction,
+    isOnline: isOnline,
   };
 
   const trainerSetState = {
-    setField: setNewField,
-    setPurpose: setNewPurpose,
+    setField: setField,
+    setPurpose: setPurpose,
+    setAddress: setAddress,
+    setIntroduction: setIntroduction,
+    setIsOnline: setIsOnline,
     setProfileUrl: setProfileUrl,
     setImagesUrl: setImagesUrl,
     setGymUrl: setGymUrl,
@@ -89,7 +98,22 @@ const TrainerEdit = () => {
 
   const handleButtonClick = () => {
     // 트레이너 정보 수정하기
-    window.location.href = `/trainer/${id}`;
+    if (typeof id === 'string') {
+      const data = {
+        field: field,
+        purpose: purpose,
+        address: address,
+        introduction: introduction,
+        isOnline: isOnline,
+        images: imagesUrl,
+        gymImage: gymUrl?.join(''),
+        careers: careers,
+        price: cost,
+      };
+      console.log(data);
+      updateTrainerData(id, data);
+      window.location.href = `/trainer/${id}`;
+    }
   };
 
   const Withdraw = styled.div`
@@ -108,7 +132,7 @@ const TrainerEdit = () => {
     cursor: pointer;
   `;
 
-  return newField ? (
+  return field ? (
     <>
       <h2 className="srOnly">내 정보</h2>
       <TitleBar left={left} right={right} centerTitle={'내 정보'} />

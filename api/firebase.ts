@@ -356,3 +356,23 @@ export const getTrainerData = async (id: string) => {
     console.log(e);
   }
 };
+
+// id로 트레이너 정보 업데이트
+export const updateTrainerData = async (id: string, data: any) => {
+  try {
+    const docRef = doc(db, 'trainer', id);
+    updateDoc(docRef, {
+      field: data.field,
+      purpose: data.purpose,
+      address: data.address,
+      introduction: data.introduction,
+      isOnline: data.isOnline,
+      images: data.images,
+      gymImage: data.gymImage,
+      careers: data.careers,
+      price: +data.price,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
