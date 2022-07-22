@@ -8,7 +8,7 @@ import { healthEvents, healthPurpose } from '@data';
 import styled from '@emotion/styled';
 
 export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
-  const { field, purpose, profileUrl, images, gym, careers, cost } = trainerState;
+  const { field, purpose, profileUrl, imagesUrl, gymUrl, careers, cost } = trainerState;
   const { setField, setPurpose, setProfileUrl, setImagesUrl, setGymUrl, setCareers, setCost } =
     trainerSetState;
 
@@ -71,14 +71,14 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
         <section>
           <h3>프로필 사진</h3>
           <p>트레이너 님을 대표할 수 있는 사진을 업로드 해주세요 :)</p>
-          <ImageUploader url={images} setImageUrl={setImagesUrl} />
+          <ImageUploader url={imagesUrl} setImageUrl={setImagesUrl} />
         </section>
       </section>
       <section>
         <h2>트레이닝장 정보</h2>
         <section>
           <h3>트레이닝장 사진</h3>
-          <ImageUploader url={gym} setImageUrl={setGymUrl} />
+          <ImageUploader url={gymUrl} setImageUrl={setGymUrl} />
         </section>
         <section>
           <h3>트레이닝장 위치</h3>

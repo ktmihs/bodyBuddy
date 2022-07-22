@@ -121,7 +121,7 @@ export const fetchUserNickname = async (id: string) => {
     const docRef = doc(db, 'user', id);
     const docSnap = await getDoc(docRef);
     const data = docSnap.data();
-    return data.nickname;
+    return data ? data.nickname : '알 수 없음';
   } catch (e) {
     console.log(e);
   }
@@ -150,20 +150,20 @@ export const fetchPostingsByField = async (field: string) => {
             nickname: result,
           };
         })
-        .then((_) => fetchPostingMetaInfo(doc.id))
+        .then(() => fetchPostingMetaInfo(doc.id))
         .then((result) => {
           data = {
             ...data,
             id: doc.id,
             totalComments: result,
-            creationDate: data.creationDate.toDate() + '',
+            creationDate: data.creationDate.toDate(),
           };
           return data;
         });
     });
 
     return Promise.all(promises).then((result) =>
-      result.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
+      result.sort((a, b) => b.creationDate - a.creationDate)
     );
   } catch (e) {
     console.log(e);
@@ -177,8 +177,8 @@ export const fetchPostingDetailById = async (postId: string) => {
     let data = docSnap.data();
     data = {
       ...data,
-      nickname: await fetchUserNickname(data.userId),
-      creationDate: data.creationDate.toDate() + '',
+      nickname: await fetchUserNickname(data?.userId),
+      creationDate: data?.creationDate.toDate() + '',
     };
     return data;
   } catch (e) {
@@ -198,13 +198,13 @@ export const fetchCommentsById = async (postId: string) => {
           id: doc.id,
           nickname: result,
           ...data,
-          creationDate: data.creationDate.toDate() + '',
+          creationDate: data.creationDate.toDate(),
         };
         return data;
       });
     });
     return Promise.all(promises).then((result) =>
-      result.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))
+      result.sort((a, b) => a.creationDate - b.creationDate)
     );
   } catch (e) {
     console.log(e);
@@ -229,6 +229,36 @@ export const addCommunityPosting = async (posting: postingType) => {
   }
 };
 
+export const addReview = async (review: reviewProps) => {
+  try {
+    addDoc(collection(db, 'reviews'), review);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteReview = async (reviewId: string) => {
+  try {
+    await deleteDoc(doc(db, 'reviews', reviewId));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateReview = async (reviewId: string, review: reviewProps) => {
+  try {
+    const docRef = doc(db, 'reviews', reviewId);
+    updateDoc(docRef, {
+      content: review.content,
+      isActivation: review.isActivation,
+      category: review.category,
+      rating: review.rating,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 // 리뷰 가져오기 (일반 회원 프로필 페이지)
 export const getMemberReviewsByEmail = async () => {
   try {
@@ -239,7 +269,8 @@ export const getMemberReviewsByEmail = async () => {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-      reviewList.push(doc.data());
+      const data = { id: doc.id, ...doc.data() };
+      reviewList.push(data);
     });
 
     return await Promise.all(
@@ -321,6 +352,26 @@ export const getTrainerData = async (id: string) => {
     const q = query(trainerCollection, where(documentId(), '==', id));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map((x) => ({ ...x.data(), id: id }));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// id로 트레이너 정보 업데이트
+export const updateTrainerData = async (id: string, data: any) => {
+  try {
+    const docRef = doc(db, 'trainer', id);
+    updateDoc(docRef, {
+      field: data.field,
+      purpose: data.purpose,
+      address: data.address,
+      introduction: data.introduction,
+      isOnline: data.isOnline,
+      images: data.images,
+      gymImage: data.gymImage,
+      careers: data.careers,
+      price: +data.price,
+    });
   } catch (e) {
     console.log(e);
   }

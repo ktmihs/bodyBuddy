@@ -17,6 +17,34 @@ const StyledStep3 = styled.section`
     margin-bottom: 10px;
   }
 
+  .money {
+    margin-bottom: 20px;
+    position: relative;
+
+    .front,
+    .won {
+      position: absolute;
+      top: 32px;
+      color: ${({ theme }) => theme.gray};
+    }
+
+    .front {
+      left: 10px;
+    }
+    .won {
+      right: 50px;
+    }
+
+    input {
+      color: ${({ theme }) => theme.purple};
+      box-sizing: border-box;
+      border: 1px solid ${({ theme }) => theme.lineGray};
+      width: 90%;
+      border-radius: 10px;
+      padding: 6px 10px 6px 60px;
+    }
+  }
+
   .career {
     margin-bottom: 20px;
     div {
@@ -29,36 +57,12 @@ const StyledStep3 = styled.section`
   }
 
   .qualification {
-    input {
-      width: 286px;
-      border: 1px solid ${({ theme }) => theme.lineGray};
-      padding: 3px 14px;
-      border-radius: 20px;
-    }
-
-    .enterInfo {
-      width: 90%;
-      display: flex;
-
-      button {
-        border: none;
-        background: transparent;
-        padding: 0;
-      }
-    }
-
-    span {
-      margin-top: 10px;
-      display: block;
-      font-size: 12px;
-      color: #818181;
-    }
   }
 `;
 
 const Step3 = () => {
   const [startYear, setStartYear] = useState('경력 시작 년도');
-  const [startMonth, setStartMonth] = useState('경력 시작 달');
+  const [startMonth, setStartMonth] = useState('경력 시작 월');
 
   return (
     <>
@@ -68,6 +72,12 @@ const Step3 = () => {
         subTitleStageComment={'트레이너님의 경력을 알 수 있는 자격증을 업로드해주세요 :)'}
       />
       <StyledStep3>
+        <div className="money">
+          <label>1:1 트레이닝 비용</label>
+          <span className="front">1회당</span>
+          <input />
+          <span className="won">원</span>
+        </div>
         <div className="career">
           <label>경력 시작</label>
           <div>
@@ -80,28 +90,21 @@ const Step3 = () => {
             <Select
               currentSelectedData={startMonth}
               selectData={careerMonth}
-              selectWidth={100}
+              selectWidth={120}
               onSetCurrentSelected={setStartMonth}
             />
           </div>
         </div>
         <div className="qualification">
           <label>자격 및 수상</label>
-          <div className="enterInfo">
-            <input type="text" />
-            <button>
-              <Image src={plus.src} width="30px" height="30px" alt="추가" />
-            </button>
-          </div>
-          <span>상단 경력 및 수상에 해당하는 자격 및 수상 인증을 업로드해주세요.</span>
         </div>
       </StyledStep3>
-      <FixedBottomButton
+      {/* <FixedBottomButton
         isValid={false}
         buttonTitle="회원가입 신청"
         buttonType="button"
         onButtonEvent={() => {}}
-      />
+      /> */}
     </>
   );
 };

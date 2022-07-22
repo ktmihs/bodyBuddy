@@ -64,7 +64,7 @@ const StyledLinkButton = styled.a<{ color: string }>`
 `;
 
 const CheckCategory = () => {
-  const userInfo = useSelector((state: RootState) => state.userInfo.value);
+  const userInfo = useSelector((state: RootState) => state.userSlice.value);
   return (
     <StyledCheckCategory>
       <div className="greeting">

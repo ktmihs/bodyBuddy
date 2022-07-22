@@ -78,10 +78,11 @@ const Community: NextPage = ({ data }) => {
 
 export const getServerSideProps = async () => {
   const res = await fetchPostingsByField(field[0]);
+  const data = res?.map((key) => ({ ...key, creationDate: key.creationDate + '' }));
 
   return {
     props: {
-      data: res,
+      data,
     },
   };
 };
