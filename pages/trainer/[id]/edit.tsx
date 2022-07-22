@@ -39,6 +39,10 @@ const TrainerEdit = () => {
             careers,
             price,
           } = res[0];
+
+          // 받아온 이미지가 3개 보다 작을 경우, 빈문자열 넣어줌
+          for (let i = 0; i < 3 - images.length; i++) images.push('');
+
           setNewField(field);
           setNewPurpose(purpose);
           setProfileUrl(images[0]);
