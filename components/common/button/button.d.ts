@@ -22,7 +22,6 @@ interface IsValidButtonProps extends ButtonProps {
 }
 
 interface SocialLinkButtonProps {
-  NaverLink: string;
   KakaoLink: string;
   purpose: string;
   absoluteBottomPercent: number;
