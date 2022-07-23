@@ -40,8 +40,8 @@ interface TrainerProps {
   field: string;
   purpose: string;
   profileUrl: string;
-  images: string[];
-  gym: string[];
+  imagesUrl: string[];
+  gymUrl: string[];
   careers: CareerProps[];
   cost: string;
 }
