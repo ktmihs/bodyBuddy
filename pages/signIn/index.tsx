@@ -20,7 +20,6 @@ const LoginGuide = styled.span`
 `;
 
 const KAKAO_REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
-const NAVER_REDIRECT_URI = 'http://localhost:3000/oauth/naver';
 const SignIn = () => {
   return (
     <>
@@ -36,10 +35,9 @@ const SignIn = () => {
       </BodyBuddyLogo>
       <LoginGuide>SNS로 간편하게 로그인 혹은 가입하세요 !</LoginGuide>
       <SocialLinkButton
-        NaverLink={`/oauth/naver`}
         KakaoLink={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API}&redirect_uri=${KAKAO_REDIRECT_URI}`}
         purpose="signIn"
-        absoluteBottomPercent={5}
+        absoluteBottomPercent={3}
       />
     </>
   );
