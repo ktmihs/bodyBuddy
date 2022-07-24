@@ -70,6 +70,21 @@ export const StyledSocialButton = styled.div<{ bottom: number }>`
     color: ${({ theme }) => theme.black};
     margin-bottom: 10px;
   }
+
+  .naver {
+    background-color: #1cc500;
+    position: relative;
+    font-weight: 600;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+
+    span {
+      position: absolute;
+      top: 14px;
+      left: 142px;
+    }
+  }
 `;
 
 export const StyledTopButton = styled.button`

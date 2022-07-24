@@ -8,13 +8,6 @@ import { Provider } from 'react-redux';
 import { persistor, store } from 'redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
-declare global {
-  interface Window {
-    kakao: any;
-    naver: any;
-  }
-}
-
 const StyledLayout = styled.div`
   width: 390px;
   height: 100vh;
