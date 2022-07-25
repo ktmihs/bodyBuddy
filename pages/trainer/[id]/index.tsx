@@ -24,7 +24,7 @@ const Trainer: NextPage = () => {
         }
       });
     }
-  }, []);
+  }, [id]);
 
   // 리뷰 중, 현재 트레이너 아이디와 일치하는 리뷰 2개만 가져오기
   const reviews = [
