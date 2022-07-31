@@ -42,8 +42,8 @@ export const makeQuery = ({ id, option, outerCollection, innerCollection }: Make
 // 공통 - 이메일로 유저 정보가져오기
 export const getUserInfoByEmail = async (email: string) => {
   try {
-    let userCollectionId;
-    let userInfo;
+    let userCollectionId = null;
+    let userInfo = null;
 
     const q = query(userCollection, where('email', '==', email));
     const querySnapshot = await getDocs(q);
@@ -264,7 +264,7 @@ export const getMemberReviewsByEmail = async () => {
   try {
     const reviewList: any[] = [];
 
-    const { id } = await getUserInfoByEmail('alswlkku@gmail.com');
+    const { id }: any = await getUserInfoByEmail('alswlkku@gmail.com');
     const q = query(reviewsCollection, where('userId', '==', id));
     const querySnapshot = await getDocs(q);
 
