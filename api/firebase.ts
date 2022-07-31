@@ -141,7 +141,7 @@ export const fetchPostingsByField = async (field: string) => {
   try {
     const q = query(
       communityCollection,
-      where('fieldId', '==', field),
+      where('field', '==', field),
       orderBy('creationDate', 'desc')
     );
     const querySnapshot = await getDocs(q);

@@ -73,7 +73,7 @@ const PostingDetail: NextPage = ({ data }: any) => {
       {data ? (
         <>
           <h2 className="srOnly">게시물 보기</h2>
-          <TitleBar left={left} centerTitle={data.fieldId + ' 게시판'} />
+          <TitleBar left={left} centerTitle={data.field + ' 게시판'} />
           <UserProfile>
             <Image src="/assets/common/profile.svg" alt="프로필" width="50" height="50" />
             <PostMetaInfo

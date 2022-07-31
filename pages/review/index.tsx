@@ -167,14 +167,14 @@ const Review: NextPage = ({ data }: any) => {
           <TitleBar right={right} />
           <TrainerProfile>
             <Image
-              src={edited.images ? edited.images[0] : '/assets/community/blank.svg'}
+              src={edited.trainer.images ? edited.trainer.images[0] : '/assets/community/blank.svg'}
               width={100}
               height={100}
             ></Image>
             <TrainerInfo>
-              <span>{edited.fieldId}</span>
-              <span>{edited.name}</span>
-              <p>{edited.introduction}</p>
+              <span>{edited.trainer.field}</span>
+              <span>{edited.trainer.name}</span>
+              <p>{edited.trainer.introduction}</p>
             </TrainerInfo>
           </TrainerProfile>
           <TrainerRating>

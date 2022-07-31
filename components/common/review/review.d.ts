@@ -1,12 +1,12 @@
 interface trainerInfo {
   name: string;
-  fieldId: string;
+  field: string;
   images: string[];
   introduction: string;
-  purposeId: string;
+  purpose: string;
 }
 
-interface reveiw {
+interface review {
   id: string;
   category: string;
   content: string;
@@ -19,7 +19,7 @@ interface reveiw {
 }
 
 interface ReviewProps {
-  reviews: reveiw[];
+  reviews: review[];
   setReviews: Dispatch<SetStateAction<reveiws[]>>;
   isEditable: boolean;
 }

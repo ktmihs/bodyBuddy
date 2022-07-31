@@ -62,7 +62,7 @@ const Posting: NextPage = ({ data }: any) => {
     const newPost = {
       content: mainText.current.value,
       creationDate: edited ? edited.creationDate : new Date(),
-      fieldId: field[+selectedItem],
+      field: field[+selectedItem],
       images: url,
       title: title.current.value,
       totalComments: 0,
