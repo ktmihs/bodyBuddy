@@ -1,3 +1,11 @@
+interface trainerInfo {
+  name: string;
+  fieldId: string;
+  images: string[];
+  introduction: string;
+  purposeId: string;
+}
+
 interface reveiw {
   id: string;
   category: string;
@@ -7,11 +15,7 @@ interface reveiw {
   rating: number;
   userId: string;
   trainerId: string;
-  name: string;
-  fieldId: string;
-  images: string[];
-  introduction: string;
-  purposeId: string;
+  trainer: trainerInfo;
 }
 
 interface ReviewProps {
