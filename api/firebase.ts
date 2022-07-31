@@ -355,6 +355,15 @@ export const deleteCommunityComment = async (commentId: string) => {
   }
 };
 
+export const getAllTrainerData = async () => {
+  try {
+    const querySnapshot = await getDocs(trainerCollection);
+    return querySnapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getTrainerData = async (id: string) => {
   try {
     const q = query(trainerCollection, where(documentId(), '==', id));
