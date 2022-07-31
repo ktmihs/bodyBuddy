@@ -5,7 +5,7 @@ export const TitleBar = ({ left, right, centerTitle }: TitleBarProps) => {
   return (
     <StyledTitle>
       {left ? (
-        <a className="left" href={left?.link}>
+        <a className="left" href={left?.link} onClick={left?.handler}>
           <Image
             src={left?.src as string}
             alt={left?.alt}
@@ -18,7 +18,7 @@ export const TitleBar = ({ left, right, centerTitle }: TitleBarProps) => {
       )}
       <span>{centerTitle ? centerTitle : ''}</span>
       {right ? (
-        <a className="right" href={right?.link}>
+        <a className="right" href={right?.link} onClick={right?.handler}>
           <Image
             src={right?.src as string}
             alt={right?.alt}
