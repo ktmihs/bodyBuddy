@@ -12,7 +12,7 @@ interface post {
 interface EditorGroupProps {
   className: string;
   EditorURL?: string;
-  lastEdited: reveiw | post;
+  lastEdited?: reveiw | post;
   onChangeEditingMode?: Dispatch<SetStateAction<boolean>>;
   onChangeDeleteMode: Dispatch<SetStateAction<boolean>>;
 }
