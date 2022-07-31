@@ -53,12 +53,12 @@ const Review = ({ reviews, setReviews, isEditable }: ReviewProps) => {
             </div>
             <MainText>
               <TrainerInfo>
-                <span>{review.name} 트레이너</span>
+                <span>{review.trainer.name} 트레이너</span>
                 <span>
-                  {review.fieldId} | {review.purposeId}
+                  {review.trainer.field} | {review.trainer.purpose}
                 </span>
               </TrainerInfo>
-              <Image src={review.images[0]} alt="프로필" width="100" height="100" />
+              <Image src={review.trainer.images[0]} alt="프로필" width="100" height="100" />
               <p>{review.content}</p>
             </MainText>
           </Reveiw>
