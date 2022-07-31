@@ -139,7 +139,11 @@ export const fetchPostingMetaInfo = async (postId: string) => {
 
 export const fetchPostingsByField = async (field: string) => {
   try {
-    const q = query(communityCollection, where('fieldId', '==', field));
+    const q = query(
+      communityCollection,
+      where('field', '==', field),
+      orderBy('creationDate', 'desc')
+    );
     const querySnapshot = await getDocs(q);
     const promises = querySnapshot.docs.map((doc) => {
       let data = doc.data();
@@ -162,9 +166,9 @@ export const fetchPostingsByField = async (field: string) => {
         });
     });
 
-    return Promise.all(promises).then((result) =>
-      result.sort((a, b) => b.creationDate - a.creationDate)
-    );
+    return Promise.all(promises).then((result) => {
+      return result;
+    });
   } catch (e) {
     console.log(e);
   }
@@ -188,7 +192,11 @@ export const fetchPostingDetailById = async (postId: string) => {
 
 export const fetchCommentsById = async (postId: string) => {
   try {
-    const q = query(commentsCollection, where('communityId', '==', postId));
+    const q = query(
+      commentsCollection,
+      where('communityId', '==', postId),
+      orderBy('creationDate')
+    );
     const querySnapshot = await getDocs(q);
 
     const promises = querySnapshot.docs.map((doc) => {
@@ -203,9 +211,9 @@ export const fetchCommentsById = async (postId: string) => {
         return data;
       });
     });
-    return Promise.all(promises).then((result) =>
-      result.sort((a, b) => a.creationDate - b.creationDate)
-    );
+    return Promise.all(promises).then((result) => {
+      return result;
+    });
   } catch (e) {
     console.log(e);
   }
@@ -342,6 +350,15 @@ export const updateCommunityComment = async (commentId: string, content: string)
 export const deleteCommunityComment = async (commentId: string) => {
   try {
     await deleteDoc(doc(db, 'comments', commentId));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getAllTrainerData = async () => {
+  try {
+    const querySnapshot = await getDocs(trainerCollection);
+    return querySnapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
   } catch (e) {
     console.log(e);
   }

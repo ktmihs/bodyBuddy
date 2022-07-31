@@ -5,10 +5,11 @@ interface post {
   totalComments: number;
   userId: string;
   content: string;
-  fieldId: string;
-  creationDate: string;
+  field: string;
+  creationDate: string | Date;
+  nickname: string;
 }
 
 interface PostListProps {
-  postList: post | post[];
+  postList: post[];
 }

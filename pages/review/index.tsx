@@ -6,9 +6,9 @@ import { NextPage } from 'next/types';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
-import { field, service } from '@data';
+import { service } from '@data';
 import { debounce } from 'lodash';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import { addReview, updateReview } from '@api/firebase';
 import NoContent from '@components/common/noContent';
 
@@ -115,14 +115,15 @@ const Option = styled.div`
   }
 `;
 
-const Review: NextPage = ({ data }) => {
+const Review: NextPage = ({ data }: any) => {
   const [category, setCategory] = useState('상담');
   const edited = data ? JSON.parse(data) : '';
 
   const mainText = useRef<HTMLTextAreaElement>(null);
   const rating = useRef<HTMLInputElement | null>(null);
   const isPrivateReview = useRef<HTMLInputElement>(null);
-  const hint = useRef(null);
+  const hint = useRef<HTMLSpanElement>(null);
+
   const [isValid, changeValidState] = useState(edited.creationDate ? true : false);
 
   const left = { link: '/chat/list', src: '/assets/common/back-black.svg', alt: '뒤로가기' };
@@ -166,14 +167,14 @@ const Review: NextPage = ({ data }) => {
           <TitleBar right={right} />
           <TrainerProfile>
             <Image
-              src={edited.images ? edited.images[0] : '/assets/community/blank.svg'}
+              src={edited.trainer.images ? edited.trainer.images[0] : '/assets/community/blank.svg'}
               width={100}
               height={100}
             ></Image>
             <TrainerInfo>
-              <span>{edited.fieldId}</span>
-              <span>{edited.name}</span>
-              <p>{edited.introduction}</p>
+              <span>{edited.trainer.field}</span>
+              <span>{edited.trainer.name}</span>
+              <p>{edited.trainer.introduction}</p>
             </TrainerInfo>
           </TrainerProfile>
           <TrainerRating>

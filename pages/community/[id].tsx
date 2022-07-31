@@ -56,7 +56,7 @@ const UploadImage = styled.div`
   }
 `;
 
-const PostingDetail: NextPage = ({ data }) => {
+const PostingDetail: NextPage = ({ data }: any) => {
   const userId = 'mqcMcOXqvJwGR20waScC';
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const [comments, setComments] = useState(data.comments);
@@ -73,7 +73,7 @@ const PostingDetail: NextPage = ({ data }) => {
       {data ? (
         <>
           <h2 className="srOnly">게시물 보기</h2>
-          <TitleBar left={left} centerTitle={data.fieldId + ' 게시판'} />
+          <TitleBar left={left} centerTitle={data.field + ' 게시판'} />
           <UserProfile>
             <Image src="/assets/common/profile.svg" alt="프로필" width="50" height="50" />
             <PostMetaInfo
@@ -110,7 +110,7 @@ const PostingDetail: NextPage = ({ data }) => {
             <p>{data.content}</p>
             {data.images.length ? (
               <UploadImage>
-                {data.images.map((src, index) => (
+                {data.images.map((src: string, index: number) => (
                   <Image key={index} src={src} alt="첨부한 사진" width="250" height="150" />
                 ))}
               </UploadImage>

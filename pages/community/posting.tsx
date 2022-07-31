@@ -40,15 +40,15 @@ const MainText = styled.div`
   }
 `;
 
-const Posting: NextPage = ({ data }) => {
+const Posting: NextPage = ({ data }: any) => {
   const edited = data ? JSON.parse(data) : '';
   const userId = 'mqcMcOXqvJwGR20waScC';
 
   const [selectedItem, changeSelectedItem] = useState('0');
   const [isValid, changeValidState] = useState(edited ? true : false);
 
-  const title = useRef(null);
-  const mainText = useRef(null);
+  const title = useRef<HTMLInputElement>(null);
+  const mainText = useRef<HTMLTextAreaElement>(null);
 
   const initalizeUrl = () =>
     ['', '', ''].map((blank, index) =>
@@ -58,10 +58,11 @@ const Posting: NextPage = ({ data }) => {
   const [url, setImageUrl] = useState<string[]>(initalizeUrl());
 
   const uploadPost = () => {
+    if (!mainText.current || !title.current) return;
     const newPost = {
       content: mainText.current.value,
       creationDate: edited ? edited.creationDate : new Date(),
-      fieldId: field[+selectedItem],
+      field: field[+selectedItem],
       images: url,
       title: title.current.value,
       totalComments: 0,
@@ -80,6 +81,7 @@ const Posting: NextPage = ({ data }) => {
   };
 
   const handleTextChange = debounce(() => {
+    if (!mainText.current || !title.current) return;
     mainText.current.value && title.current.value
       ? changeValidState(true)
       : changeValidState(false);
@@ -126,7 +128,7 @@ const Posting: NextPage = ({ data }) => {
   );
 };
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async (context: { query: { edited: post } }) => {
   const { edited } = context.query;
   return {
     props: {
