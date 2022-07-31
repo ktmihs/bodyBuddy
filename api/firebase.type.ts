@@ -11,7 +11,7 @@ interface usertype {
 interface postingType {
   content: string;
   creationDate: Date;
-  fieldId: string;
+  field: string;
   images: string[];
   title: string;
   totalComments: number;

@@ -5,7 +5,7 @@ interface post {
   totalComments: number;
   userId: string;
   content: string;
-  fieldId: string;
+  field: string;
   creationDate: string | Date;
   nickname: string;
 }
