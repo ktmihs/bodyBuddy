@@ -6,9 +6,10 @@ interface post {
   userId: string;
   content: string;
   fieldId: string;
-  creationDate: string;
+  creationDate: string | Date;
+  nickname: string;
 }
 
 interface PostListProps {
-  postList: post | post[];
+  postList: post[];
 }

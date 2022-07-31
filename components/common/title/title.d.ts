@@ -1,7 +1,8 @@
 interface IconProps {
-  link: string;
   src: string;
   alt: string;
+  link?: string;
+  handler?: Dispatch<SetStateAction<boolean>>;
   width?: number;
   height?: number;
 }
