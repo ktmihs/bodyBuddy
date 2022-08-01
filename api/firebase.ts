@@ -12,6 +12,8 @@ import {
   getDoc,
   deleteDoc,
   updateDoc,
+  limit,
+  startAfter,
 } from 'firebase/firestore/lite';
 import { postingType, usertype, MakeQueryParam, commentType } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -137,14 +139,25 @@ export const fetchPostingMetaInfo = async (postId: string) => {
   }
 };
 
-export const fetchPostingsByField = async (field: string) => {
+export const fetchPostingsByField = async (field: string, key: unknown) => {
   try {
-    const q = query(
-      communityCollection,
-      where('field', '==', field),
-      orderBy('creationDate', 'desc')
-    );
+    const q = key
+      ? query(
+          communityCollection,
+          where('field', '==', field),
+          orderBy('creationDate', 'desc'),
+          startAfter(key),
+          limit(5)
+        )
+      : query(
+          communityCollection,
+          where('field', '==', field),
+          orderBy('creationDate', 'desc'),
+          limit(10)
+        );
+
     const querySnapshot = await getDocs(q);
+
     const promises = querySnapshot.docs.map((doc) => {
       let data = doc.data();
       return fetchUserNickname(data.userId)
@@ -166,9 +179,10 @@ export const fetchPostingsByField = async (field: string) => {
         });
     });
 
-    return Promise.all(promises).then((result) => {
-      return result;
-    });
+    return Promise.all(promises).then((result) => ({
+      result,
+      key: querySnapshot.empty ? null : querySnapshot.docs[querySnapshot.docs.length - 1],
+    }));
   } catch (e) {
     console.log(e);
   }

@@ -118,7 +118,6 @@ const Option = styled.div`
 const Review: NextPage = ({ data }: any) => {
   const [category, setCategory] = useState('상담');
   const edited = data ? JSON.parse(data) : '';
-
   const mainText = useRef<HTMLTextAreaElement>(null);
   const rating = useRef<HTMLInputElement | null>(null);
   const isPrivateReview = useRef<HTMLInputElement>(null);
@@ -180,6 +179,7 @@ const Review: NextPage = ({ data }: any) => {
           <TrainerRating>
             <RatingGroup
               isEditingMode={true}
+              star={0}
               onChangeRating={handleRating}
               width={15}
               height={15}

@@ -59,7 +59,7 @@ const Chat = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const user = useSelector((state: RootState) => state.userInfo.value);
+  const user = useSelector((state: RootState) => state.userSlice.value);
   const [snapshot, loading, error] = useCollection(chatCollection);
   const chats = snapshot?.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 

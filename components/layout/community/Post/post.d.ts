@@ -11,5 +11,6 @@ interface post {
 }
 
 interface PostListProps {
+  setTarget: Dispatch<SetStateAction<HTMLDivElement>>;
   postList: post[];
 }

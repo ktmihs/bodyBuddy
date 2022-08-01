@@ -61,6 +61,7 @@ const ModalContainer = styled.div`
       margin-bottom: 15px;
     }
     textarea {
+      border: none;
       line-height: 1.4;
       padding: 2%;
       resize: none;
@@ -137,16 +138,16 @@ const Commentor = styled.div`
   }
 `;
 
-const Comments = ({ postId, comments, setComments }) => {
+const Comments = ({ postId, comments, setComments }: commentType) => {
   const userId = 'mqcMcOXqvJwGR20waScC';
-  const newComment = useRef(null);
-  const updatedComment = useRef(null);
+  const newComment = useRef<HTMLTextAreaElement>(null);
+  const updatedComment = useRef<HTMLTextAreaElement>(null);
 
   const [isDeleteMode, onChangeDeleteMode] = useState<boolean>(false);
   const [isEditingMode, onChangeEditingMode] = useState<boolean>(false);
   const [selectedComment, onChangeSelectedComment] = useState<string>('');
 
-  const changeSelectedComment = (id) => {
+  const changeSelectedComment = (id: string) => {
     onChangeSelectedComment(id);
   };
 
@@ -156,12 +157,15 @@ const Comments = ({ postId, comments, setComments }) => {
   };
 
   const updateComment = () => {
-    if (!updatedComment.current.value || !selectedComment) return;
+    if (!updatedComment.current || !updatedComment.current.value) return;
     updateCommunityComment(selectedComment, updatedComment.current.value);
     setComments(
       comments.map((comment) =>
         comment.id === selectedComment
-          ? { ...comment, content: updatedComment.current.value }
+          ? {
+              ...comment,
+              content: updatedComment.current ? updatedComment.current.value : comment.content,
+            }
           : comment
       )
     );
@@ -176,7 +180,7 @@ const Comments = ({ postId, comments, setComments }) => {
   };
 
   const uploadComment = async (e: FormEvent<HTMLFormElement>) => {
-    if (!newComment.current.value) return;
+    if (!newComment.current || !newComment.current.value) return;
     e.preventDefault();
     const newData = {
       communityId: postId,

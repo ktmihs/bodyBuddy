@@ -1,7 +1,7 @@
 interface post {
   id: string;
   content: string;
-  creationDate: string;
+  creationDate: date;
   field: string;
   images: string[];
   title: string;
@@ -12,7 +12,7 @@ interface post {
 interface EditorGroupProps {
   className: string;
   EditorURL?: string;
-  lastEdited: reveiw | post;
+  lastEdited?: reveiw | post;
   onChangeEditingMode?: Dispatch<SetStateAction<boolean>>;
   onChangeDeleteMode: Dispatch<SetStateAction<boolean>>;
 }

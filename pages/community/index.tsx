@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import PostList from '@components/layout/community/Post';
 import { field } from '@data';
 import { fetchPostingsByField } from '@api/firebase';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore/lite';
 
 const CommunityPage = styled.section`
   &:nth-of-type(1) {
@@ -34,10 +35,8 @@ const PostButton = styled.div`
     height: 100%;
     span {
       line-height: 2.4;
-      /* background-color: pink; */
     }
     img {
-      /* background-color: red; */
     }
   }
 
@@ -48,24 +47,54 @@ const PostButton = styled.div`
   }
 `;
 
-const Community: NextPage = ({ data }: any) => {
+const Community: NextPage = () => {
   const [selectedItem, changeSelectedItem] = useState('0');
-  const [postList, setPostList] = useState<post[]>(data);
+  const [postList, setPostList] = useState<post[]>([]);
+  const [startAfter, setStartAfter] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const getPostList = (field: string) => {
-      return fetchPostingsByField(field);
+      return fetchPostingsByField(field, startAfter);
     };
     Promise.resolve(getPostList(field[+selectedItem])).then((result) => {
-      setPostList(result as post[]);
+      setPostList(() => [...(result?.result as post[])]);
+      setStartAfter(result ? result.key : null);
     });
   }, [selectedItem]);
+
+  const onIntersect = async ([entry]: any, observer: IntersectionObserver) => {
+    if (entry.isIntersecting && !isLoaded && startAfter !== null) {
+      observer.unobserve(entry.target);
+      setIsLoaded(true);
+      const result = await fetchPostingsByField(field[+selectedItem], startAfter);
+      setPostList((currentList: post[]) => [...currentList, ...(result?.result as post[])]);
+      setStartAfter(result ? result.key : null);
+      setIsLoaded(false);
+    } else return;
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0.5,
+      });
+      observer.observe(target);
+    }
+    return () => {
+      observer && observer.disconnect();
+      setIsLoaded(false);
+    };
+  }, [startAfter]);
 
   return (
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
       <ItemGroup changeSelectedItem={changeSelectedItem} />
-      <PostList postList={postList} />
+      <PostList setTarget={setTarget} postList={postList} />
+
       <PostButton>
         <a href="community/posting">
           <Image src="/assets/community/pencil.svg" alt="글쓰기" width={15} height={15}></Image>
@@ -74,17 +103,6 @@ const Community: NextPage = ({ data }: any) => {
       </PostButton>
     </CommunityPage>
   );
-};
-
-export const getServerSideProps = async () => {
-  const res = await fetchPostingsByField(field[0]);
-  const data = res?.map((key) => ({ ...key, creationDate: key.creationDate + '' }));
-
-  return {
-    props: {
-      data,
-    },
-  };
 };
 
 export default Community;
