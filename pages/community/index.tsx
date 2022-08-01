@@ -51,6 +51,8 @@ const Community: NextPage = () => {
   const [selectedItem, changeSelectedItem] = useState('0');
   const [postList, setPostList] = useState<post[]>([]);
   const [startAfter, setStartAfter] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const getPostList = (field: string) => {
@@ -62,17 +64,36 @@ const Community: NextPage = () => {
     });
   }, [selectedItem]);
 
+  const onIntersect = async ([entry]: any, observer: IntersectionObserver) => {
+    if (entry.isIntersecting && !isLoaded && startAfter !== null) {
+      observer.unobserve(entry.target);
+      setIsLoaded(true);
+      const result = await fetchPostingsByField(field[+selectedItem], startAfter);
+      setPostList((currentList: post[]) => [...currentList, ...(result?.result as post[])]);
+      setStartAfter(result ? result.key : null);
+      setIsLoaded(false);
+    } else return;
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0.5,
+      });
+      observer.observe(target);
+    }
+    return () => {
+      observer && observer.disconnect();
+      setIsLoaded(false);
+    };
+  }, [startAfter]);
+
   return (
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
       <ItemGroup changeSelectedItem={changeSelectedItem} />
-      <PostList
-        postList={postList}
-        selectedItem={selectedItem}
-        setStartAfter={setStartAfter}
-        startAfter={startAfter}
-        setPostList={setPostList}
-      />
+      <PostList setTarget={setTarget} postList={postList} />
 
       <PostButton>
         <a href="community/posting">
