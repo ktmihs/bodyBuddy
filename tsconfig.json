@@ -34,7 +34,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/common/button.tsㅌ"  ],
+, "components/common/button.ts", "tsconfig.server.json"  ],
   "exclude": [
     "node_modules"
   ],
