@@ -3,6 +3,7 @@ import { RootState } from 'redux/store';
 
 import styled from '@emotion/styled';
 import Talk from './Talk';
+import { DocumentData } from 'firebase/firestore/lite';
 
 const HorizonLine = styled.div`
   background-color: ${({ theme }) => theme.lineGray};
@@ -22,12 +23,17 @@ const HorizonLine = styled.div`
   }
 `;
 
-const Talks = ({ messages }: any) => {
-  const user = useSelector((state: RootState) => state.userInfo.value);
+interface Props {
+  messages: DocumentData[] | undefined;
+}
+
+const Talks = ({ messages }: Props) => {
+  const user = useSelector((state: RootState) => state.userSlice.value);
+  console.log(user);
 
   return (
     <div>
-      {messages?.map(({ sender, text, timestamp }: any) => (
+      {messages?.map(({ sender, text, timestamp }: DocumentData) => (
         <Talk
           key={timestamp.toDate().toString()}
           content={text}
