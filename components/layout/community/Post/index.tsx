@@ -73,41 +73,8 @@ const MetaContainer = styled.div`
   }
 `;
 
-const PostList = ({
-  selectedItem,
-  setStartAfter,
-  startAfter,
-  setPostList,
-  postList,
-}: PostListProps) => {
+const PostList = ({ postList, setTarget }: PostListProps) => {
   const containerRef = useRef(null);
-  const target = useRef(null);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
-  const onIntersect = async ([entry]: any, observer: IntersectionObserver) => {
-    if (entry.isIntersecting && !isLoaded && startAfter !== null) {
-      observer.unobserve(entry.target);
-      setIsLoaded(true);
-      const result = await fetchPostingsByField(field[+selectedItem], startAfter);
-      await setPostList((currentList: post[]) => [...currentList, ...(result?.result as post[])]);
-      await setStartAfter(result?.key);
-      setIsLoaded(false);
-    } else return;
-  };
-
-  useEffect(() => {
-    let observer: IntersectionObserver;
-    if (target.current) {
-      observer = new IntersectionObserver(onIntersect, {
-        threshold: 0.5,
-      });
-      observer.observe(target.current);
-    }
-    return () => {
-      observer && observer.disconnect();
-      setIsLoaded(false);
-    };
-  }, [startAfter]);
 
   return (
     <PostListContainer ref={containerRef}>
@@ -139,7 +106,7 @@ const PostList = ({
           </MetaContainer>
         </Post>
       ))}
-      <div className="observer" ref={target} />
+      <div className="observer" ref={setTarget} />
       <TopButton containerRef={containerRef} />
     </PostListContainer>
   );
