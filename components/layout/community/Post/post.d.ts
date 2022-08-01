@@ -11,5 +11,9 @@ interface post {
 }
 
 interface PostListProps {
+  selectedItem: string;
+  setStartAfter: Dispatch<SetStateAction<QueryDocumentSnapshot<DocumentData>>>;
+  startAfter: QueryDocumentSnapshot<DocumentData> | null;
+  setPostList: Dispatch<SetStateAction<post[]>>;
   postList: post[];
 }

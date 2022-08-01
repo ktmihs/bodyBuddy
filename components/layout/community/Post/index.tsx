@@ -2,12 +2,18 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { CommentCount, PostMetaInfo } from '@components/common/meta';
 import { TopButton } from '@components/common/button';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { fetchPostingsByField } from '@api/firebase';
+import { field } from '@data';
 
 const PostListContainer = styled.div`
   height: 800px;
   overflow: auto;
+  .observer {
+    background-color: transparent;
+    height: 5px;
+  }
 `;
 const Post = styled.article`
   position: relative;
@@ -67,8 +73,41 @@ const MetaContainer = styled.div`
   }
 `;
 
-const PostList = ({ postList }: PostListProps) => {
+const PostList = ({
+  selectedItem,
+  setStartAfter,
+  startAfter,
+  setPostList,
+  postList,
+}: PostListProps) => {
   const containerRef = useRef(null);
+  const target = useRef(null);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  const onIntersect = async ([entry]: any, observer: IntersectionObserver) => {
+    if (entry.isIntersecting && !isLoaded && startAfter !== null) {
+      observer.unobserve(entry.target);
+      setIsLoaded(true);
+      const result = await fetchPostingsByField(field[+selectedItem], startAfter);
+      await setPostList((currentList: post[]) => [...currentList, ...(result?.result as post[])]);
+      await setStartAfter(result?.key);
+      setIsLoaded(false);
+    } else return;
+  };
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target.current) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0.5,
+      });
+      observer.observe(target.current);
+    }
+    return () => {
+      observer && observer.disconnect();
+      setIsLoaded(false);
+    };
+  }, [startAfter]);
 
   return (
     <PostListContainer ref={containerRef}>
@@ -95,15 +134,12 @@ const PostList = ({ postList }: PostListProps) => {
           </Link>
 
           <MetaContainer>
-            <PostMetaInfo
-              nickname={post.nickname}
-              dateTime={new Date(post.creationDate)}
-              className="list"
-            />
+            <PostMetaInfo nickname={post.nickname} dateTime={post.creationDate} className="list" />
             <CommentCount comment={post.totalComments} />
           </MetaContainer>
         </Post>
       ))}
+      <div className="observer" ref={target} />
       <TopButton containerRef={containerRef} />
     </PostListContainer>
   );
