@@ -1,7 +1,7 @@
 interface post {
   id: string;
   content: string;
-  creationDate: string;
+  creationDate: date;
   field: string;
   images: string[];
   title: string;
