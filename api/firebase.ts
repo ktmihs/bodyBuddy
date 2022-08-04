@@ -303,7 +303,7 @@ export const deleteReview = async (reviewId: string) => {
   }
 };
 
-export const updateReview = async (reviewId: string, review: reviewProps) => {
+export const updateReview = async (reviewId: string, review: reviewsType) => {
   try {
     const docRef = doc(db, 'reviews', reviewId);
     updateDoc(docRef, {
