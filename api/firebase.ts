@@ -60,13 +60,49 @@ export const getUserInfoByEmail = async (email: string) => {
   }
 };
 
-// 공통 - 트레이너 정보 가져오기
+const getTrainerInfoByEmail = async (email: string) => {
+  try {
+    let trainerCollectionId = null;
+    let trainerInfo = null;
+
+    const q = query(trainerCollection, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      trainerCollectionId = doc.id;
+      trainerInfo = doc.data;
+    });
+
+    return { id: trainerCollectionId, data: trainerInfo };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 공통 - Collection ID로 트레이너 정보 가져오기
 export const getTrainerInfoById = async (id: string) => {
   try {
     const docRef = doc(db, 'trainer', id);
     const docSnap = await getDoc(docRef);
 
     return docSnap.data();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 공통 - email로 유저와 트레이너 검색 (리턴 : Collection ID)
+export const isExistUserOrTrainer = async (email: string) => {
+  try {
+    const userInfo = await getUserInfoByEmail(email);
+
+    if (!userInfo?.id) {
+      const trainerInfo = await getTrainerInfoByEmail(email);
+
+      if (!trainerInfo?.id) return null;
+      return { ...trainerInfo, type: 'trainer' };
+    }
+    return { ...userInfo, type: 'user' };
   } catch (e) {
     console.log(e);
   }
