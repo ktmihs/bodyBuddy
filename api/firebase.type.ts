@@ -36,6 +36,7 @@ interface reviewsType {
   category: string;
   content: string;
   rating: number;
+  creationDate: Date;
   isActivation: boolean;
   trainerId: string;
   userId: string;

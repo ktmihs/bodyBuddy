@@ -15,7 +15,7 @@ import {
   limit,
   startAfter,
 } from 'firebase/firestore/lite';
-import { postingType, usertype, MakeQueryParam, commentType } from './firebase.type';
+import { postingType, usertype, MakeQueryParam, commentType, reviewsType } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -287,7 +287,7 @@ export const addCommunityPosting = async (posting: postingType) => {
   }
 };
 
-export const addReview = async (review: reviewProps) => {
+export const addReview = async (review: reviewsType) => {
   try {
     addDoc(collection(db, 'reviews'), review);
   } catch (e) {
