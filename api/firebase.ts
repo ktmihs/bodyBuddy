@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { getApp, getApps, initializeApp } from 'firebase/app';
 import {
   doc,
   getFirestore,
@@ -17,19 +17,18 @@ import {
 } from 'firebase/firestore/lite';
 import { postingType, usertype, MakeQueryParam, commentType, reviewsType } from './firebase.type';
 import { getStorage, getDownloadURL, ref, uploadString } from 'firebase/storage';
+import firebaseConfig from '../firebase.setting';
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_MSG_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_APP_ID,
-};
+let app: any;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage();
+// const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const storage = getStorage();
 
 const userCollection = collection(db, 'user');
 const reviewsCollection = collection(db, 'reviews');
@@ -44,6 +43,7 @@ export const makeQuery = ({ id, option, outerCollection, innerCollection }: Make
 // 공통 - 이메일로 유저 정보가져오기
 export const getUserInfoByEmail = async (email: string) => {
   try {
+    console.log(app);
     let userCollectionId = null;
     let userInfo = null;
 
@@ -94,15 +94,13 @@ export const getTrainerInfoById = async (id: string) => {
 // 공통 - email로 유저와 트레이너 검색 (리턴 : Collection ID)
 export const isExistUserOrTrainer = async (email: string) => {
   try {
-    const userInfo = await getUserInfoByEmail(email);
-
-    if (!userInfo?.id) {
-      const trainerInfo = await getTrainerInfoByEmail(email);
-
-      if (!trainerInfo?.id) return null;
-      return { ...trainerInfo, type: 'trainer' };
-    }
-    return { ...userInfo, type: 'user' };
+    // const userInfo = await getUserInfoByEmail(email);
+    // if (!userInfo?.id) {
+    //   const trainerInfo = await getTrainerInfoByEmail(email);
+    //   if (!trainerInfo?.id) return null;
+    //   return { ...trainerInfo, type: 'trainer' };
+    // }
+    // return { ...userInfo, type: 'user' };
   } catch (e) {
     console.log(e);
   }

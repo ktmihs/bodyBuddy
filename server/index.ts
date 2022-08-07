@@ -1,3 +1,4 @@
+import { getUserInfoByEmail } from '../api/firebase';
 import axios from 'axios';
 import bodyParser from 'body-parser';
 import express, { Request, Response } from 'express';
@@ -15,7 +16,6 @@ app.prepare().then(() => {
 
   server.post('/oAuth/kakao', async (req: Request, res: Response) => {
     try {
-      console.log(req.body);
       const { access_token } = req.body;
 
       const {
@@ -32,6 +32,11 @@ app.prepare().then(() => {
         profile: { nickname },
         gender,
       } = kakao_account;
+
+      const result = await getUserInfoByEmail('alswlkku@gmail.com');
+      console.log(result);
+      // const result = await isExistUserOrTrainer(email);
+      // console.log(result);
     } catch (e) {
       console.log(e);
     }
