@@ -43,7 +43,6 @@ export const makeQuery = ({ id, option, outerCollection, innerCollection }: Make
 // 공통 - 이메일로 유저 정보가져오기
 export const getUserInfoByEmail = async (email: string) => {
   try {
-    console.log(app);
     let userCollectionId = null;
     let userInfo = null;
 
@@ -94,13 +93,13 @@ export const getTrainerInfoById = async (id: string) => {
 // 공통 - email로 유저와 트레이너 검색 (리턴 : Collection ID)
 export const isExistUserOrTrainer = async (email: string) => {
   try {
-    // const userInfo = await getUserInfoByEmail(email);
-    // if (!userInfo?.id) {
-    //   const trainerInfo = await getTrainerInfoByEmail(email);
-    //   if (!trainerInfo?.id) return null;
-    //   return { ...trainerInfo, type: 'trainer' };
-    // }
-    // return { ...userInfo, type: 'user' };
+    const userInfo = await getUserInfoByEmail(email);
+    if (!userInfo?.id) {
+      const trainerInfo = await getTrainerInfoByEmail(email);
+      if (!trainerInfo?.id) return null;
+      return { ...trainerInfo, type: 'trainer' };
+    }
+    return { ...userInfo, type: 'user' };
   } catch (e) {
     console.log(e);
   }

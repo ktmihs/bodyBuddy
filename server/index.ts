@@ -1,4 +1,5 @@
-import { getUserInfoByEmail } from '../api/firebase';
+import { makeToken } from './jwtToken/index';
+import { isExistUserOrTrainer } from '../api/firebase';
 import axios from 'axios';
 import bodyParser from 'body-parser';
 import express, { Request, Response } from 'express';
@@ -33,10 +34,21 @@ app.prepare().then(() => {
         gender,
       } = kakao_account;
 
-      const result = await getUserInfoByEmail('alswlkku@gmail.com');
-      console.log(result);
-      // const result = await isExistUserOrTrainer(email);
-      // console.log(result);
+      const result = await isExistUserOrTrainer(email);
+
+      if (!result) {
+        // 유저가 없는 경우,
+        res.send({ result: false, userInfo: { email, nickname, gender } });
+      } else {
+        const { id, data, type } = result;
+        const token = makeToken(String(id));
+        res.cookie('jwt_Token', token);
+        res.send({
+          result: true,
+          userInfo: data,
+          type,
+        });
+      }
     } catch (e) {
       console.log(e);
     }

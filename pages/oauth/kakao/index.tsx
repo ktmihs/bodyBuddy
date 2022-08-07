@@ -4,7 +4,7 @@ import Router from 'next/router';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginEmail } from 'redux/userSlice';
+import { loginEmail, loginEmailAlreadyExisted } from 'redux/userSlice';
 
 import { TailSpin } from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -44,24 +44,42 @@ const KakaoLogin = () => {
 
   const getUserInfo = async (access_token: string) => {
     try {
-      const { data } = await axios({
-        url: 'http://localhost:8000/oAuth/kakao',
+      const {
+        data: { result, userInfo, type },
+      } = await axios({
+        url: '/oAuth/kakao',
         method: 'post',
         data: { access_token: access_token },
         withCredentials: true,
       });
 
-      if (data.result) {
+      if (result) {
         // 회원 데이터가 있는 경우
+        if (type === 'trainer') {
+        } else {
+          const { city, thumbnail, gender, email, district, nickname } = userInfo;
+          const payload = {
+            email,
+            name: nickname,
+            gender: gender === 'female' ? false : true,
+            thumbnail,
+            city,
+            district,
+            signUpway: 'kakao',
+          };
+          dispatch(loginEmailAlreadyExisted(payload));
+        }
         Router.push('/');
       } else {
         // 회원 데이터가 없는 경우
+        const { email, nickname, gender } = userInfo;
         const payload = {
-          email: data.userInfo.email,
-          name: data.userInfo.nickname,
-          gender: data.userInfo.gender === 'female' ? false : true,
+          email,
+          name: nickname,
+          gender: gender === 'female' ? false : true,
           signUpway: 'kakao',
         };
+
         dispatch(loginEmail(payload));
         Router.push('/signUp/checkCategory');
       }
