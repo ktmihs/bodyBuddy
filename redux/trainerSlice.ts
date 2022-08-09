@@ -1,33 +1,79 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
   value: {
     name: '',
-    images: [],
+    signUpway: '',
+    images: ['', '', ''],
     field: '',
     purpose: '',
     address: '',
     city: '',
     district: '',
     gymImage: '',
-    career: [],
-    price: '',
-    totalCareer: '',
+    gymName: '',
+    gender: true,
+    careers: {},
+    price: 0,
     introduction: '',
+    careerStartMonth: 0,
+    careerStartYear: 0,
   },
 };
+
+interface TrainerSignUpStep1 {
+  field: string;
+  purpose: string;
+  images: Array<string>;
+  introduction: string;
+}
+
+interface TrainerSignUpStep2 {
+  gymName: string;
+  gymImage: string;
+  address: string;
+  city: string;
+  district: string;
+}
+
+interface CareerType {
+  id?: number;
+  content?: string;
+  image?: string;
+  isApproval?: boolean;
+}
+
+interface TrainerSignUpStep3 {
+  price: number;
+  careerStartMonth: number;
+  careerStartYear: number;
+  careers: Array<CareerType>;
+}
+
+interface LoginTrainerAlreadyExisted
+  extends TrainerSignUpStep1,
+    TrainerSignUpStep2,
+    TrainerSignUpStep3 {
+  name: string;
+  signUpway: 'kakao' | 'naver';
+  gender: boolean;
+}
 
 export const trainerSlice = createSlice({
   name: 'trainerInfo',
   initialState,
   reducers: {
-    trainerSignUpstep1: (state, action) => {
-      const { name, field, purpose, images, introduction } = action.payload;
-      state.value.name = name;
-      state.value.field = field;
-      state.value.purpose = purpose;
-      state.value.images = images;
-      state.value.introduction = introduction;
+    loginTrainerAlreadyExisted: (state, action: PayloadAction<LoginTrainerAlreadyExisted>) => {
+      state.value = { ...state.value, ...action.payload };
+    },
+    trainerSignUpstep1: (state, action: PayloadAction<TrainerSignUpStep1>) => {
+      state.value = { ...state.value, ...action.payload };
+    },
+    trainerSignUpstep2: (state, action: PayloadAction<TrainerSignUpStep2>) => {
+      state.value = { ...state.value, ...action.payload };
+    },
+    trainerSignUpstep3: (state, action: PayloadAction<TrainerSignUpStep3>) => {
+      state.value = { ...state.value, ...action.payload };
     },
   },
 });
