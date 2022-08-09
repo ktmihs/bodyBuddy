@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
   value: {
+    email: '',
     name: '',
     signUpway: '',
     images: ['', '', ''],
@@ -55,6 +56,7 @@ interface LoginTrainerAlreadyExisted
   extends TrainerSignUpStep1,
     TrainerSignUpStep2,
     TrainerSignUpStep3 {
+  email: string;
   name: string;
   signUpway: 'kakao' | 'naver';
   gender: boolean;

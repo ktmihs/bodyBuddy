@@ -69,7 +69,7 @@ const getTrainerInfoByEmail = async (email: string) => {
 
     querySnapshot.forEach((doc) => {
       trainerCollectionId = doc.id;
-      trainerInfo = doc.data;
+      trainerInfo = doc.data();
     });
 
     return { id: trainerCollectionId, data: trainerInfo };
