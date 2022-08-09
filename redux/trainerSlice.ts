@@ -18,6 +18,7 @@ const initialState = {
     introduction: '',
     careerStartMonth: 0,
     careerStartYear: 0,
+    isOnline: false,
   },
 };
 
@@ -57,6 +58,7 @@ interface LoginTrainerAlreadyExisted
   name: string;
   signUpway: 'kakao' | 'naver';
   gender: boolean;
+  isOnline: boolean;
 }
 
 export const trainerSlice = createSlice({
@@ -78,5 +80,5 @@ export const trainerSlice = createSlice({
   },
 });
 
-export const { trainerSignUpstep1 } = trainerSlice.actions;
+export const { loginTrainerAlreadyExisted, trainerSignUpstep1 } = trainerSlice.actions;
 export default trainerSlice.reducer;
