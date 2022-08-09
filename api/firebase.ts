@@ -78,6 +78,18 @@ const getTrainerInfoByEmail = async (email: string) => {
   }
 };
 
+// 공통 - Collection ID로 회원 정보 가져오기
+export const getUserInfoById = async (id: string) => {
+  try {
+    const docRef = doc(db, 'user', id);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.data();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 // 공통 - Collection ID로 트레이너 정보 가져오기
 export const getTrainerInfoById = async (id: string) => {
   try {
