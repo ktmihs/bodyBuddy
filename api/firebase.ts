@@ -69,10 +69,22 @@ const getTrainerInfoByEmail = async (email: string) => {
 
     querySnapshot.forEach((doc) => {
       trainerCollectionId = doc.id;
-      trainerInfo = doc.data;
+      trainerInfo = doc.data();
     });
 
     return { id: trainerCollectionId, data: trainerInfo };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// 공통 - Collection ID로 회원 정보 가져오기
+export const getUserInfoById = async (id: string) => {
+  try {
+    const docRef = doc(db, 'user', id);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.data();
   } catch (e) {
     console.log(e);
   }

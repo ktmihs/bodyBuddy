@@ -8,6 +8,7 @@ import { loginEmail, loginEmailAlreadyExisted } from 'redux/userSlice';
 
 import { TailSpin } from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { loginTrainerAlreadyExisted } from 'redux/trainerSlice';
 
 const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
 
@@ -56,6 +57,13 @@ const KakaoLogin = () => {
       if (result) {
         // 회원 데이터가 있는 경우
         if (type === 'trainer') {
+          const payload = {
+            ...userInfo,
+            gender: userInfo.gender === 'female' ? false : true,
+            signUpway: 'kakao',
+          };
+
+          dispatch(loginTrainerAlreadyExisted(payload));
         } else {
           const { city, thumbnail, gender, email, district, nickname } = userInfo;
           const payload = {
@@ -67,6 +75,7 @@ const KakaoLogin = () => {
             district,
             signUpway: 'kakao',
           };
+
           dispatch(loginEmailAlreadyExisted(payload));
         }
         Router.push('/');
