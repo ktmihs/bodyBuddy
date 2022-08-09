@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from '@emotion/styled';
 
 import { CityAndDistrictSelect } from '@components/common/select';
@@ -67,10 +67,6 @@ const Step1 = () => {
   const [nickname, setNickname] = useState('');
   const userInfo = useSelector((state: RootState) => state.userSlice.value);
 
-  useEffect(() => {
-    if (!userInfo.email) Router.push('/');
-  }, []);
-
   const submitMemberInfo = async () => {
     try {
       await signUpMember({
@@ -81,6 +77,7 @@ const Step1 = () => {
         district: districtInfo,
         signUpway: userInfo.signUpway,
       });
+
       Router.push('/signUp/member/complete');
     } catch (e) {
       console.log(e);

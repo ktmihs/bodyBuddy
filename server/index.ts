@@ -1,3 +1,5 @@
+import { makeToken } from './jwtToken/index';
+import { isExistUserOrTrainer } from '../api/firebase';
 import axios from 'axios';
 import bodyParser from 'body-parser';
 import express, { Request, Response } from 'express';
@@ -15,7 +17,6 @@ app.prepare().then(() => {
 
   server.post('/oAuth/kakao', async (req: Request, res: Response) => {
     try {
-      console.log(req.body);
       const { access_token } = req.body;
 
       const {
@@ -32,6 +33,22 @@ app.prepare().then(() => {
         profile: { nickname },
         gender,
       } = kakao_account;
+
+      const result = await isExistUserOrTrainer(email);
+
+      if (!result) {
+        // 유저가 없는 경우,
+        res.send({ result: false, userInfo: { email, nickname, gender } });
+      } else {
+        const { id, data, type } = result;
+        const token = makeToken(String(id));
+        res.cookie('jwt_Token', token);
+        res.send({
+          result: true,
+          userInfo: data,
+          type,
+        });
+      }
     } catch (e) {
       console.log(e);
     }

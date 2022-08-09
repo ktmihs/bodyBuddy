@@ -1,3 +1,4 @@
+import { district } from '@data';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -7,15 +8,24 @@ interface UserProps {
     name: string;
     gender: boolean;
     signUpway: string;
+    thumbnail: string;
+    city: string;
+    district: string;
   };
 }
 
-type SignInUserType = {
+interface SignInUserType {
   name: string;
   email: string;
   gender: boolean;
   signUpway: string;
-};
+}
+
+interface SignInAlreadyExistedType extends SignInUserType {
+  city: string;
+  district: string;
+  thumbnail: string;
+}
 
 const initialState: UserProps = {
   value: {
@@ -23,6 +33,9 @@ const initialState: UserProps = {
     email: '',
     gender: true,
     signUpway: '',
+    thumbnail: '',
+    city: '',
+    district: '',
   },
 };
 
@@ -31,14 +44,13 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     loginEmail: (state, action: PayloadAction<SignInUserType>) => {
-      const { email, gender, signUpway, name } = action.payload;
-      state.value.name = name;
-      state.value.email = email;
-      state.value.gender = gender;
-      state.value.signUpway = signUpway;
+      state = { ...state, ...action.payload };
+    },
+    loginEmailAlreadyExisted: (state, action: PayloadAction<SignInAlreadyExistedType>) => {
+      state = { ...state, ...action.payload };
     },
   },
 });
 
-export const { loginEmail } = userSlice.actions;
+export const { loginEmail, loginEmailAlreadyExisted } = userSlice.actions;
 export default userSlice.reducer;
