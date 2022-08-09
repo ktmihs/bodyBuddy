@@ -1,4 +1,3 @@
-import { district } from '@data';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -44,10 +43,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     loginEmail: (state, action: PayloadAction<SignInUserType>) => {
-      state = { ...state, ...action.payload };
+      state.value = { ...state.value, ...action.payload };
     },
     loginEmailAlreadyExisted: (state, action: PayloadAction<SignInAlreadyExistedType>) => {
-      state = { ...state, ...action.payload };
+      state.value = { ...state.value, ...action.payload };
     },
   },
 });

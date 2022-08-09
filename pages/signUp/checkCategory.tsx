@@ -4,6 +4,7 @@ import Link from 'next/link';
 import background from '@assets/signUp/checkCategoryBack.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/store';
+import { useEffect } from 'react';
 
 const StyledCheckCategory = styled.div`
   .greeting {
@@ -65,6 +66,11 @@ const StyledLinkButton = styled.a<{ color: string }>`
 
 const CheckCategory = () => {
   const userInfo = useSelector((state: RootState) => state.userSlice.value);
+
+  useEffect(() => {
+    console.log(userInfo);
+  });
+
   return (
     <StyledCheckCategory>
       <div className="greeting">
