@@ -1,40 +1,30 @@
-import { loginEmail } from 'redux/userSlice';
-import { useDispatch } from 'react-redux';
+import { RootState } from './../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
-const getBrowserCookie = () => {
-  const nameOfToken = 'jwt_Token';
-  const cookieArr = document.cookie.split(';');
-
-  for (const cookie of cookieArr) {
-    const cookieIndex = cookie.split('=');
-    if (cookieIndex.shift() === nameOfToken) {
-      return cookieIndex.join('');
-    }
-  }
-
-  return '';
-};
-
 const useCheckAuth = () => {
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
   const router = useRouter();
-  const dispatch = useDispatch();
+  const userInfo = useSelector((state: RootState) => state.userSlice.value);
+  const TrainerInfo = useSelector((state: RootState) => state.trainerSlice.value);
 
-  const fetchUserInfo = async (token: string) => {
+  const fetchVerifyJwtToken = async () => {
     try {
       const {
-        data: { user },
-      } = await axios.get('http://localhost:8000/verify', {
-        params: { token: token },
-      });
+        data: { result, info, type },
+      } = await axios.get('/verify-jwt-token');
 
-      if (!user) {
-        router.push('/signIn');
+      if (!result) {
+        // 토큰이 유효하지 않거나, 없는 경우
+        setSuccess(false);
       } else {
-        // 유저일 때
+        if (type === 'trainer') {
+          // 트레이너인 경우
+        } else {
+          // 유저인 경우
+        }
       }
     } catch (e) {
       console.log(e);
@@ -42,16 +32,8 @@ const useCheckAuth = () => {
   };
 
   useEffect(() => {
-    const tokenInfo = getBrowserCookie();
-
-    if (tokenInfo) {
-      fetchUserInfo(tokenInfo);
-    } else {
-      router.push('/signIn');
-    }
+    fetchVerifyJwtToken();
   }, []);
-
-  return success;
 };
 
 export default useCheckAuth;
