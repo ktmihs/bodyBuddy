@@ -1,15 +1,14 @@
-import { RootState } from './../redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { loginEmailAlreadyExisted } from 'redux/userSlice';
+import { loginTrainerAlreadyExisted } from 'redux/trainerSlice';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 const useCheckAuth = () => {
   const [info, setUserInfo] = useState({});
-  const [success, setSuccess] = useState(true);
   const router = useRouter();
-  const userInfo = useSelector((state: RootState) => state.userSlice.value);
-  const TrainerInfo = useSelector((state: RootState) => state.trainerSlice.value);
+  const dispatch = useDispatch();
 
   const fetchVerifyJwtToken = async () => {
     try {
@@ -17,14 +16,21 @@ const useCheckAuth = () => {
         data: { result, info, type },
       } = await axios.get('/verify-jwt-token');
 
+      const payload = { ...info };
+
       if (!result) {
         // 토큰이 유효하지 않거나, 없는 경우
-        setSuccess(false);
+        window.alert('로그인 정보가 만료되었습니다');
+        router.push('/signIn');
       } else {
         if (type === 'trainer') {
           // 트레이너인 경우
+          dispatch(loginTrainerAlreadyExisted(payload));
+          setUserInfo({ type: 'trainer', info });
         } else {
           // 유저인 경우
+          dispatch(loginEmailAlreadyExisted(payload));
+          setUserInfo({ type: 'user', info });
         }
       }
     } catch (e) {
@@ -35,6 +41,8 @@ const useCheckAuth = () => {
   useEffect(() => {
     fetchVerifyJwtToken();
   }, []);
+
+  return info;
 };
 
 export default useCheckAuth;
