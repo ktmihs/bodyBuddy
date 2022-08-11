@@ -2,10 +2,8 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { CommentCount, PostMetaInfo } from '@components/common/meta';
 import { TopButton } from '@components/common/button';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import Link from 'next/link';
-import { fetchPostingsByField } from '@api/firebase';
-import { field } from '@data';
 
 const PostListContainer = styled.div`
   height: 800px;
@@ -73,7 +71,7 @@ const MetaContainer = styled.div`
   }
 `;
 
-const PostList = ({ postList, setTarget }: PostListProps) => {
+const PostList = ({ intersectionObserver, postList }: PostListProps) => {
   const containerRef = useRef(null);
 
   return (
@@ -106,7 +104,7 @@ const PostList = ({ postList, setTarget }: PostListProps) => {
           </MetaContainer>
         </Post>
       ))}
-      <div className="observer" ref={setTarget} />
+      <div className="observer" ref={intersectionObserver.setTarget} />
       <TopButton containerRef={containerRef} />
     </PostListContainer>
   );
