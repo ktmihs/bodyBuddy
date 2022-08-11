@@ -7,6 +7,7 @@ import PostList from '@components/layout/community/Post';
 import { field } from '@data';
 import { fetchPostingsByField } from '@api/firebase';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore/lite';
+import { useIntersectionObserver } from 'hooks/useInfiniteScroll';
 
 const CommunityPage = styled.section`
   &:nth-of-type(1) {
@@ -51,7 +52,6 @@ const Community: NextPage = () => {
   const [selectedItem, changeSelectedItem] = useState('0');
   const [postList, setPostList] = useState<post[]>([]);
   const [startAfter, setStartAfter] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
-  const [target, setTarget] = useState<HTMLDivElement | null>(null);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
@@ -64,36 +64,24 @@ const Community: NextPage = () => {
     });
   }, [selectedItem]);
 
-  const onIntersect = async ([entry]: any, observer: IntersectionObserver) => {
-    if (entry.isIntersecting && !isLoaded && startAfter !== null) {
-      observer.unobserve(entry.target);
-      setIsLoaded(true);
-      const result = await fetchPostingsByField(field[+selectedItem], startAfter);
-      setPostList((currentList: post[]) => [...currentList, ...(result?.result as post[])]);
-      setStartAfter(result ? result.key : null);
-      setIsLoaded(false);
-    } else return;
+  const scrollOption = {
+    callback: async () => {
+      if (!isLoaded && startAfter !== null) {
+        setIsLoaded(true);
+        const result = await fetchPostingsByField(field[+selectedItem], startAfter);
+        setPostList((currentList: post[]) => [...currentList, ...(result?.result as post[])]);
+        setStartAfter(result ? result.key : null);
+        setIsLoaded(false);
+      } else return;
+    },
   };
-
-  useEffect(() => {
-    let observer: IntersectionObserver;
-    if (target) {
-      observer = new IntersectionObserver(onIntersect, {
-        threshold: 0.5,
-      });
-      observer.observe(target);
-    }
-    return () => {
-      observer && observer.disconnect();
-      setIsLoaded(false);
-    };
-  }, [startAfter]);
+  const intersectionObserver = useIntersectionObserver(scrollOption);
 
   return (
     <CommunityPage>
       <h2 className="srOnly">커뮤니티 게시판</h2>
       <ItemGroup changeSelectedItem={changeSelectedItem} />
-      <PostList setTarget={setTarget} postList={postList} />
+      <PostList intersectionObserver={intersectionObserver} postList={postList} />
 
       <PostButton>
         <a href="community/posting">
