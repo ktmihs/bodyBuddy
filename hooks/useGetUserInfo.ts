@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 const useCheckAuth = () => {
+  const [info, setUserInfo] = useState({});
   const [success, setSuccess] = useState(true);
   const router = useRouter();
   const userInfo = useSelector((state: RootState) => state.userSlice.value);
