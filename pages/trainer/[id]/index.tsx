@@ -20,7 +20,8 @@ const Trainer: NextPage = () => {
       const data = getTrainerData(id);
       data.then((res) => {
         if (res?.length) {
-          setTrainer(res[0]);
+          const info = res[0];
+          setTrainer(info);
         }
       });
     }
@@ -29,22 +30,22 @@ const Trainer: NextPage = () => {
   // 리뷰 중, 현재 트레이너 아이디와 일치하는 리뷰 2개만 가져오기
   const reviews = [
     {
-      id: 612151056,
-      userId: 123456789,
+      id: '612151056',
+      userId: '123456789',
       creationDate: new Date(),
       rating: 4,
-      trainerId: 456789123,
+      trainerId: '456789123',
       image: [],
       category: '상담',
       content: '친절하게 잘 해주셨어요~',
       isActivation: true,
     },
     {
-      id: 612151757,
-      userId: 123456789,
+      id: '612151757',
+      userId: '123456789',
       creationDate: new Date(),
       rating: 5,
-      trainerId: 456789123,
+      trainerId: '456789123',
       image: ['/assets/common/profile.svg'],
       category: '상담',
       content: '친절하게 잘 해주셨어요~22',
@@ -54,7 +55,7 @@ const Trainer: NextPage = () => {
 
   return trainer ? (
     <div>
-      <h1 className="srOnly">{'강사이름'} 트레이너 페이지</h1>
+      <h1 className="srOnly">트레이너 페이지</h1>
       <TrainerHeader state={login} trainer={trainer} liked={liked} onClickSetLiked={setLiked} />
       <TrainerBody trainer={trainer} reviews={reviews} />
     </div>

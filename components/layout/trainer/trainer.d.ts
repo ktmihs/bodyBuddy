@@ -27,21 +27,22 @@ interface BodyProps {
 }
 
 interface TrainerProps {
-  id: string;
+  id?: string;
+  name?: string;
+  phoneNumber?: string;
+  signUpway?: string;
+  totalCareer?: Date;
+  city?: string;
+  district?: string;
+
   address: string;
-  city: string;
-  district: string;
   introduction: string;
   isOnline: boolean;
-  name: string;
-  phoneNumber: string;
-  signUpway: string;
-  totalCareer: Date;
   field: string;
   purpose: string;
   profileUrl: string;
   imagesUrl: string[];
-  gymUrl: string[];
+  gymUrl: string;
   careers: CareerProps[];
   cost: string;
 }
@@ -51,7 +52,7 @@ interface TrainerSetProps {
   setPurpose: Dispatch<SetStateAction<string>>;
   setProfileUrl: Dispatch<SetStateAction<string>>;
   setImagesUrl: Dispatch<SetStateAction<string[]>>;
-  setGymUrl: Dispatch<SetStateAction<string[]>>;
+  setGymUrl: Dispatch<SetStateAction<string>>;
   setCareers: Dispatch<SetStateAction<CareerProps[]>>;
   setCost: Dispatch<SetStateAction<string>>;
 }

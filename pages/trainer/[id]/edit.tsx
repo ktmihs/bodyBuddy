@@ -7,20 +7,32 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+interface resProps {
+  field: string;
+  purpose: string;
+  address: string;
+  introduction: string;
+  isOnline: string;
+  images: string;
+  gymImage: string;
+  careers: string;
+  price: string;
+}
+
 const TrainerEdit = () => {
   const router = useRouter();
   const id = router.query.id;
 
-  const [field, setField] = useState<string>();
-  const [purpose, setPurpose] = useState<string>();
-  const [address, setAddress] = useState<string>();
-  const [introduction, setIntroduction] = useState<string>();
-  const [isOnline, setIsOnline] = useState<boolean>();
-  const [profileUrl, setProfileUrl] = useState<string[]>();
-  const [imagesUrl, setImagesUrl] = useState<string[]>();
-  const [gymUrl, setGymUrl] = useState<string[]>();
-  const [careers, setCareers] = useState<CareerProps[]>();
-  const [cost, setCost] = useState<string>();
+  const [field, setField] = useState<string>('');
+  const [purpose, setPurpose] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [introduction, setIntroduction] = useState<string>('');
+  const [isOnline, setIsOnline] = useState<boolean>(false);
+  const [profileUrl, setProfileUrl] = useState<string>('');
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
+  const [gymUrl, setGymUrl] = useState<string>('');
+  const [careers, setCareers] = useState<CareerProps[]>([]);
+  const [cost, setCost] = useState<string>('');
 
   useEffect(() => {
     // 트레이너 정보 받아오기
@@ -28,31 +40,21 @@ const TrainerEdit = () => {
       const data = getTrainerData(id);
       data.then((res) => {
         if (res?.length) {
-          const {
-            field,
-            purpose,
-            address,
-            introduction,
-            isOnline,
-            images,
-            gymImage,
-            careers,
-            price,
-          } = res[0];
+          const info = res[0];
 
           // 받아온 이미지가 3개 보다 작을 경우, 빈문자열 넣어줌
-          for (let i = 0; i < 3 - images.length; i++) images.push('');
+          for (let i = 0; i < 3 - info.images.length; i++) info.images.push('');
 
-          setField(field);
-          setPurpose(purpose);
-          setAddress(address);
-          setIntroduction(introduction);
-          setIsOnline(isOnline);
-          setProfileUrl(images[0]);
-          setImagesUrl(images);
-          setGymUrl([gymImage]);
-          setCareers(careers);
-          setCost(price);
+          setField(info.field);
+          setPurpose(info.purpose);
+          setAddress(info.address);
+          setIntroduction(info.introduction);
+          setIsOnline(info.isOnline);
+          setProfileUrl(info.images[0]);
+          setImagesUrl(info.images);
+          setGymUrl(info.gymImage);
+          setCareers(info.careers);
+          setCost(info.price);
         }
       });
     }
@@ -106,7 +108,7 @@ const TrainerEdit = () => {
         introduction: introduction,
         isOnline: isOnline,
         images: imagesUrl,
-        gymImage: gymUrl?.join(''),
+        gymImage: gymUrl,
         careers: careers,
         price: cost,
       };

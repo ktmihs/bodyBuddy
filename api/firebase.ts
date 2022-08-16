@@ -417,7 +417,7 @@ export const deleteCommunityComment = async (commentId: string) => {
 export const getAllTrainerData = async () => {
   try {
     const querySnapshot = await getDocs(trainerCollection);
-    return querySnapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
+    return querySnapshot.docs.map((x) => [x.data(), x.id]);
   } catch (e) {
     console.log(e);
   }
@@ -427,7 +427,7 @@ export const getTrainerData = async (id: string) => {
   try {
     const q = query(trainerCollection, where(documentId(), '==', id));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((x) => ({ ...x.data(), id: id }));
+    return querySnapshot.docs.map((x) => x.data());
   } catch (e) {
     console.log(e);
   }

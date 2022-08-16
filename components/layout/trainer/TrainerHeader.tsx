@@ -8,7 +8,7 @@ import setting from '@assets/common/setting-white.svg';
 import styled from '@emotion/styled';
 
 export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: HeaderProps) => {
-  const { id, introduction, isOnline, name, field, purpose, images } = trainer;
+  const { id, introduction, isOnline, name, field, purpose, imagesUrl } = trainer;
   const edit = {
     link: `${id}/edit`,
     src: setting,
@@ -167,7 +167,7 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
         <TrainerProfile>
           <ImageWrapper>
             <Image
-              src={images && images.length ? images[0] : profile}
+              src={imagesUrl && imagesUrl.length ? imagesUrl[0] : profile}
               alt="강사"
               width={150}
               height={150}

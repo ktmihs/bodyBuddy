@@ -71,14 +71,15 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
         <section>
           <h3>프로필 사진</h3>
           <p>트레이너 님을 대표할 수 있는 사진을 업로드 해주세요 :)</p>
-          <ImageUploader url={imagesUrl} setImageUrl={setImagesUrl} />
+          <ImageUploader url={imagesUrl || []} setImageUrl={setImagesUrl} />
         </section>
       </section>
       <section>
         <h2>트레이닝장 정보</h2>
         <section>
           <h3>트레이닝장 사진</h3>
-          <ImageUploader url={gymUrl} setImageUrl={setGymUrl} />
+          {/* 짐용 새로운 컴포넌트 만들기 */}
+          {/* <ImageUploader url={gymUrl || []} setImageUrl={setGymUrl} /> */}
         </section>
         <section>
           <h3>트레이닝장 위치</h3>

@@ -7,7 +7,7 @@ import { ImageViewer } from './ImageViewer';
 import Link from 'next/link';
 
 export const TrainerBody = ({ trainer, reviews }: BodyProps) => {
-  const id = 123456789; // 로그인 된 유저 아이디 받아오기
+  const id = '123456789'; // 로그인 된 유저 아이디 받아오기
 
   const { id: trainerId, careers, address, imagesUrl } = trainer;
 

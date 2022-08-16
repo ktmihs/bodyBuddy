@@ -270,9 +270,10 @@ const Home: NextPage = () => {
     const testTrainer = getAllTrainerData();
     testTrainer.then((test) =>
       setTrainerList(
-        test?.map((trainer) => {
+        test?.map(([trainer, id]) => {
+          if (typeof trainer === 'string') return;
           return {
-            id: trainer.id,
+            id: id,
             name: trainer.name,
             phoneNumber: trainer.phoneNumber,
             images: trainer.images,
@@ -282,7 +283,7 @@ const Home: NextPage = () => {
             city: trainer.address.split(' ')[0],
             district: trainer.address.split(' ')[1],
             gymImage: trainer.gymImage,
-            careers: trainer.careers.map((career) => JSON.stringify(career)),
+            careers: trainer.careers.map((career: object) => JSON.stringify(career)),
             price: trainer.price,
             totalCareer: 5,
             introduction: trainer.introduction,
@@ -308,15 +309,15 @@ const Home: NextPage = () => {
       });
 
       setTrainerList(
-        trainerList.filter((trainer) => {
+        trainerList.filter((trainer: TrainerProps) => {
           if (city && trainer.city !== city) return;
           if (district && trainer.district !== district) return;
           // if(gender!=='anyone' && trainer.gender!==gender) return;
           if (field.length && !field.filter((f: string) => f === trainer.field).length) return;
           if (purpose.length && !purpose.filter((f: string) => f === trainer.purpose).length)
             return;
-          if (price[0] * 10000 > trainer.price || price[1] * 10000 < trainer.price) return;
-          if (career[0] > trainer.totalCareer || career[1] < trainer.totalCareer) return;
+          if (price[0] * 10000 > +trainer.cost || price[1] * 10000 < +trainer.cost) return;
+          // if (career[0] > trainer.totalCareer || career[1] < trainer.totalCareer) return;
           return trainer;
         })
       );
