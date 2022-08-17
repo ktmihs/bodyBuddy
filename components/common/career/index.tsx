@@ -10,11 +10,19 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
     isApproval: false,
   });
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
-    e.target.files &&
-      setNewCareer({
-        ...newCareer,
-        image: URL.createObjectURL(e.target.files[0]),
-      });
+    if (e.target.files === null) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.addEventListener(
+      'load',
+      ({ target }) =>
+        target &&
+        typeof target.result === 'string' &&
+        setNewCareer({
+          ...newCareer,
+          image: target.result,
+        })
+    );
   };
 
   const handleInput = (e: FormEvent<HTMLInputElement>) => {

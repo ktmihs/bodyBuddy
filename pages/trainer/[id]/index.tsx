@@ -21,7 +21,8 @@ const Trainer: NextPage = () => {
       data.then((res) => {
         if (res?.length) {
           const info = res[0];
-          setTrainer(info);
+          console.log(info);
+          setTrainer({ ...info, id });
         }
       });
     }

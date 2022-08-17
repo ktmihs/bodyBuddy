@@ -29,7 +29,7 @@ const TrainerEdit = () => {
   const [introduction, setIntroduction] = useState<string>('');
   const [isOnline, setIsOnline] = useState<boolean>(false);
   const [profileUrl, setProfileUrl] = useState<string>('');
-  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
+  const [images, setImagesUrl] = useState<string[]>([]);
   const [gymUrl, setGymUrl] = useState<string>('');
   const [careers, setCareers] = useState<CareerProps[]>([]);
   const [cost, setCost] = useState<string>('');
@@ -64,7 +64,7 @@ const TrainerEdit = () => {
     field: field,
     purpose: purpose,
     profileUrl: profileUrl,
-    imagesUrl: imagesUrl,
+    images: images,
     gymUrl: gymUrl,
     careers: careers,
     cost: cost,
@@ -98,7 +98,7 @@ const TrainerEdit = () => {
     alt: '회원탈퇴',
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     // 트레이너 정보 수정하기
     if (typeof id === 'string') {
       const data = {
@@ -107,13 +107,13 @@ const TrainerEdit = () => {
         address: address,
         introduction: introduction,
         isOnline: isOnline,
-        images: imagesUrl,
+        images: images,
         gymImage: gymUrl,
         careers: careers,
         price: cost,
       };
       console.log(data);
-      updateTrainerData(id, data);
+      await updateTrainerData(id, data);
       window.location.href = `/trainer/${id}`;
     }
   };

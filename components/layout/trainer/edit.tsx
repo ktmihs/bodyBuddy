@@ -6,14 +6,15 @@ import { Select } from '@components/common/select';
 import { ImageUploader } from '@components/common/uploader';
 import { healthEvents, healthPurpose } from '@data';
 import styled from '@emotion/styled';
+import Image from 'next/image';
+import profile from '@assets/common/profile.svg';
 
 export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
-  const { field, purpose, profileUrl, imagesUrl, gymUrl, careers, cost } = trainerState;
-  const { setField, setPurpose, setProfileUrl, setImagesUrl, setGymUrl, setCareers, setCost } =
-    trainerSetState;
+  const { field, purpose, images, gymUrl, careers, cost } = trainerState;
+  const { setField, setPurpose, setImagesUrl, setGymUrl, setCareers, setCost } = trainerSetState;
 
   const TrainerEdit = styled.main`
-    margin: 10px 20px;
+    margin: 0px 20px 10px 20px;
 
     h2 {
       font-weight: 800;
@@ -36,6 +37,13 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
     }
   `;
 
+  const ImageWrapper = styled.div`
+    margin: 0 auto;
+    width: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+  `;
+
   const SelectBoxes = styled.div`
     display: flex;
     flex-flow: row nowrap;
@@ -47,7 +55,14 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
     <TrainerEdit>
       <section>
         <h2 className="srOnly">썸네일</h2>
-        <ProfileUploader profile={profileUrl} setProfile={setProfileUrl} />
+        <ImageWrapper>
+          <Image
+            src={images && images.length && images[0] ? images[0] : profile}
+            alt="강사"
+            width={150}
+            height={150}
+          />
+        </ImageWrapper>
       </section>
       <section>
         <h2>상세 정보</h2>
@@ -71,7 +86,8 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
         <section>
           <h3>프로필 사진</h3>
           <p>트레이너 님을 대표할 수 있는 사진을 업로드 해주세요 :)</p>
-          <ImageUploader url={imagesUrl || []} setImageUrl={setImagesUrl} />
+          <p>첫 번째 이미지가 프로필로 표시됩니다.</p>
+          <ImageUploader url={images || []} setImageUrl={setImagesUrl} />
         </section>
       </section>
       <section>
@@ -79,7 +95,7 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
         <section>
           <h3>트레이닝장 사진</h3>
           {/* 짐용 새로운 컴포넌트 만들기 */}
-          {/* <ImageUploader url={gymUrl || []} setImageUrl={setGymUrl} /> */}
+          {/* <ProfileUploader profile={profileUrl} setProfile={setProfileUrl} /> */}
         </section>
         <section>
           <h3>트레이닝장 위치</h3>
