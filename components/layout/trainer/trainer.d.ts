@@ -41,7 +41,7 @@ interface TrainerProps {
   field: string;
   purpose: string;
   profileUrl: string;
-  imagesUrl: string[];
+  images: string[];
   gymUrl: string;
   careers: CareerProps[];
   cost: string;

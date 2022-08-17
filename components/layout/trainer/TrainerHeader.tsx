@@ -8,7 +8,7 @@ import setting from '@assets/common/setting-white.svg';
 import styled from '@emotion/styled';
 
 export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: HeaderProps) => {
-  const { id, introduction, isOnline, name, field, purpose, imagesUrl } = trainer;
+  const { id, introduction, isOnline, name, field, purpose, images } = trainer;
   const edit = {
     link: `${id}/edit`,
     src: setting,
@@ -80,6 +80,8 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
     margin: 20px 0 20px 40px;
     width: 150px;
     height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
   `;
 
   const TrainerInfo = styled.div`
@@ -167,7 +169,7 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
         <TrainerProfile>
           <ImageWrapper>
             <Image
-              src={imagesUrl && imagesUrl.length ? imagesUrl[0] : profile}
+              src={images && images.length ? images[0] : profile}
               alt="강사"
               width={150}
               height={150}
