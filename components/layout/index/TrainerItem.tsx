@@ -215,7 +215,23 @@ const Trainer = ({ trainer }: { trainer: TrainerProps }) => {
       <Link href={`/trainer/${trainer.id}`}>
         <div>
           <ImageWrapper>
-            <Image src={mypage} alt={trainer.name} title={trainer.name} width={112} height={112} />
+            {trainer.images[0] ? (
+              <Image
+                src={trainer.images[0]}
+                alt={trainer.name}
+                title={trainer.name}
+                width={112}
+                height={112}
+              />
+            ) : (
+              <Image
+                src={mypage}
+                alt={trainer.name}
+                title={trainer.name}
+                width={112}
+                height={112}
+              />
+            )}
           </ImageWrapper>
           <TrainerItemTop>
             <span>5.0</span>
