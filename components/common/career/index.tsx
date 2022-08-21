@@ -120,3 +120,11 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
     </form>
   );
 };
+
+export const getCareer = (year: number, month: number) => {
+  const date = new Date();
+  const currYear = date.getFullYear();
+  const currMonth = date.getMonth() + 1;
+
+  return Math.floor(((currYear - +year) * 12 + (currMonth - +month)) / 12);
+};

@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import NoContent from '@components/common/noContent';
 import { getAllTrainerData } from '@api/firebase';
+import { getCareer } from '@components/common/career';
 
 const Home: NextPage = () => {
   // 로그인 여부
@@ -276,57 +277,56 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (!hasLogin) document.location.href = '/onBoarding';
 
-    const testTrainer = getAllTrainerData();
-    testTrainer.then((test) =>
-      setTrainerList(
-        test?.map(([trainer, id]) => {
-          if (typeof trainer === 'string') return;
-          return {
-            id: id,
-            name: trainer.name,
-            phoneNumber: trainer.phoneNumber,
-            images: trainer.images,
-            field: trainer.field,
-            purpose: trainer.purpose,
-            address: trainer.address,
-            city: trainer.address.split(' ')[0],
-            district: trainer.address.split(' ')[1],
-            gymImage: trainer.gymImage,
-            careers: trainer.careers.map((career: object) => JSON.stringify(career)),
-            price: trainer.price,
-            careerStartYear: trainer.careerStartYear,
-            careerStartMonth: trainer.careerStartMonth,
-            introduction: trainer.introduction,
-            isOnline: trainer.inOnline,
-          };
-        })
-      )
-    );
-    setLoading(true);
-  }, []);
-
-  useEffect(() => {
     const localOptions = sessionStorage?.getItem('options');
     getOptions = localOptions && JSON.parse(localOptions);
 
-    if (getOptions) {
-      const { city, district, gender, field, purpose, price, career } = getOptions;
-      setOptions(getOptions);
+    const testTrainer = getAllTrainerData();
+    testTrainer.then((test) => {
+      const allTrainer = test?.map(([trainer, id]) => {
+        if (typeof trainer === 'string') return;
+        return {
+          id: id,
+          name: trainer.name,
+          phoneNumber: trainer.phoneNumber,
+          images: trainer.images,
+          field: trainer.field,
+          purpose: trainer.purpose,
+          address: trainer.address,
+          gender: trainer.gender,
+          city: trainer.address.split(' ')[0],
+          district: trainer.address.split(' ')[1],
+          gymImage: trainer.gymImage,
+          careers: trainer.careers.map((career: object) => JSON.stringify(career)),
+          price: trainer.price,
+          careerStartYear: trainer.careerStartYear,
+          careerStartMonth: trainer.careerStartMonth,
+          introduction: trainer.introduction,
+          isOnline: trainer.inOnline,
+        };
+      });
 
-      setTrainerList(
-        trainerList.filter((trainer: TrainerProps) => {
-          if (city && trainer.city !== city) return;
-          if (district && trainer.district !== district) return;
-          if ((gender === 'man' && !trainer.gender) || (gender === 'woman' && trainer.gender))
-            return;
-          if (field.length && !field.some((f: string) => f === trainer.field)) return;
-          if (purpose.length && !purpose.some((f: string) => f === trainer.purpose)) return;
-          if (price[0] * 10000 > +trainer.price || price[1] * 10000 < +trainer.price) return;
-          // if (career[0] > trainer.totalCareer || career[1] < trainer.totalCareer) return;
-          return trainer;
-        })
-      );
-    }
+      if (!allTrainer) return setTrainerList([]);
+      if (getOptions) {
+        setOptions(getOptions);
+        const { city, district, gender, field, purpose, price, career } = getOptions;
+
+        return setTrainerList(
+          allTrainer.filter((trainer) => {
+            const trainerCareer = getCareer(trainer?.careerStartYear, trainer?.careerStartMonth);
+            if (city && !trainer?.city.includes(city.slice(0, 2))) return;
+            if (district && trainer?.district !== district) return;
+            if ((gender === 'man' && !trainer?.gender) || (gender === 'woman' && trainer?.gender))
+              return;
+            if (field.length && !field.some((f: string) => f === trainer?.field)) return;
+            if (purpose.length && !purpose.some((f: string) => f === trainer?.purpose)) return;
+            if (price[0] * 10000 > trainer?.price || price[1] * 10000 < trainer?.price) return;
+            if (career[0] > trainerCareer || career[1] < trainerCareer) return;
+            return trainer;
+          })
+        );
+      } else return setTrainerList(allTrainer);
+    });
+    setLoading(true);
   }, []);
 
   const [options, setOptions] = useState({

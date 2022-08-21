@@ -1,17 +1,8 @@
+import { getCareer } from '@components/common/career';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import mypage from 'public/assets/index/mypage.svg';
-
-const getCareer = (year: number, month: number) => {
-  const date = new Date();
-  const currYear = date.getFullYear();
-  const currMonth = date.getMonth() + 1;
-
-  const career = Math.floor(((currYear - +year) * 12 + (currMonth - +month)) / 12);
-  console.log(currYear, year, currMonth, month);
-  return `경력 ${career}년`;
-};
 
 const Trainer = ({ trainer }: { trainer: TrainerProps }) => {
   const TrainerItem = styled.li`
@@ -241,7 +232,10 @@ const Trainer = ({ trainer }: { trainer: TrainerProps }) => {
             <TrainerPurpose>{trainer.purpose}</TrainerPurpose>
             <TrainerFieldContainer>
               <span>{trainer.field}</span>
-              <span>{getCareer(trainer.careerStartYear, trainer.careerStartMonth)}</span>
+              <span>{`경력 ${getCareer(
+                trainer.careerStartYear,
+                trainer.careerStartMonth
+              )}년`}</span>
             </TrainerFieldContainer>
             <TrainerIntroduction>
               <p>{trainer.introduction}</p>
