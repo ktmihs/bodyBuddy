@@ -294,7 +294,8 @@ const Home: NextPage = () => {
             gymImage: trainer.gymImage,
             careers: trainer.careers.map((career: object) => JSON.stringify(career)),
             price: trainer.price,
-            totalCareer: 5,
+            careerStartYear: trainer.careerStartYear,
+            careerStartMonth: trainer.careerStartMonth,
             introduction: trainer.introduction,
             isOnline: trainer.inOnline,
           };
@@ -320,7 +321,7 @@ const Home: NextPage = () => {
             return;
           if (field.length && !field.some((f: string) => f === trainer.field)) return;
           if (purpose.length && !purpose.some((f: string) => f === trainer.purpose)) return;
-          if (price[0] * 10000 > +trainer.cost || price[1] * 10000 < +trainer.cost) return;
+          if (price[0] * 10000 > +trainer.price || price[1] * 10000 < +trainer.price) return;
           // if (career[0] > trainer.totalCareer || career[1] < trainer.totalCareer) return;
           return trainer;
         })

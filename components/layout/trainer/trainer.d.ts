@@ -31,7 +31,8 @@ interface TrainerProps {
   name?: string;
   phoneNumber?: string;
   signUpway?: string;
-  totalCareer?: Date;
+  careerStartYear: number;
+  careerStartMonth: number;
   city?: string;
   district?: string;
 
@@ -45,7 +46,7 @@ interface TrainerProps {
   images: string[];
   gymUrl: string;
   careers: CareerProps[];
-  cost: string;
+  price: string;
 }
 
 interface TrainerSetProps {
@@ -55,7 +56,7 @@ interface TrainerSetProps {
   setImagesUrl: Dispatch<SetStateAction<string[]>>;
   setGymUrl: Dispatch<SetStateAction<string>>;
   setCareers: Dispatch<SetStateAction<CareerProps[]>>;
-  setCost: Dispatch<SetStateAction<string>>;
+  setPrice: Dispatch<SetStateAction<string>>;
 }
 
 interface EditProps {

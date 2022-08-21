@@ -3,7 +3,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import mypage from 'public/assets/index/mypage.svg';
 
-const Trainer = ({ trainer }: any) => {
+const getCareer = (year: number, month: number) => {
+  const date = new Date();
+  const currYear = date.getFullYear();
+  const currMonth = date.getMonth() + 1;
+
+  const career = Math.floor(((currYear - +year) * 12 + (currMonth - +month)) / 12);
+  console.log(currYear, year, currMonth, month);
+  return `경력 ${career}년`;
+};
+
+const Trainer = ({ trainer }: { trainer: TrainerProps }) => {
   const TrainerItem = styled.li`
     width: 172px;
     height: 246px;
@@ -212,10 +222,10 @@ const Trainer = ({ trainer }: any) => {
             <span>{trainer.name}</span>
           </TrainerItemTop>
           <TrainerItemBottom>
-            <TrainerPurpose>다이어트</TrainerPurpose>
+            <TrainerPurpose>{trainer.purpose}</TrainerPurpose>
             <TrainerFieldContainer>
-              <span>PT</span>
-              <span>경력 {trainer.totalCareer}년</span>
+              <span>{trainer.field}</span>
+              <span>{getCareer(trainer.careerStartYear, trainer.careerStartMonth)}</span>
             </TrainerFieldContainer>
             <TrainerIntroduction>
               <p>{trainer.introduction}</p>
