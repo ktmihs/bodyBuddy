@@ -17,7 +17,15 @@ const Home: NextPage = () => {
   // 로그인 여부
   const hasLogin = true;
   const name = '손흥민';
-  let getOptions;
+  let getOptions: {
+    city: any;
+    district: any;
+    gender: any;
+    field: any;
+    purpose: any;
+    price: any;
+    career: any;
+  };
 
   // const tempTrainerList = [
   //   {
@@ -263,6 +271,7 @@ const Home: NextPage = () => {
   // ];
 
   const [trainerList, setTrainerList] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!hasLogin) document.location.href = '/onBoarding';
@@ -292,30 +301,25 @@ const Home: NextPage = () => {
         })
       )
     );
+    setLoading(true);
+  }, []);
 
-    const options = sessionStorage?.getItem('options');
-    getOptions = options && JSON.parse(options);
+  useEffect(() => {
+    const localOptions = sessionStorage?.getItem('options');
+    getOptions = localOptions && JSON.parse(localOptions);
 
     if (getOptions) {
       const { city, district, gender, field, purpose, price, career } = getOptions;
-      setOptions({
-        city: city,
-        district: district,
-        gender: gender,
-        field: field,
-        purpose: purpose,
-        price: price,
-        career: career,
-      });
+      setOptions(getOptions);
 
       setTrainerList(
         trainerList.filter((trainer: TrainerProps) => {
           if (city && trainer.city !== city) return;
           if (district && trainer.district !== district) return;
-          // if(gender!=='anyone' && trainer.gender!==gender) return;
-          if (field.length && !field.filter((f: string) => f === trainer.field).length) return;
-          if (purpose.length && !purpose.filter((f: string) => f === trainer.purpose).length)
+          if ((gender === 'man' && !trainer.gender) || (gender === 'woman' && trainer.gender))
             return;
+          if (field.length && !field.some((f: string) => f === trainer.field)) return;
+          if (purpose.length && !purpose.some((f: string) => f === trainer.purpose)) return;
           if (price[0] * 10000 > +trainer.cost || price[1] * 10000 < +trainer.cost) return;
           // if (career[0] > trainer.totalCareer || career[1] < trainer.totalCareer) return;
           return trainer;
@@ -336,7 +340,7 @@ const Home: NextPage = () => {
 
   // 로그인한 대상이 트레이너 여부에 따라 마이페이지 링크 다르게 해주기
   const isTrainer = true;
-  const id = 456789123;
+  const id = '456789123';
 
   const MYPAGE_LINK = isTrainer ? `/trainer/${id}/edit` : `/mypage/${id}`;
   const [isModalState, setIsModalState] = useState<boolean>(false);
@@ -349,7 +353,7 @@ const Home: NextPage = () => {
     background: #ececec;
     overflow-x: hidden;
     overflow-y: auto;
-    height: 800px;
+    height: 770px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -426,6 +430,11 @@ const Home: NextPage = () => {
     }
   `;
 
+  const TrainerWrapper = styled.div`
+    height: 497px;
+    background-color: #ffffff;
+  `;
+
   const TrainerList = styled.ul`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -440,7 +449,7 @@ const Home: NextPage = () => {
     background-color: #ffffff;
   `;
 
-  return hasLogin ? (
+  return hasLogin && loading ? (
     <>
       {isModalState && (
         <DetailOptionModal
@@ -476,15 +485,19 @@ const Home: NextPage = () => {
               </DetailOption>
             </OptionWrapper>
           </Option>
-          <TrainerList>
-            {trainerList.length ? (
-              trainerList.map((trainer: any) => <TrainerItem key={trainer.id} trainer={trainer} />)
-            ) : (
-              <NoContentWrapper>
-                <NoContent title={'트레이너가 없습니다'} subTitle={'옵션을 다시 선택해주세요'} />
-              </NoContentWrapper>
-            )}
-          </TrainerList>
+          <TrainerWrapper>
+            <TrainerList>
+              {trainerList.length ? (
+                trainerList.map((trainer: any) => (
+                  <TrainerItem key={trainer.id} trainer={trainer} />
+                ))
+              ) : (
+                <NoContentWrapper>
+                  <NoContent title={'트레이너가 없습니다'} subTitle={'옵션을 다시 선택해주세요'} />
+                </NoContentWrapper>
+              )}
+            </TrainerList>
+          </TrainerWrapper>
         </Main>
         <TopButton containerRef={containerRef} />
       </Index>

@@ -35,6 +35,7 @@ interface TrainerProps {
   city?: string;
   district?: string;
 
+  gender: boolean;
   address: string;
   introduction: string;
   isOnline: boolean;
