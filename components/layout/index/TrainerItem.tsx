@@ -242,7 +242,7 @@ const Trainer = ({ trainer }: { trainer: TrainerProps }) => {
             </TrainerIntroduction>
             <TrainerPositionAndPrice>
               <span>
-                {trainer.city} {trainer.district}
+                {trainer.address.split(' ')[0]} {trainer.address.split(' ')[1]}
               </span>
               <span>{trainer.price.toLocaleString()}</span>
             </TrainerPositionAndPrice>

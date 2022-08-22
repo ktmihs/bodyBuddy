@@ -10,9 +10,11 @@ const Trainer: NextPage = () => {
   const router = useRouter();
   const id = router.query.id;
 
+  const loginId = typeof id === 'string' ? id : '123456789';
+  const login = 'trainer';
+
   const [trainer, setTrainer] = useState<any>();
   const [liked, setLiked] = useState(false);
-  const login = 'trainer';
 
   useEffect(() => {
     // 트레이너 정보 받아오기
@@ -58,7 +60,7 @@ const Trainer: NextPage = () => {
     <div>
       <h1 className="srOnly">트레이너 페이지</h1>
       <TrainerHeader state={login} trainer={trainer} liked={liked} onClickSetLiked={setLiked} />
-      <TrainerBody trainer={trainer} reviews={reviews} />
+      <TrainerBody id={loginId} trainer={trainer} reviews={reviews} />
     </div>
   ) : (
     <NoContent title={'찾는 트레이너가 존재하지 않습니다.'} />

@@ -6,10 +6,8 @@ import RatingGroup from '@components/common/rating';
 import { ImageViewer } from './ImageViewer';
 import Link from 'next/link';
 
-export const TrainerBody = ({ trainer, reviews }: BodyProps) => {
-  const id = '123456789'; // 로그인 된 유저 아이디 받아오기
-
-  const { id: trainerId, careers, address, images } = trainer;
+export const TrainerBody = ({ id, trainer, reviews }: BodyProps) => {
+  const { careers, address, images } = trainer;
 
   const [modal, setModal] = useState(false);
   const [initialslider, setInitialslider] = useState<number>(0);

@@ -10,8 +10,8 @@ import Image from 'next/image';
 import profile from '@assets/common/profile.svg';
 
 export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
-  const { field, purpose, images, gymUrl, careers, cost } = trainerState;
-  const { setField, setPurpose, setImagesUrl, setGymUrl, setCareers, setCost } = trainerSetState;
+  const { field, purpose, images, gymUrl, careers, price } = trainerState;
+  const { setField, setPurpose, setImagesUrl, setGymUrl, setCareers, setPrice } = trainerSetState;
 
   const TrainerEdit = styled.main`
     margin: 0px 20px 10px 20px;
@@ -108,7 +108,7 @@ export const Edit = ({ trainerState, trainerSetState }: EditProps) => {
       </section>
       <section>
         <h2>1:1 트레이닝 비용</h2>
-        <TrainingCost cost={cost} setCost={setCost} />
+        <TrainingCost cost={price} setCost={setPrice} />
       </section>
       <section>
         <h2>경력 정보</h2>

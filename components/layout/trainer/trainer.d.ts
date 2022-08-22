@@ -22,6 +22,7 @@ interface reviewProps {
 }
 
 interface BodyProps {
+  id: string;
   trainer: TrainerProps;
   reviews: reviewProps[];
 }
@@ -33,8 +34,6 @@ interface TrainerProps {
   signUpway?: string;
   careerStartYear: number;
   careerStartMonth: number;
-  city?: string;
-  district?: string;
 
   gender: boolean;
   address: string;
