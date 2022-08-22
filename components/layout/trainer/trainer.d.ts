@@ -22,6 +22,7 @@ interface reviewProps {
 }
 
 interface BodyProps {
+  id: string;
   trainer: TrainerProps;
   reviews: reviewProps[];
 }
@@ -31,10 +32,10 @@ interface TrainerProps {
   name?: string;
   phoneNumber?: string;
   signUpway?: string;
-  totalCareer?: Date;
-  city?: string;
-  district?: string;
+  careerStartYear: number;
+  careerStartMonth: number;
 
+  gender: boolean;
   address: string;
   introduction: string;
   isOnline: boolean;
@@ -44,7 +45,7 @@ interface TrainerProps {
   images: string[];
   gymUrl: string;
   careers: CareerProps[];
-  cost: string;
+  price: string;
 }
 
 interface TrainerSetProps {
@@ -54,7 +55,7 @@ interface TrainerSetProps {
   setImagesUrl: Dispatch<SetStateAction<string[]>>;
   setGymUrl: Dispatch<SetStateAction<string>>;
   setCareers: Dispatch<SetStateAction<CareerProps[]>>;
-  setCost: Dispatch<SetStateAction<string>>;
+  setPrice: Dispatch<SetStateAction<string>>;
 }
 
 interface EditProps {

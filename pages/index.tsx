@@ -12,316 +12,78 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import NoContent from '@components/common/noContent';
 import { getAllTrainerData } from '@api/firebase';
+import { getCareer } from '@components/common/career';
 
 const Home: NextPage = () => {
   // 로그인 여부
   const hasLogin = true;
   const name = '손흥민';
-  let getOptions;
-
-  // const tempTrainerList = [
-  //   {
-  //     id: '456789123',
-  //     name: '최세민1',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: 'PT',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '중랑구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: false,
-  //   },
-  //   {
-  //     id: '456789124',
-  //     name: '최세민2',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: '요가',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '강남구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: false,
-  //   },
-  //   {
-  //     id: '456789125',
-  //     name: '최세민3',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: 'PT',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '강남구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: true,
-  //   },
-  //   {
-  //     id: 'w8RHva8urMTaq1XDNZY9',
-  //     name: '최세민4',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: 'PT',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '강남구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: false,
-  //   },
-  //   {
-  //     id: '456789127',
-  //     name: '최세민5',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: '필라테스',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '강남구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: false,
-  //   },
-  //   {
-  //     id: '456789128',
-  //     name: '최세민6',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: '요가',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '강남구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: false,
-  //   },
-  //   {
-  //     id: '456789129',
-  //     name: '최세민7',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: '필라테스',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '강남구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: false,
-  //   },
-  //   {
-  //     id: '456789130',
-  //     name: '최세민8',
-  //     phoneNumber: '01012345678',
-  //     images: ['/assets/trainers/tr1.svg', '/assets/trainers/tr2.svg', '/assets/trainers/tr3.svg'],
-  //     field: '요가',
-  //     purpose: '다이어트',
-  //     address: '서울특별시 강남구 강남대로 364 미왕빌딩 11층',
-  //     city: '서울특별시',
-  //     district: '강남구',
-  //     gymImage: '/assets/trainers/tr2.svg',
-  //     careers: [
-  //       {
-  //         id: '987',
-  //         content: '이미 등록한 경력',
-  //         image: '/assets/careers/c1.svg',
-  //         isApproval: true,
-  //       },
-  //       {
-  //         id: '988',
-  //         content: '새로운 경력',
-  //         image: '/assets/careers/c2.svg',
-  //         isApproval: false,
-  //       },
-  //     ],
-  //     price: 15000,
-  //     totalCareer: 5,
-  //     introduction: '다이어트, 매번 어려우셨나요?\n이번엔 쉬운 길을 선택하세요',
-  //     isOnline: false,
-  //   },
-  // ];
+  let getOptions: {
+    city: any;
+    district: any;
+    gender: any;
+    field: any;
+    purpose: any;
+    price: any;
+    career: any;
+  };
 
   const [trainerList, setTrainerList] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!hasLogin) document.location.href = '/onBoarding';
 
+    const localOptions = sessionStorage?.getItem('options');
+    getOptions = localOptions && JSON.parse(localOptions);
+
     const testTrainer = getAllTrainerData();
-    testTrainer.then((test) =>
-      setTrainerList(
-        test?.map(([trainer, id]) => {
-          if (typeof trainer === 'string') return;
-          return {
-            id: id,
-            name: trainer.name,
-            phoneNumber: trainer.phoneNumber,
-            images: trainer.images,
-            field: trainer.field,
-            purpose: trainer.purpose,
-            address: trainer.address,
-            city: trainer.address.split(' ')[0],
-            district: trainer.address.split(' ')[1],
-            gymImage: trainer.gymImage,
-            careers: trainer.careers.map((career: object) => JSON.stringify(career)),
-            price: trainer.price,
-            totalCareer: 5,
-            introduction: trainer.introduction,
-            isOnline: trainer.inOnline,
-          };
-        })
-      )
-    );
-
-    const options = sessionStorage?.getItem('options');
-    getOptions = options && JSON.parse(options);
-
-    if (getOptions) {
-      const { city, district, gender, field, purpose, price, career } = getOptions;
-      setOptions({
-        city: city,
-        district: district,
-        gender: gender,
-        field: field,
-        purpose: purpose,
-        price: price,
-        career: career,
+    testTrainer.then((test) => {
+      const allTrainer = test?.map(([trainer, id]) => {
+        if (typeof trainer === 'string') return;
+        return {
+          id: id,
+          name: trainer.name,
+          phoneNumber: trainer.phoneNumber,
+          images: trainer.images,
+          field: trainer.field,
+          purpose: trainer.purpose,
+          address: trainer.address,
+          gender: trainer.gender,
+          city: trainer.address.split(' ')[0],
+          district: trainer.address.split(' ')[1],
+          gymImage: trainer.gymImage,
+          careers: trainer.careers.map((career: object) => JSON.stringify(career)),
+          price: trainer.price,
+          careerStartYear: trainer.careerStartYear,
+          careerStartMonth: trainer.careerStartMonth,
+          introduction: trainer.introduction,
+          isOnline: trainer.inOnline,
+        };
       });
 
-      setTrainerList(
-        trainerList.filter((trainer: TrainerProps) => {
-          if (city && trainer.city !== city) return;
-          if (district && trainer.district !== district) return;
-          // if(gender!=='anyone' && trainer.gender!==gender) return;
-          if (field.length && !field.filter((f: string) => f === trainer.field).length) return;
-          if (purpose.length && !purpose.filter((f: string) => f === trainer.purpose).length)
-            return;
-          if (price[0] * 10000 > +trainer.cost || price[1] * 10000 < +trainer.cost) return;
-          // if (career[0] > trainer.totalCareer || career[1] < trainer.totalCareer) return;
-          return trainer;
-        })
-      );
-    }
+      if (!allTrainer) return setTrainerList([]);
+      if (getOptions) {
+        setOptions(getOptions);
+        const { city, district, gender, field, purpose, price, career } = getOptions;
+
+        return setTrainerList(
+          allTrainer.filter((trainer) => {
+            const trainerCareer = getCareer(trainer?.careerStartYear, trainer?.careerStartMonth);
+            if (city && !trainer?.city.includes(city.slice(0, 2))) return;
+            if (district && trainer?.district !== district) return;
+            if ((gender === 'man' && !trainer?.gender) || (gender === 'woman' && trainer?.gender))
+              return;
+            if (field.length && !field.some((f: string) => f === trainer?.field)) return;
+            if (purpose.length && !purpose.some((f: string) => f === trainer?.purpose)) return;
+            if (price[0] * 10000 > trainer?.price || price[1] * 10000 < trainer?.price) return;
+            if (career[0] > trainerCareer || career[1] < trainerCareer) return;
+            return trainer;
+          })
+        );
+      } else return setTrainerList(allTrainer);
+    });
+    setLoading(true);
   }, []);
 
   const [options, setOptions] = useState({
@@ -336,7 +98,7 @@ const Home: NextPage = () => {
 
   // 로그인한 대상이 트레이너 여부에 따라 마이페이지 링크 다르게 해주기
   const isTrainer = true;
-  const id = 456789123;
+  const id = '456789123';
 
   const MYPAGE_LINK = isTrainer ? `/trainer/${id}/edit` : `/mypage/${id}`;
   const [isModalState, setIsModalState] = useState<boolean>(false);
@@ -349,7 +111,7 @@ const Home: NextPage = () => {
     background: #ececec;
     overflow-x: hidden;
     overflow-y: auto;
-    height: 800px;
+    height: 770px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -426,6 +188,11 @@ const Home: NextPage = () => {
     }
   `;
 
+  const TrainerWrapper = styled.div`
+    height: 497px;
+    background-color: #ffffff;
+  `;
+
   const TrainerList = styled.ul`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -440,7 +207,7 @@ const Home: NextPage = () => {
     background-color: #ffffff;
   `;
 
-  return hasLogin ? (
+  return hasLogin && loading ? (
     <>
       {isModalState && (
         <DetailOptionModal
@@ -476,15 +243,19 @@ const Home: NextPage = () => {
               </DetailOption>
             </OptionWrapper>
           </Option>
-          <TrainerList>
-            {trainerList.length ? (
-              trainerList.map((trainer: any) => <TrainerItem key={trainer.id} trainer={trainer} />)
-            ) : (
-              <NoContentWrapper>
-                <NoContent title={'트레이너가 없습니다'} subTitle={'옵션을 다시 선택해주세요'} />
-              </NoContentWrapper>
-            )}
-          </TrainerList>
+          <TrainerWrapper>
+            <TrainerList>
+              {trainerList.length ? (
+                trainerList.map((trainer: any) => (
+                  <TrainerItem key={trainer.id} trainer={trainer} />
+                ))
+              ) : (
+                <NoContentWrapper>
+                  <NoContent title={'트레이너가 없습니다'} subTitle={'옵션을 다시 선택해주세요'} />
+                </NoContentWrapper>
+              )}
+            </TrainerList>
+          </TrainerWrapper>
         </Main>
         <TopButton containerRef={containerRef} />
       </Index>
