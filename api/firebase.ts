@@ -417,7 +417,7 @@ export const deleteCommunityComment = async (commentId: string) => {
 export const getAllTrainerData = async () => {
   try {
     const querySnapshot = await getDocs(trainerCollection);
-    return querySnapshot.docs.map((x) => ({ ...x.data(), id: x.id }));
+    return querySnapshot.docs.map((x) => [x.data(), x.id]);
   } catch (e) {
     console.log(e);
   }
@@ -427,7 +427,7 @@ export const getTrainerData = async (id: string) => {
   try {
     const q = query(trainerCollection, where(documentId(), '==', id));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((x) => ({ ...x.data(), id: id }));
+    return querySnapshot.docs.map((x) => x.data());
   } catch (e) {
     console.log(e);
   }
@@ -436,17 +436,29 @@ export const getTrainerData = async (id: string) => {
 // id로 트레이너 정보 업데이트
 export const updateTrainerData = async (id: string, data: any) => {
   try {
-    const docRef = doc(db, 'trainer', id);
-    updateDoc(docRef, {
-      field: data.field,
-      purpose: data.purpose,
-      address: data.address,
-      introduction: data.introduction,
-      isOnline: data.isOnline,
-      images: data.images,
-      gymImage: data.gymImage,
-      careers: data.careers,
-      price: +data.price,
+    Promise.all(
+      data.images
+        .filter((image: string) => image)
+        .map((image: string) => {
+          if (image.includes('firebasestorage')) return image;
+          const name = `image${Date.now()}.jpg`;
+          return uploadString(ref(storage, name), image.split(',')[1], 'base64').then(() => {
+            return getDownloadURL(ref(storage, name));
+          });
+        })
+    ).then((images) => {
+      const docRef = doc(db, 'trainer', id);
+      updateDoc(docRef, {
+        field: data.field,
+        purpose: data.purpose,
+        address: data.address,
+        introduction: data.introduction,
+        isOnline: data.isOnline,
+        images: images,
+        gymImage: data.gymImage,
+        careers: data.careers,
+        price: +data.price,
+      });
     });
   } catch (e) {
     console.log(e);

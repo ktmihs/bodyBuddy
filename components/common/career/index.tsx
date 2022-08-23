@@ -10,11 +10,19 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
     isApproval: false,
   });
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
-    e.target.files &&
-      setNewCareer({
-        ...newCareer,
-        image: URL.createObjectURL(e.target.files[0]),
-      });
+    if (e.target.files === null) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.addEventListener(
+      'load',
+      ({ target }) =>
+        target &&
+        typeof target.result === 'string' &&
+        setNewCareer({
+          ...newCareer,
+          image: target.result,
+        })
+    );
   };
 
   const handleInput = (e: FormEvent<HTMLInputElement>) => {
@@ -111,4 +119,12 @@ export const CareerUploader = ({ careers, setCareers }: CareersProps) => {
       </fieldset>
     </form>
   );
+};
+
+export const getCareer = (year: number, month: number) => {
+  const date = new Date();
+  const currYear = date.getFullYear();
+  const currMonth = date.getMonth() + 1;
+
+  return Math.floor(((currYear - +year) * 12 + (currMonth - +month)) / 12);
 };

@@ -6,10 +6,8 @@ import RatingGroup from '@components/common/rating';
 import { ImageViewer } from './ImageViewer';
 import Link from 'next/link';
 
-export const TrainerBody = ({ trainer, reviews }: BodyProps) => {
-  const id = 123456789; // 로그인 된 유저 아이디 받아오기
-
-  const { id: trainerId, careers, address, imagesUrl } = trainer;
+export const TrainerBody = ({ id, trainer, reviews }: BodyProps) => {
+  const { careers, address, images } = trainer;
 
   const [modal, setModal] = useState(false);
   const [initialslider, setInitialslider] = useState<number>(0);
@@ -149,101 +147,99 @@ export const TrainerBody = ({ trainer, reviews }: BodyProps) => {
   `;
 
   return (
-    <>
-      {modal && (
-        <TrainerImages
-          images={imagesUrl}
-          initialslider={initialslider}
-          onClickSetModal={setModal}
-        />
-      )}
-      <main>
-        <BodySection>
-          <h2>자격 및 수상 경력</h2>
-          <Careers>
-            {careers && careers.map((career, index) => <li key={index}>{career.content}</li>)}
-          </Careers>
-        </BodySection>
-        <BodySection>
-          <h2>후기</h2>
-          <ul>
-            {reviews.length ? (
-              <>
-                <TotalReviews>
-                  <Link href={`reviews/${reviews[0].trainerId}`}>
-                    <p>더보기</p>
-                  </Link>
-                </TotalReviews>
-                {reviews.map((review, index) => {
-                  // review.userId로 유저 정보 받아오기
-                  const profile = ''; // images[0]
-                  const nickname = '루시안';
+    trainer && (
+      <>
+        {modal && (
+          <TrainerImages images={images} initialslider={initialslider} onClickSetModal={setModal} />
+        )}
+        <main>
+          <BodySection>
+            <h2>자격 및 수상 경력</h2>
+            <Careers>
+              {careers && careers.map((career, index) => <li key={index}>{career.content}</li>)}
+            </Careers>
+          </BodySection>
+          <BodySection>
+            <h2>후기</h2>
+            <ul>
+              {reviews.length ? (
+                <>
+                  <TotalReviews>
+                    <Link href={`reviews/${reviews[0].trainerId}`}>
+                      <p>더보기</p>
+                    </Link>
+                  </TotalReviews>
+                  {reviews.map((review, index) => {
+                    // review.userId로 유저 정보 받아오기
+                    const profile = ''; // images[0]
+                    const nickname = '루시안';
 
-                  return (
-                    <li key={index}>
-                      <ReviewContainer>
-                        <ReviewHeader>
-                          <Image
-                            src={profile || '/assets/common/profile.svg'}
-                            width={50}
-                            height={50}
-                          />
-                          <p>{nickname}</p>
-                        </ReviewHeader>
-                        {review.isActivation || review.userId === id ? (
-                          <ReviewBody>
-                            <RatingGroup
-                              isEditingMode={false}
-                              star={review.rating}
-                              width={11}
-                              height={11}
+                    return (
+                      <li key={index}>
+                        <ReviewContainer>
+                          <ReviewHeader>
+                            <Image
+                              src={profile || '/assets/common/profile.svg'}
+                              width={50}
+                              height={50}
                             />
-                            <div>
-                              <p>{review.content}</p>
-                              {/* {review.image.length ? <ImageViewer images={images} len={60} /> : <></>} */}
-                            </div>
-                            {review.userId === id ? (
-                              <div>
-                                <EditReview onClick={handleEditReview}>수정</EditReview>
-                                <DeleteReview onClick={handleDeleteReview}>삭제</DeleteReview>
-                              </div>
-                            ) : (
-                              <></>
-                            )}
-                          </ReviewBody>
-                        ) : (
-                          <ReviewBody>
-                            <SecretMode>
-                              <Image
-                                src={'/assets/common/padlock.svg'}
-                                alt={'비밀글'}
-                                width={18}
-                                height={18}
+                            <p>{nickname}</p>
+                          </ReviewHeader>
+                          {review.isActivation || review.userId === id ? (
+                            <ReviewBody>
+                              <RatingGroup
+                                isEditingMode={false}
+                                star={review.rating}
+                                width={11}
+                                height={11}
                               />
-                              <p>트레이너에게만 공개된 후기입니다.</p>
-                            </SecretMode>
-                          </ReviewBody>
-                        )}
-                      </ReviewContainer>
-                    </li>
-                  );
-                })}
-              </>
-            ) : (
-              <NoReview>작성된 후기가 없습니다.</NoReview>
-            )}
-          </ul>
-        </BodySection>
-        <BodySection>
-          <h2>위치</h2>
-          <div>{address}</div>
-          {/* 지도 가져오기 */}
-        </BodySection>
-        <BodySection>
-          <h2>사진</h2>
-          <ImageViewer images={imagesUrl} handleClick={handleClick} len={100} />
-        </BodySection>
-      </main>
-    </>
+                              <div>
+                                <p>{review.content}</p>
+                                {/* {review.image.length ? <ImageViewer images={images} len={60} /> : <></>} */}
+                              </div>
+                              {review.userId === id ? (
+                                <div>
+                                  <EditReview onClick={handleEditReview}>수정</EditReview>
+                                  <DeleteReview onClick={handleDeleteReview}>삭제</DeleteReview>
+                                </div>
+                              ) : (
+                                <></>
+                              )}
+                            </ReviewBody>
+                          ) : (
+                            <ReviewBody>
+                              <SecretMode>
+                                <Image
+                                  src={'/assets/common/padlock.svg'}
+                                  alt={'비밀글'}
+                                  width={18}
+                                  height={18}
+                                />
+                                <p>트레이너에게만 공개된 후기입니다.</p>
+                              </SecretMode>
+                            </ReviewBody>
+                          )}
+                        </ReviewContainer>
+                      </li>
+                    );
+                  })}
+                </>
+              ) : (
+                <NoReview>작성된 후기가 없습니다.</NoReview>
+              )}
+            </ul>
+          </BodySection>
+          <BodySection>
+            <h2>위치</h2>
+            <div>{address}</div>
+            {/* 지도 가져오기 */}
+          </BodySection>
+          <BodySection>
+            <h2>사진</h2>
+            <ImageViewer images={images} handleClick={handleClick} len={100} />
+          </BodySection>
+        </main>
+      </>
+    )
   );
 };

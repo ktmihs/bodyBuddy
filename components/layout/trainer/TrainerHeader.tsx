@@ -24,8 +24,6 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
     unLikedAlt: '관심 트레이너 해제하기',
   };
 
-  const trainerImg = ''; // 트레이너로부터 이미지 받아오기
-
   const handleClick = () => {
     onClickSetLiked((state: boolean) => !state);
   };
@@ -80,6 +78,8 @@ export const TrainerHeader = ({ state, trainer, liked, onClickSetLiked }: Header
     margin: 20px 0 20px 40px;
     width: 150px;
     height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
   `;
 
   const TrainerInfo = styled.div`

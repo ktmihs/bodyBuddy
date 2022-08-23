@@ -4,7 +4,10 @@ import { StyledImageUploader } from './styledProfile';
 
 export const ProfileUploader = ({ profile, setProfile }: ProfileProps) => {
   const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
-    e.target.files && setProfile(URL.createObjectURL(e.target.files[0]));
+    if (e.target.files === null) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.addEventListener('load', ({ target }) => setProfile(target?.result));
   };
 
   return (

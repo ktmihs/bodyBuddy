@@ -1,9 +1,10 @@
+import { getCareer } from '@components/common/career';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import mypage from 'public/assets/index/mypage.svg';
 
-const Trainer = ({ trainer }: any) => {
+const Trainer = ({ trainer }: { trainer: TrainerProps }) => {
   const TrainerItem = styled.li`
     width: 172px;
     height: 246px;
@@ -205,24 +206,43 @@ const Trainer = ({ trainer }: any) => {
       <Link href={`/trainer/${trainer.id}`}>
         <div>
           <ImageWrapper>
-            <Image src={mypage} alt={trainer.name} title={trainer.name} width={112} height={112} />
+            {trainer.images[0] ? (
+              <Image
+                src={trainer.images[0]}
+                alt={trainer.name}
+                title={trainer.name}
+                width={112}
+                height={112}
+              />
+            ) : (
+              <Image
+                src={mypage}
+                alt={trainer.name}
+                title={trainer.name}
+                width={112}
+                height={112}
+              />
+            )}
           </ImageWrapper>
           <TrainerItemTop>
             <span>5.0</span>
             <span>{trainer.name}</span>
           </TrainerItemTop>
           <TrainerItemBottom>
-            <TrainerPurpose>다이어트</TrainerPurpose>
+            <TrainerPurpose>{trainer.purpose}</TrainerPurpose>
             <TrainerFieldContainer>
-              <span>PT</span>
-              <span>경력 {trainer.totalCareer}년</span>
+              <span>{trainer.field}</span>
+              <span>{`경력 ${getCareer(
+                trainer.careerStartYear,
+                trainer.careerStartMonth
+              )}년`}</span>
             </TrainerFieldContainer>
             <TrainerIntroduction>
               <p>{trainer.introduction}</p>
             </TrainerIntroduction>
             <TrainerPositionAndPrice>
               <span>
-                {trainer.city} {trainer.district}
+                {trainer.address.split(' ')[0]} {trainer.address.split(' ')[1]}
               </span>
               <span>{trainer.price.toLocaleString()}</span>
             </TrainerPositionAndPrice>
