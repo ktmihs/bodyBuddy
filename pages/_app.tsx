@@ -1,8 +1,15 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
+import Layout from '@components/layout/Layout';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+declare global {
+  interface Window {
+    kakao: any;
+    naver: any;
+  }
 }
 
-export default MyApp
+function MyApp({ Component, pageProps }: AppProps) {
+  return <Layout children={<Component {...pageProps} />} />;
+}
+
+export default MyApp;
